@@ -54,11 +54,12 @@ public class SmartParser implements Parser {
 
 	private Instr parseInstruction() throws IOException {
 		if (check(TokenKind.CMD)){
-			String s=  "";
+			String name=token.getStringValue();
 			eat(TokenKind.CMD);
 			eat(TokenKind.LPAR);
-			parseExpression();
+			Expr ie=parseExpression();
 			eat(TokenKind.RPAR);
+			return new Commande(name,ie);
 		} else {
 			throw new IOException("Instruction attendu. Trouvé:(" + token.kind + ")" + pos());
 		}
