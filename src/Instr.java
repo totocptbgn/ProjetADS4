@@ -7,9 +7,9 @@ public interface Instr {
 
 class Commande implements Instr {
 	private String commande;
-	private IntExpr expression;
+	private Expr expression;
 
-	public Commande(String commande, IntExpr ie) {
+	public Commande(String commande, Expr ie) {
 		this.expression=ie;
 		this.commande=commande;
 	}
