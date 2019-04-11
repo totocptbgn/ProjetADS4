@@ -30,16 +30,11 @@ public class SmartParser implements Parser {
 		if (!check(tokenTest)) throw new IOException("Attendu: (" + tokenTest + ") Trouvé: (" + token.kind + ")" + pos());
 
 		// Affichage des Token consommés
-		if (token.kind == TokenKind.INT) {
-			System.out.print(tokenTest + "(" + token.getIntValue() + ") ");
-		} else if (token.kind == TokenKind.CMD) {
-			System.out.print(tokenTest + "(" + token.getStringValue() + ") ");
-		} else if (token.kind == TokenKind.SEMICOLON){
-			System.out.print(tokenTest + "\n");
+		if (token.kind == TokenKind.SEMICOLON){
+			System.out.print(token + "\n");
 		} else {
-			System.out.print(tokenTest + " ");
+			System.out.print(token + " ");
 		}
-
 		next();
 	}
 
@@ -82,12 +77,12 @@ public class SmartParser implements Parser {
 			} else if (check(TokenKind.MINUS)){
 				eat(TokenKind.MINUS);
 			} else {
-				throw new IOException("Attendu: (MINUS ou PLUS) Trouvé: (" + token.kind + ")"+pos());
+				throw new IOException("Attendu: (MINUS ou PLUS) Trouvé: (" + token.kind + ")" + pos());
 			}
 			parseExpression();
 			eat(TokenKind.RPAR);
 		} else {
-			throw new IOException("Attendu: (Expression) Trouvé: (" + token.kind + ")"+pos());
+			throw new IOException("Attendu: (Expression) Trouvé: (" + token.kind + ")" + pos());
 		}
 	}
 }
