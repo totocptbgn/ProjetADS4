@@ -89,8 +89,7 @@ public class Grid {
             }
             return create(grid, posX, posY, dir);
         } catch (InputMismatchException e) {
-            System.err.println("java " + exeName + ": input mismatch in the input grid;\n"
-                               + "something, in this grid, is not an integer.");
+            System.err.println("java " + exeName + ": input mismatch in the input grid;\n" + "something, in this grid, is not an integer.");
             System.exit(2);
             return null;
         } catch (NoSuchElementException e) {
@@ -145,7 +144,7 @@ public class Grid {
         for (int y = sizeY - 1; y >= 0; y --) {
             for (int x = 0; x < sizeX; x ++) {
                 builder.append(String.format("%" + lengths[x] + "d",
-                                             grid[x][y]));
+                        grid[x][y]));
                 if (x < sizeX - 1)
                     builder.append(" ");
             }
@@ -179,8 +178,9 @@ public class Grid {
         S(3,  0, -1);
 
         private final int intValue, moveX, moveY;
+
         private static final Map<Integer, Dir> intToDir =
-            Stream.of(values()).collect(Collectors.toMap(Dir::toInt, e -> e));
+                Stream.of(values()).collect(Collectors.toMap(Dir::toInt, e -> e));
 
         Dir(int intValue, int moveX, int moveY) {
             this.intValue = intValue;
