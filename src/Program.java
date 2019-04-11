@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class Program {
@@ -13,6 +14,13 @@ public class Program {
 	public void eval(Map<String,Integer> hm) throws IOException {
 		for (Instr instr : liste) {
 			instr.eval(hm);
+		}
+	}
+	
+	public void debug() {
+		Map<String,Integer> hm=new HashMap<String,Integer>();
+		for (Instr instr : liste) {
+			instr.debug(hm);
 		}
 	}
 	

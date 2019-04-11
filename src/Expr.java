@@ -1,10 +1,15 @@
 import java.util.Map;
 
 public interface Expr {
+	void debug(Map<String,Integer> hm);
     int eval(Map<String,Integer> hm);
 
     class PosInt implements Expr {
-        private final int value;
+        public void debug(Map<String,Integer> hm) {
+        	System.out.print(value);
+        }
+    	private final int value;
+        
 
         public PosInt(int value) {
             this.value = value;
@@ -20,7 +25,11 @@ public interface Expr {
     }
 
     class Minus implements Expr {
-        private final Expr arg0;
+    	public void debug(Map<String,Integer> hm) {
+        	System.out.print("-");
+        	arg0.debug(hm);
+        }
+    	private final Expr arg0;
 
         public Minus(Expr arg0) {
             this.arg0 = arg0;
@@ -36,7 +45,16 @@ public interface Expr {
     }
 
     class Ope implements Expr {
-        private final BinOp op;
+    	public void debug(Map<String,Integer> hm) {
+    		System.out.print("(");
+    		arg0.debug(hm);
+        	op.debug();
+        	arg1.debug(hm);
+        	System.out.print(")");
+        	System.out.print("[Value:"+this.eval(hm));
+    		System.out.print("]");
+        }
+    	private final BinOp op;
         private final Expr arg0, arg1;
 
         public Ope(BinOp op, Expr arg0, Expr arg1) {
@@ -56,7 +74,9 @@ public interface Expr {
     }
 
     class Lire implements Expr {
-
+    	public void debug(Map<String,Integer> hm) {
+    		System.out.print("Lire[Value:"+eval(hm)+"]");
+    	}
         @Override
         public String toString() {
             return "Lire";

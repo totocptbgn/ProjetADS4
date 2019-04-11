@@ -15,6 +15,7 @@ public class Main {
 
         interp.run(prog, grid);
         System.out.println(prog);
+        prog.debug();
         ioEnv.outGrid.println(grid);
     }
 }
