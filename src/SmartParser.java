@@ -24,7 +24,7 @@ public class SmartParser implements Parser {
 	}
 
 	public void eat(TokenKind tokenTest) throws IOException {
-		if (!check(tokenTest)) throw new IOException("Expected: (" + tokenTest + ") Found: (" + token.kind + ")");
+		if (!check(tokenTest)) throw new IOException("Attendu: (" + tokenTest + ") Trouvé: (" + token.kind + ")");
 
 		// Affichage des Token consommés
 		if (token.kind == TokenKind.INT) {
