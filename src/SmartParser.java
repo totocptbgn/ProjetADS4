@@ -1,20 +1,21 @@
 import java.io.IOException;
 import java.io.Reader;
 
-
 public class SmartParser implements Parser {
 
 	private Lexer lexer;
 	private Token token;
-	public String pos() {
-		return " Column:"+lexer.getColumn()+" Line:"+lexer.getLine()+" Char:"+lexer.getChar();
-	}
+
 	public SmartParser(Reader reader) {
 		this.lexer = new Lexer(reader);
 		this.token = null;
 		try {
 			next();
 		} catch (IOException e) {}
+	}
+
+	public String pos() {
+		return " Column:" + lexer.getColumn() + " Line:" + lexer.getLine() + " Char:" + lexer.getChar();
 	}
 
 	public boolean check(TokenKind tokenTest){
@@ -26,7 +27,7 @@ public class SmartParser implements Parser {
 	}
 
 	public void eat(TokenKind tokenTest) throws IOException {
-		if (!check(tokenTest)) throw new IOException("Expected: (" + tokenTest + ") Found: (" + token.kind + ")"+pos());
+		if (!check(tokenTest)) throw new IOException("Attendu: (" + tokenTest + ") Trouvé: (" + token.kind + ")" + pos());
 
 		// Affichage des Token consommés
 		if (token.kind == TokenKind.INT) {
@@ -61,7 +62,7 @@ public class SmartParser implements Parser {
 			parseExpression();
 			eat(TokenKind.RPAR);
 		} else {
-			throw new IOException("Instruction attendu. Trouvé:(" + token.kind + ")"+pos());
+			throw new IOException("Instruction attendu. Trouvé:(" + token.kind + ")" + pos());
 		}
 	}
 
