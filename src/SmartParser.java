@@ -40,13 +40,13 @@ public class SmartParser implements Parser {
 
 	@Override
 	public Program parseProgram(String exeName, Reader reader) throws IOException {
-		
+		Instr i=parseInstruction();
 		eat(TokenKind.SEMICOLON);
 		if (check(TokenKind.EOF)){
 			System.out.println("Fichier correct.");
 		} else {
 			Program p=parseProgram(exeName, reader);
-			p.add(parseInstruction());
+			p.add(i);
 			return p;
 		}
 		return new Program();
@@ -54,6 +54,7 @@ public class SmartParser implements Parser {
 
 	public Instr parseInstruction() throws IOException {
 		if (check(TokenKind.CMD)){
+			String s=
 			eat(TokenKind.CMD);
 			eat(TokenKind.LPAR);
 			parseExpression();
