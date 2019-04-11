@@ -8,6 +8,7 @@ public class Token {
 	public int getIntValue(){
 		throw new UnsupportedOperationException();
 	}
+
 	public String getStringValue() {
 		throw new UnsupportedOperationException();
 	}
@@ -17,6 +18,7 @@ public class Token {
 		return kind.toString();
 	}
 }
+
 class StringToken extends Token{
 	private final String value;
 
@@ -32,9 +34,10 @@ class StringToken extends Token{
 
 	@Override
 	public String toString() {
-		return value;
+		return kind + "(" + value + ")";
 	}
 }
+
 class IntToken extends Token{
 	private final int value;
 
@@ -50,7 +53,7 @@ class IntToken extends Token{
 
 	@Override
 	public String toString() {
-		return Integer.toString(value);
+		return kind + "(" + value + ")";
 	}
 }
 
