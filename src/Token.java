@@ -55,5 +55,5 @@ class IntToken extends Token{
 }
 
 enum TokenKind {
-	AVANCER, TOURNER, LIRE, ECRIRE, INT, SEMICOLON, LPAR, RPAR, MINUS, PLUS, EOF
+	 CMD, LIRE, INT, SEMICOLON, LPAR, RPAR, MINUS, PLUS, EOF
 }
