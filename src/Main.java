@@ -13,7 +13,9 @@ public class Main {
         Interpreter interp = new StupidInterpreter();
         interp.run(prog, grid);
         System.out.println(prog);
+        ioEnv.outGrid.println(grid);
+        Program.addGrille(grid);
         prog.eval(new HashMap<String,Integer>());
-        //ioEnv.outGrid.println(grid);
+        ioEnv.outGrid.println(grid);
     }
 }

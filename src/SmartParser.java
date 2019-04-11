@@ -63,7 +63,6 @@ public class SmartParser implements Parser {
 		} else {
 			throw new IOException("Instruction attendu. Trouvé:(" + token.kind + ")" + pos());
 		}
-		return null;
 	}
 
 	private Expr parseExpression() throws IOException {

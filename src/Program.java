@@ -37,7 +37,7 @@ public class Program {
 	public String toString() {
 		String ens = "";
 		for (Instr instr : liste) {
-			ens = ens + instr.toString();
+			ens = ens + instr.toString() + "\n";
 		}
 		return ens;
 	}
