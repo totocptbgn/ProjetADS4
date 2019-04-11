@@ -31,7 +31,7 @@ public class Program {
 	}
 	
 	public void add(Instr instr) {
-		liste.add(instr);
+		liste.add(0, instr);
 	}
 	
 	public String toString() {

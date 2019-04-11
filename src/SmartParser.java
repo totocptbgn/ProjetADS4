@@ -45,7 +45,7 @@ public class SmartParser implements Parser {
 		if (check(TokenKind.EOF)){
 			System.out.println("Fichier correct.");
 		} else {
-			Program p=parseProgram(exeName, reader);
+			Program p = parseProgram(exeName, reader);
 			p.add(instr);
 			return p;
 		}
