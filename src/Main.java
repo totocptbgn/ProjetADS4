@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileReader;
+import java.util.HashMap;
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -11,6 +12,8 @@ public class Main {
         Grid grid = Grid.parseGrid(exeName, ioEnv.inGrid);
         Interpreter interp = new StupidInterpreter();
         interp.run(prog, grid);
+        System.out.println(prog);
+        prog.eval(new HashMap<String,Integer>());
         //ioEnv.outGrid.println(grid);
     }
 }
