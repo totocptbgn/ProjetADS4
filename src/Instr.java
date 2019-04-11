@@ -22,13 +22,13 @@ class Commande implements Instr {
 	public void eval(Map<String,Integer> hm) throws IOException {
 		switch(commande) {
 			case "Avancer":
-				Program.avancer(expression.eval(hm));
+				SmartInterpreter.avancer(expression.eval(hm));
 				break;
 			case "Tourner":
-				Program.tourner(expression.eval(hm));
+				SmartInterpreter.tourner(expression.eval(hm));
 				break;
 			case "Ecrire":
-				Program.ecrire(expression.eval(hm));
+				SmartInterpreter.ecrire(expression.eval(hm));
 				break;
 			default:
 				throw new IOException("Commande introuvable");

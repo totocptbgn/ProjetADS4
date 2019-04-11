@@ -63,7 +63,7 @@ public interface Expr {
         }
 
         public int eval(Map<String,Integer> hm) {
-            return -1; // A FAIRE
+            return SmartInterpreter.lire(); // A FAIRE
         }
     }
 
