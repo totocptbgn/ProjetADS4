@@ -1,9 +1,9 @@
 import java.util.Map;
 
-public interface IntExpr {
+public interface Expr {
     int eval(Map<String,Integer> hm);
 
-    class PosInt implements IntExpr {
+    class PosInt implements Expr {
         private final int value;
 
         public PosInt(int value) {
@@ -19,10 +19,10 @@ public interface IntExpr {
         }
     }
 
-    class Minus implements IntExpr {
-        private final IntExpr arg0;
+    class Minus implements Expr {
+        private final Expr arg0;
 
-        public Minus(IntExpr arg0) {
+        public Minus(Expr arg0) {
             this.arg0 = arg0;
         }
 
@@ -35,11 +35,11 @@ public interface IntExpr {
         }
     }
 
-    class Ope implements IntExpr {
+    class Ope implements Expr {
         private final BinOp op;
-        private final IntExpr arg0, arg1;
+        private final Expr arg0, arg1;
 
-        public Ope(BinOp op, IntExpr arg0, IntExpr arg1) {
+        public Ope(BinOp op, Expr arg0, Expr arg1) {
             this.op = op;
             this.arg0 = arg0;
             this.arg1 = arg1;
@@ -55,8 +55,20 @@ public interface IntExpr {
         }
     }
 
+    class Lire implements Expr {
+
+        @Override
+        public String toString() {
+            return "Lire";
+        }
+
+        public int eval(Map<String,Integer> hm) {
+            return -1; // A FAIRE
+        }
+    }
+
     /* (Pour le Bonus)
-    static class Var implements IntExpr {
+    static class Var implements Expr {
         private final String name;
 
         public Var(String name) {
