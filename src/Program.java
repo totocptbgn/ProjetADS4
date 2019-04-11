@@ -16,6 +16,10 @@ public class Program{
 		}
 	}
 	
+	public void add(Instr instr) {
+		liste.add(instr);
+	}
+	
 	public String toString() {
 		String ens="";
 		for(int i=0;i<liste.size();i++) {
