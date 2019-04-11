@@ -6,7 +6,9 @@ public class SmartParser implements Parser {
 
 	private Lexer lexer;
 	private Token token;
-
+	public String pos() {
+		return " Column:"+lexer.getColumn()+" Line:"+lexer.getLine()+" Char:"+lexer.getChar();
+	}
 	public SmartParser(Reader reader) {
 		this.lexer = new Lexer(reader);
 		this.token = null;
@@ -24,11 +26,13 @@ public class SmartParser implements Parser {
 	}
 
 	public void eat(TokenKind tokenTest) throws IOException {
-		if (!check(tokenTest)) throw new IOException("Attendu: (" + tokenTest + ") Trouvé: (" + token.kind + ")");
+		if (!check(tokenTest)) throw new IOException("Attendu: (" + tokenTest + ") Trouvé: (" + token.kind + ")" + pos());
 
 		// Affichage des Token consommés
 		if (token.kind == TokenKind.INT) {
 			System.out.print(tokenTest + "(" + token.getIntValue() + ") ");
+		} else if (token.kind == TokenKind.CMD) {
+			System.out.print(tokenTest + "(" + token.getStringValue() + ") ");
 		} else if (token.kind == TokenKind.SEMICOLON){
 			System.out.print(tokenTest + "\n");
 		} else {
@@ -51,18 +55,14 @@ public class SmartParser implements Parser {
 	}
 
 	public void parseInstruction() throws IOException {
-		if (check(TokenKind.AVANCER)){
-			eat(TokenKind.AVANCER);
-		} else if (check(TokenKind.TOURNER)){
-			eat(TokenKind.TOURNER);
-		} else if (check(TokenKind.ECRIRE)){
-			eat(TokenKind.ECRIRE);
+		if (check(TokenKind.CMD)){
+			eat(TokenKind.CMD);
+			eat(TokenKind.LPAR);
+			parseExpression();
+			eat(TokenKind.RPAR);
 		} else {
-			throw new IOException("Instruction attendu. Trouvé:(" + token.kind + ")");
+			throw new IOException("Instruction attendu. Trouvé:(" + token.kind + ")"+pos());
 		}
-		eat(TokenKind.LPAR);
-		parseExpression();
-		eat(TokenKind.RPAR);
 	}
 
 	public void parseExpression() throws IOException {
@@ -81,12 +81,12 @@ public class SmartParser implements Parser {
 			} else if (check(TokenKind.MINUS)){
 				eat(TokenKind.MINUS);
 			} else {
-				throw new IOException("Attendu: (MINUS ou PLUS) Trouvé: (" + token.kind + ")");
+				throw new IOException("Attendu: (MINUS ou PLUS) Trouvé: (" + token.kind + ")"+pos());
 			}
 			parseExpression();
 			eat(TokenKind.RPAR);
 		} else {
-			throw new IOException("Attendu: (Expression) Trouvé: (" + token.kind + ")");
+			throw new IOException("Attendu: (Expression) Trouvé: (" + token.kind + ")"+pos());
 		}
 	}
 }

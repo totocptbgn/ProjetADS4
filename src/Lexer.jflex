@@ -3,10 +3,29 @@
 %class Lexer
 %unicode
 %type Token
+%line
+%column
+%char
+
 %yylexthrow java.io.IOException
+
+%{
+	public int getColumn() {
+		return yycolumn;
+	}
+		public int getLine() {
+		return yyline;
+	}
+		public int getChar() {
+		return yychar;
+	}
+%}
 
 int = [0-9]+
 blank = [\n\r \t]
+string = [a-zA-Z]+
+
+
 %%
 
 ";"         {return new Token(TokenKind.SEMICOLON);}
@@ -15,10 +34,9 @@ blank = [\n\r \t]
 "-"         {return new Token(TokenKind.MINUS);}
 "+"         {return new Token(TokenKind.PLUS);}
 {int}       {return new IntToken(TokenKind.INT, Integer.parseInt(yytext()));}
-"Avancer"   {return new Token(TokenKind.AVANCER);}
-"Tourner"   {return new Token(TokenKind.TOURNER);}
-"Ecrire"    {return new Token(TokenKind.ECRIRE);}
 "Lire"      {return new Token(TokenKind.LIRE);}
+{string}    {return new StringToken(TokenKind.CMD, yytext()); }
+
 {blank}     {}
 [^]	        {throw new java.io.IOException("Symbole non reconnu (" + yytext() + "");}
 <<EOF>>     {return new Token(TokenKind.EOF);}
