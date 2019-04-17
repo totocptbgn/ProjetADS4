@@ -1,51 +1,77 @@
 import java.util.Map;
 
 public interface Expr {
+
 	void debug(Map<String,Integer> hm);
     int eval(Map<String,Integer> hm);
 
     class PosInt implements Expr {
-        public void debug(Map<String,Integer> hm) {
-        	System.out.print(value);
-        }
+
     	private final int value;
-        
 
         public PosInt(int value) {
             this.value = value;
         }
 
-        @Override
+		@Override
+		public int eval(Map<String,Integer> hm) {
+			return value;
+		}
+
+		@Override
+		public void debug(Map<String,Integer> hm) {
+			System.out.print(value);
+		}
+
+		@Override
         public String toString() {
             return "PosInt(" + value + ")";
-        }
-        public int eval(Map<String,Integer> hm) {
-          return value;
         }
     }
 
     class Minus implements Expr {
+
+    	private final Expr arg0;
+
+		public Minus(Expr arg0) {
+			this.arg0 = arg0;
+		}
+
+		@Override
+		public int eval(Map<String,Integer> hm) {
+			return -arg0.eval(hm);
+		}
+
+		@Override
     	public void debug(Map<String,Integer> hm) {
         	System.out.print("-");
         	arg0.debug(hm);
-        }
-    	private final Expr arg0;
-
-        public Minus(Expr arg0) {
-            this.arg0 = arg0;
         }
 
         @Override
         public String toString() {
             return "Minus(" + arg0 + ")";
         }
-        public int eval(Map<String,Integer> hm) {
-          return -arg0.eval(hm);
-        }
     }
 
     class Ope implements Expr {
-    	public void debug(Map<String,Integer> hm) {
+
+    	private final BinOp op;
+		private final Expr arg0, arg1;
+
+		public Ope(BinOp op, Expr arg0, Expr arg1) {
+			this.op = op;
+			this.arg0 = arg0;
+			this.arg1 = arg1;
+		}
+
+		@Override
+		public int eval(Map<String,Integer> hm) {
+			return op.apply(arg0.eval(hm), arg1.eval(hm));
+		}
+
+		@Override
+		public void debug(Map<String,Integer> hm) {
     		System.out.print("(");
     		arg0.debug(hm);
         	op.debug();
@@ -54,41 +80,32 @@ public interface Expr {
         	System.out.print("[Value:"+this.eval(hm));
     		System.out.print("]");
         }
-    	private final BinOp op;
-        private final Expr arg0, arg1;
-
-        public Ope(BinOp op, Expr arg0, Expr arg1) {
-            this.op = op;
-            this.arg0 = arg0;
-            this.arg1 = arg1;
-        }
 
         @Override
         public String toString() {
             return "Ope(" + op + ", " + arg0 + ", " + arg1 + ")";
         }
-
-        public int eval(Map<String,Integer> hm) {
-          return op.apply(arg0.eval(hm), arg1.eval(hm));
-        }
     }
 
     class Lire implements Expr {
-    	public void debug(Map<String,Integer> hm) {
-    		System.out.print("Lire[Value:"+eval(hm)+"]");
-    	}
-        @Override
-        public String toString() {
-            return "Lire";
+		@Override
+    	public int eval(Map<String,Integer> hm) {
+            return SmartInterpreter.lire();
         }
 
-        public int eval(Map<String,Integer> hm) {
-            return SmartInterpreter.lire(); // A FAIRE
-        }
+		@Override
+		public void debug(Map<String,Integer> hm) {
+			System.out.print("Lire[Value:"+eval(hm)+"]");
+		}
+
+		@Override
+		public String toString() {
+			return "Lire";
+		}
     }
 
-    /* (Pour le Bonus)
-    static class Var implements Expr {
+	/*
+    class Var implements Expr {
         private final String name;
 
         public Var(String name) {
@@ -99,10 +116,15 @@ public interface Expr {
         public String toString() {
             return "Var(" + name + ")";
         }
-        public int eval(Map<String,Integer> hm) {
-            hm.putIfAbsent(name, 0);
-          return hm.get(name);
-        }
-    }
-    */
+
+		@Override
+		public int eval(Map<String,Integer> hm) {
+			hm.putIfAbsent(name, 0);
+			return hm.get(name);
+		}
+
+		@Override
+		public void debug(Map<String, Integer> hm) {}
+	}
+	*/
 }

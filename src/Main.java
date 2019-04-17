@@ -8,26 +8,45 @@ public class Main {
         runTests(args);
     }
 
+    /**
+     * Fonction qui parse et interprete le programme
+     *
+     * @param args Tableau de string indiquant l'adresse de la grille et du programme à interpreter
+     * @throws IOException Quand le parser ne trouve pas un symbole autorisé par la grammaire
+     */
+
     private static void runMain(String[] args) throws IOException {
+        // Mise en place du programme
         String exeName = "Main";
         IOEnv ioEnv = IOEnv.parseArgs(exeName, args);
 
+        // Création du Parser
         Parser parser = new SmartParser(new FileReader(new File(args[0])));
+
+        // Construction du Program en lisant le ficher grâce au Parser
         Program prog = parser.parseProgram(exeName, ioEnv.inProgram);
         Grid grid = Grid.parseGrid(exeName, ioEnv.inGrid);
-        ioEnv.outGrid.println(grid);
-        Interpreter interp = new SmartInterpreter();
 
+        // Intrepetation et execution du programme sur la grille
+        Interpreter interp = new SmartInterpreter();
         interp.run(prog, grid);
-        System.out.println(prog);
+
+        /*
         prog.debug();
-        ioEnv.outGrid.println(grid);
+        ioEnv.outGrid.print(grid);
+        */
     }
+
+    /**
+     * Fonction qui teste les différents programme de test.
+     *
+     * @param args Tableau de string indiquant l'adresse de la grille et du programme à interpreter
+     * @throws IOException Quand le parser ne trouve pas un symbole autorisé par la grammaire.
+     */
 
     private static void runTests(String[] args) throws IOException {
         String exeName = "Tests";
         IOEnv ioEnv = IOEnv.parseArgs(exeName, args);
 
-        // Faire les tests
     }
 }

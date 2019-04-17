@@ -393,15 +393,15 @@ public class Lexer {
 
 
   /**
-   * Returns the character at position <tt>pos</tt> from the 
+   * Returns the character at position <tt>lexerPos</tt> from the
    * matched text. 
    * 
-   * It is equivalent to yytext().charAt(pos), but faster
+   * It is equivalent to yytext().charAt(lexerPos), but faster
    *
    * @param pos the position of the character to fetch. 
    *            A value from 0 to yylength()-1.
    *
-   * @return the character at position pos
+   * @return the character at position lexerPos
    */
   public final char yycharat(int pos) {
     return zzBuffer[zzStartRead+pos];

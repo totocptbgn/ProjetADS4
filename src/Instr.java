@@ -7,22 +7,13 @@ public interface Instr {
 }
 
 class Commande implements Instr {
+
 	private String commande;
 	private Expr expression;
-	public void debug(Map<String,Integer> hm) {
-		System.out.print(commande+"(");
-		expression.debug(hm);
-		System.out.print(")[Value:"+expression.eval(hm));
-		System.out.println("]");
-	}
-	public Commande(String commande, Expr ie) {
-		this.expression=ie;
-		this.commande=commande;
-	}
 
-	@Override
-	public String toString() {
-		return commande+"("+ expression + ")";
+	public Commande(String commande, Expr ie) {
+		this.expression = ie;
+		this.commande = commande;
 	}
 
 	public void eval(Map<String,Integer> hm) throws IOException {
@@ -37,8 +28,18 @@ class Commande implements Instr {
 				SmartInterpreter.ecrire(expression.eval(hm));
 				break;
 			default:
-				throw new IOException("Commande introuvable");
+				throw new IOException("Commande introuvable.");
 		}
 	}
 
+	public void debug(Map<String,Integer> hm) {
+		System.out.print(commande+"(");
+		expression.debug(hm);
+		System.out.print(")[" + expression.eval(hm) + "]\n");
+	}
+
+	@Override
+	public String toString() {
+		return commande + "(" + expression + ");";
+	}
 }

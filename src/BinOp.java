@@ -11,6 +11,7 @@ public enum BinOp {
         	System.out.print("-");
         }
     };
+
     public abstract int apply(int x, int y);
     public abstract void debug();
 }

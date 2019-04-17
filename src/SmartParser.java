@@ -14,8 +14,8 @@ public class SmartParser implements Parser {
 		} catch (IOException e) {}
 	}
 
-	public String pos() {
-		return " Column:" + lexer.getColumn() + " Line:" + lexer.getLine() + " Char:" + lexer.getChar();
+	public String lexerPos() {
+		return " Column: " + lexer.getColumn() + " Line: " + lexer.getLine() + " Char: " + lexer.getChar();
 	}
 
 	public boolean check(TokenKind tokenTest){
@@ -27,32 +27,21 @@ public class SmartParser implements Parser {
 	}
 
 	public void eat(TokenKind tokenTest) throws IOException {
-		if (!check(tokenTest)) throw new IOException("Attendu: (" + tokenTest + ") Trouvé: (" + token.kind + ")" + pos());
-
-		// Affichage des Token consommés
-		if (token.kind == TokenKind.SEMICOLON){
-			System.out.print(token + "\n");
-		} else {
-			System.out.print(token + " ");
-		}
+		if (!check(tokenTest)) throw new IOException("Attendu: (" + tokenTest + ") Trouvé: (" + token.kind + ")" + lexerPos());
 		next();
 	}
 
 	@Override
 	public Program parseProgram(String exeName, Reader reader) throws IOException {
-
-
 		if (check(TokenKind.EOF)){
-			System.out.println("Fichier correct.");
+			return new Program();
 		} else {
-
 			Instr instr = parseInstruction();
 			eat(TokenKind.SEMICOLON);
 			Program p = parseProgram(exeName, reader);
 			p.add(instr);
 			return p;
 		}
-		return new Program();
 	}
 
 	private Instr parseInstruction() throws IOException {
@@ -64,7 +53,7 @@ public class SmartParser implements Parser {
 			eat(TokenKind.RPAR);
 			return new Commande(name,ie);
 		} else {
-			throw new IOException("Instruction attendu. Trouvé:(" + token.kind + ")" + pos());
+			throw new IOException("Instruction attendu. Trouvé:(" + token.kind + ")" + lexerPos());
 		}
 	}
 
@@ -91,13 +80,13 @@ public class SmartParser implements Parser {
 				eat(TokenKind.MINUS);
 				op = BinOp.MINUS;
 			} else {
-				throw new IOException("Attendu: (MINUS ou PLUS) Trouvé: (" + token.kind + ")" + pos());
+				throw new IOException("Attendu: (MINUS ou PLUS) Trouvé: (" + token.kind + ")" + lexerPos());
 			}
 			Expr expr1 = parseExpression();
 			eat(TokenKind.RPAR);
 			expr = new Expr.Ope(op, expr0, expr1);
 		} else {
-			throw new IOException("Attendu: (Expression) Trouvé: (" + token.kind + ")" + pos());
+			throw new IOException("Attendu: (Expression) Trouvé: (" + token.kind + ")" + lexerPos());
 		}
 		return expr;
 	}

@@ -10,15 +10,9 @@
 %yylexthrow java.io.IOException
 
 %{
-	public int getColumn() {
-		return yycolumn;
-	}
-		public int getLine() {
-		return yyline;
-	}
-		public int getChar() {
-		return yychar;
-	}
+	public int getColumn() { return yycolumn; }
+	public int getLine() { return yyline; }
+	public int getChar() { return yychar; }
 %}
 
 int = [0-9]+

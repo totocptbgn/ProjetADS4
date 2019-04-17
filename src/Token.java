@@ -1,4 +1,5 @@
 public class Token {
+
 	public final TokenKind kind;
 
 	public Token(TokenKind kind) {
@@ -20,6 +21,7 @@ public class Token {
 }
 
 class StringToken extends Token{
+
 	private final String value;
 
 	public StringToken(TokenKind kind, String value) {
@@ -39,6 +41,7 @@ class StringToken extends Token{
 }
 
 class IntToken extends Token{
+
 	private final int value;
 
 	public IntToken(TokenKind kind, int value) {
