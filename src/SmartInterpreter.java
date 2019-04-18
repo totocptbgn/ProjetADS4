@@ -28,4 +28,8 @@ public class SmartInterpreter implements Interpreter {
 			e.printStackTrace();
 		}
 	}
+	
+	public void setGrille(Grid initGrid) {
+		grille=initGrid;
+	}
 }

@@ -68,22 +68,37 @@ public class Main {
             return;
         }
 
-        // Parsing du fichier et affichage des résultats
         Program p=null;
-        Parser parser = new SmartParser(reader);
+        
+      //mise a jour
+        String exeName=filename;
+        String[] args={"src/tests/"+filename,"src/grille.txt"};
+        
+        IOEnv ioEnv = IOEnv.parseArgs(exeName, args);
+        Grid grid = Grid.parseGrid(exeName, ioEnv.inGrid);
+        Parser parser = new SmartParser(ioEnv.inProgram);
+        SmartInterpreter interp = new SmartInterpreter();
+        interp.setGrille(grid);
+        //compilation
         try {
             p=parser.parseProgram("Tests", reader);
-            System.out.println("  Compilation : Fichier correct.");
+            System.out.println("  Compilation : Fichier correct.");  
         } catch (IOException e) {
             System.out.println("  Compilation : Fichier incorrect. Cause: [" + e.getMessage() + "]");
         }
+        //execution
         if(p!=null) {
+        	System.out.println("  Execution :");
         	try {
+        		System.out.println("	Depart");
+        		System.out.println(grid);
         		p.eval(new HashMap<String,Integer>());
-        		System.out.println("  Execution : Fichier correct.");
+        		System.out.println("	Resultat");
+        		System.out.println(grid);
+        		System.out.println("    Fichier correct.");
         	}
         	catch (IOException e) {
-        		System.out.println("  Execution : Fichier incorrect. Cause: [" + e.getMessage() + "]");
+        		System.out.println("    Fichier incorrect. Cause: [" + e.getMessage() + "]");
         	}
         }
     }
