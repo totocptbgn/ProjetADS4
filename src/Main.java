@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.HashMap;
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -56,24 +57,34 @@ public class Main {
      */
 
     private static void testFile(String filename) {
-        System.out.print("-  Test de " + filename + " : ");
+        System.out.println("-  Test de " + filename + " : ");
 
         // Création du Reader sur le fichier indiqué avec filename
         Reader reader;
         try {
             reader = new FileReader(new File("src/tests/" + filename));
         } catch (FileNotFoundException e) {
-            System.out.println("Fichier non trouvé.");
+            System.out.println("  Fichier non trouvé.");
             return;
         }
 
         // Parsing du fichier et affichage des résultats
         Parser parser = new SmartParser(reader);
+        Program p=null;
         try {
-            parser.parseProgram("Tests", reader);
-            System.out.println("Fichier correct.");
+            p=parser.parseProgram("Tests", reader);
+            System.out.println("  Compilation : Fichier correct.");
         } catch (IOException e) {
-            System.out.println("Fichier incorrect. Cause: [" + e.getMessage() + "]");
+            System.out.println("  Compilation : Fichier incorrect. Cause: [" + e.getMessage() + "]");
+        }
+        if(p!=null) {
+        	try {
+        		p.eval(new HashMap<String,Integer>());
+        		System.out.println("  Execution : Fichier correct.");
+        	}
+        	catch (IOException e) {
+        		System.out.println("  Execution : Fichier incorrect. Cause: [" + e.getMessage() + "]");
+        	}
         }
     }
 }

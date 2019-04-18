@@ -28,7 +28,7 @@ class Commande implements Instr {
 				SmartInterpreter.ecrire(expression.eval(hm));
 				break;
 			default:
-				throw new IOException("Commande introuvable.");
+				throw new IOException("Commande "+commande+" introuvable.");
 		}
 	}
 
