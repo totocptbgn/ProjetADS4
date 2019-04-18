@@ -1,0 +1,4 @@
+Avancer(4);
+Tourner(1);
+Avancer((Lire-1));
+Ecrire(-1);
