@@ -56,8 +56,8 @@ public class Main {
      * @param filename Nom du fichier dans src/tests/ à tester.
      */
 
-    private static void testFile(String filename) {
-        System.out.println("-  Test de " + filename + " : ");
+    private static void testFile(String filename) {    	
+    	System.out.println("-  Test de " + filename + " : ");
 
         // Création du Reader sur le fichier indiqué avec filename
         Reader reader;
@@ -69,8 +69,8 @@ public class Main {
         }
 
         // Parsing du fichier et affichage des résultats
-        Parser parser = new SmartParser(reader);
         Program p=null;
+        Parser parser = new SmartParser(reader);
         try {
             p=parser.parseProgram("Tests", reader);
             System.out.println("  Compilation : Fichier correct.");
