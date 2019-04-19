@@ -1,5 +1,4 @@
 import java.io.IOException;
-import java.util.HashMap;
 
 public class SmartInterpreter implements Interpreter {
 	private static Grid grille;
@@ -23,13 +22,13 @@ public class SmartInterpreter implements Interpreter {
 	public void run(Program prog, Grid initGrid) {
 		grille = initGrid;
 		try {
-			prog.eval(new HashMap<>());
+			prog.eval();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	public void setGrille(Grid initGrid) {
-		grille=initGrid;
+		grille = initGrid;
 	}
 }

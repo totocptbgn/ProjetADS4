@@ -18,9 +18,9 @@ public class Program {
 	 * @throws IOException Si la commande à executer n'existe pas, alors une exception est levée.
 	 */
 
-	public void eval(Map<String,Integer> hm) throws IOException {
+	public void eval() throws IOException {
 		for (Instr instr : liste) {
-			instr.eval(hm);
+			instr.eval(new HashMap<>());
 		}
 	}
 

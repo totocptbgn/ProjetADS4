@@ -1,5 +1,4 @@
 import java.io.*;
-import java.util.HashMap;
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -42,13 +41,15 @@ public class Main {
      */
 
     private static void runTests() {
-        System.out.println("Test des fichiers dans le répertoire tests :\n");
+        System.out.println("------------- Test des fichiers dans le répertoire tests : -------------\n");
+        testFile("nofile");
         testFile("good0");
         testFile("good1");
         testFile("good2");
         testFile("bad0");
         testFile("bad1");
         testFile("bad2");
+		System.out.println("---------------------------- Fin des tests. ----------------------------\n");
     }
 
     /**
@@ -56,50 +57,52 @@ public class Main {
      * @param filename Nom du fichier dans src/tests/ à tester.
      */
 
-    private static void testFile(String filename) {    	
-    	System.out.println("-  Test de " + filename + " : ");
+    private static void testFile(String filename) {
+    	System.out.println("///////  Test de " + filename + " ///////");
 
         // Création du Reader sur le fichier indiqué avec filename
         Reader reader;
         try {
             reader = new FileReader(new File("src/tests/" + filename));
         } catch (FileNotFoundException e) {
-            System.out.println("  Fichier non trouvé.");
+            System.out.println("  /!\\ Fichier non trouvé : fin du test.\n");
             return;
         }
 
-        Program p=null;
-        
-      //mise a jour
-        String exeName=filename;
-        String[] args={"src/tests/"+filename,"src/grille.txt"};
-        
+      	// Mise en place de l'interpreter
+		Program p = null;
+        String exeName = filename;
+        String[] args = {"src/tests/" + filename, "src/grille.txt"};
         IOEnv ioEnv = IOEnv.parseArgs(exeName, args);
         Grid grid = Grid.parseGrid(exeName, ioEnv.inGrid);
         Parser parser = new SmartParser(ioEnv.inProgram);
         SmartInterpreter interp = new SmartInterpreter();
         interp.setGrille(grid);
-        //compilation
+
+        // Parsing et compilation
         try {
-            p=parser.parseProgram("Tests", reader);
-            System.out.println("  Compilation : Fichier correct.");  
+            p = parser.parseProgram("Tests", reader);
+            System.out.println("  - Compilation : Ok.");
         } catch (IOException e) {
-            System.out.println("  Compilation : Fichier incorrect. Cause: [" + e.getMessage() + "]");
+            System.out.println("  - Compilation : Fichier incorrect. Cause: [" + e.getMessage() + "]");
+			System.out.println("  - Execution : Pas d'execution possible.");
         }
-        //execution
-        if(p!=null) {
-        	System.out.println("  Execution :");
+
+        // Execution
+        if (p != null) {
+        	System.out.println("  - Execution :\n");
         	try {
-        		System.out.println("	Depart");
+        		System.out.println("Grille avant éxécution :");
         		System.out.println(grid);
-        		p.eval(new HashMap<String,Integer>());
-        		System.out.println("	Resultat");
+        		p.eval();
+        		System.out.println("Grille après execution :");
         		System.out.println(grid);
-        		System.out.println("    Fichier correct.");
+        		System.out.println(" ==> Fichier correct.");
         	}
         	catch (IOException e) {
-        		System.out.println("    Fichier incorrect. Cause: [" + e.getMessage() + "]");
+        		System.out.println(" ==> Fichier incorrect. Cause: [" + e.getMessage() + "]");
         	}
         }
+        System.out.println();
     }
 }
