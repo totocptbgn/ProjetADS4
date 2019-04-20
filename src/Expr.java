@@ -99,6 +99,7 @@ class Ope extends Expr {
 			this.op = op;
 			this.arg0 = arg0;
 			this.arg1 = arg1;
+			setType();
 		}
 
 		@Override
@@ -117,13 +118,13 @@ class Ope extends Expr {
 		}
 
 		public boolean evalBool(Map<String,Integer> hm) throws IOException {
-			if(op.getType()==Type.BOOL) {
-				if(arg0.getType()==Type.BOOL && arg1.getType()==Type.BOOL)
+			if (op.getType() == Type.BOOL) {
+				if (arg0.getType() == Type.BOOL && arg1.getType() == Type.BOOL)
 					return op.applyBool(arg0.evalBool(hm), arg1.evalBool(hm));
-				else if(arg0.getType()==Type.INT && arg1.getType()==Type.INT)
+				else if (arg0.getType() == Type.INT && arg1.getType() == Type.INT)
 					return op.applyBool(arg0.evalInt(hm), arg1.evalInt(hm));
 				else {
-					throw new IOException("Types non supportés");
+					throw new IOException("Types non supportés: arg0: " + arg0.getType() + " arg1: " + arg1.getType());
 				}
 			}
 			else {

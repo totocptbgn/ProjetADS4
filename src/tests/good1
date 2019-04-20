@@ -1,0 +1,6 @@
+If
+    True
+Then
+    Avancer(Lire);
+    Tourner(3);
+End
