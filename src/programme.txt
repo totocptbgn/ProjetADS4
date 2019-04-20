@@ -1,5 +1,4 @@
-If
-    ((5 > 2) && (3 < 4))
+If (5 < 3)
 Then
-    Avancer(Lire);
+Avancer(Lire);
 End;

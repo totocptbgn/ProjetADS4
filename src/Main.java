@@ -27,10 +27,8 @@ public class Main {
 
         // Intrepetation et execution du programme sur la grille
         Interpreter interp = new SmartInterpreter();
-		System.out.println(grid);
-		interp.run(prog, grid);
-		//prog.debug();
-		System.out.println(grid);
+        interp.run(prog, grid);
+        prog.debug();
 
     }
 

@@ -138,10 +138,10 @@ class Ope extends Expr {
         	arg1.debug(hm);
         	System.out.print(")");
         	if(op.getType()==Type.BOOL) {
-        		System.out.print("[Value:" + this.evalInt(hm));
+        		System.out.print("[Value:"+this.evalBool(hm));
         	}
         	else if(op.getType()==Type.INT) {
-        		System.out.print("[Value:"+this.evalBool(hm));
+        		System.out.print("[Value:"+this.evalInt(hm));
         	}
     		System.out.print("]");
         }
@@ -159,7 +159,7 @@ class Minus extends Expr {
 	public Minus(Expr arg0) {
 		this.arg0 = arg0;
 	}
-	
+
 	public void setType() {
     	type = Type.INT;
     	arg0.setType();
@@ -201,9 +201,9 @@ class Lire extends Expr {
 	public String toString() {
 		return "Lire";
 	}
-	
+
 }
-   
+
 enum Type {
 	BOOL, INT
 }
@@ -230,5 +230,3 @@ enum Type {
 		public void debug(Map<String, Integer> hm) {}
 	}
 	*/
-    
-
