@@ -28,7 +28,7 @@ public class Program {
 	 * Fonction servant à afficher les fonction et afficher les valeurs des expressions.
 	 */
 
-	public void debug() {
+	public void debug() throws IOException {
 		Map<String,Integer> hm=new HashMap<>();
 		for (Instr instr : liste) {
 			instr.debug(hm);

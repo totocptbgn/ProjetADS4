@@ -1,6 +1,15 @@
 programme → instruction ; programme | ε
-Instr →     Avancer(expression) | Tourner(expression) | Ecrire(expression) | Si condition Alors programme Fin | TantQue condition Faire programme Fin
-Expr →      Lire | nombre | (expression operation expression) | -nombre | bool
-binOp →     + | - | Et | Ou | < | > | =
-nombre →    ?[1-9][0-9]* | 0
-bool →      True | False
+InProgramme → instruction ; programme | Fin
+Instr   →   Avancer(Expr) |
+            Tourner(Expr) |
+            Ecrire(Expr) |
+            Si Expr Alors InProgramme |
+            TantQue Expr Faire InProgramme
+Expr   →    Lire |
+            nombre |
+            (Expr binOp Expr) |
+            -nombre |
+            bool
+binOp   →   + | - | Et | Ou | < | > | =
+nombre   →  ?[1-9][0-9]* | 0
+bool    →   True | False

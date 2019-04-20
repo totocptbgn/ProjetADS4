@@ -90,7 +90,9 @@ class Ope extends Expr {
 		private final Expr arg0, arg1;
 
 		public void setType() {
-        	type=op.getType();
+        	type = op.getType();
+        	arg0.setType();
+        	arg1.setType();
         }
 
 		public Ope(BinOp op, Expr arg0, Expr arg1) {
@@ -101,8 +103,8 @@ class Ope extends Expr {
 
 		@Override
 		public int evalInt(Map<String,Integer> hm) throws IOException {
-			if(op.getType()==Type.INT) {
-				if(arg0.getType()==Type.INT && arg1.getType()==Type.INT)
+			if (op.getType() == Type.INT) {
+				if (arg0.getType() == Type.INT && arg1.getType() == Type.INT)
 					return op.applyInt(arg0.evalInt(hm), arg1.evalInt(hm));
 				else {
 					throw new IOException("Arguments pas entier");
@@ -113,6 +115,7 @@ class Ope extends Expr {
 			}
 
 		}
+
 		public boolean evalBool(Map<String,Integer> hm) throws IOException {
 			if(op.getType()==Type.BOOL) {
 				if(arg0.getType()==Type.BOOL && arg1.getType()==Type.BOOL)
@@ -126,7 +129,6 @@ class Ope extends Expr {
 			else {
 				throw new IOException("Pas un entier");
 			}
-
 		}
 
 		public void debug(Map<String,Integer> hm) throws IOException {
@@ -144,7 +146,10 @@ class Ope extends Expr {
     		System.out.print("]");
         }
 
-	
+	@Override
+	public String toString() {
+		return "Ope(" + op + "," + arg0 + ","  + arg1 + ")";
+	}
 }
 
 class Minus extends Expr {
@@ -157,6 +162,7 @@ class Minus extends Expr {
 	
 	public void setType() {
     	type=Type.INT;
+    	arg0.setType();
     }
 
 	@Override

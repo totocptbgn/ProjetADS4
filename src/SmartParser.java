@@ -44,14 +44,33 @@ public class SmartParser implements Parser {
 		}
 	}
 
+	public Program parseInProgram() throws IOException {
+		if (check(TokenKind.END)){
+			eat(TokenKind.END);
+			return new Program();
+		} else {
+			Instr instr = parseInstruction();
+			eat(TokenKind.SEMICOLON);
+			Program p = parseInProgram();
+			p.add(instr);
+			return p;
+		}
+	}
+
 	private Instr parseInstruction() throws IOException {
 		if (check(TokenKind.CMD)){
 			String name = token.getStringValue();
 			eat(TokenKind.CMD);
 			eat(TokenKind.LPAR);
-			Expr ie=parseExpression();
+			Expr ie = parseExpression();
 			eat(TokenKind.RPAR);
 			return new Commande(name,ie);
+		} else if (check(TokenKind.IF)){
+			eat(TokenKind.IF);
+			parseExpression();
+			eat(TokenKind.THEN);
+			parseInProgram();
+			return null; // A COMPLETER
 		} else {
 			throw new IOException("Instruction attendu. Trouvé:(" + token.kind + ")" + lexerPos());
 		}
