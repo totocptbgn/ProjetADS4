@@ -22,7 +22,7 @@ public abstract class Expr {
 }
 class True extends Expr {
     	public void setType() {
-        	type=Type.BOOL;
+        	type = Type.BOOL;
         }
 
     	@Override
@@ -33,7 +33,6 @@ class True extends Expr {
 		@Override
 		void debug(ValueEnvironnement hm) throws IOException {
 			System.out.println("True");
-			
 		}
 }
 class False extends Expr {
@@ -160,7 +159,7 @@ class Minus extends Expr {
 	public Minus(Expr arg0) {
 		this.arg0 = arg0;
 	}
-	
+
 	public void setType() {
     	type = Type.INT;
     	arg0.setType();
@@ -202,9 +201,9 @@ class Lire extends Expr {
 	public String toString() {
 		return "Lire";
 	}
-	
+
 }
-   
+
 enum Type {
 	BOOL, INT
 }
@@ -231,5 +230,3 @@ enum Type {
 		public void debug(Map<String, Integer> hm) {}
 	}
 	*/
-    
-

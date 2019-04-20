@@ -58,13 +58,24 @@ public class SmartParser implements Parser {
 	}
 
 	private Instr parseInstruction() throws IOException {
-		if (check(TokenKind.CMD)){
-			String name = token.getStringValue();
-			eat(TokenKind.CMD);
+		if (check(TokenKind.TOURNER)){
+			eat(TokenKind.TOURNER);
 			eat(TokenKind.LPAR);
 			Expr ie = parseExpression();
 			eat(TokenKind.RPAR);
-			return new Commande(name,ie);
+			return new Commande("Tourner",ie);
+		} else if (check(TokenKind.AVANCER)){
+			eat(TokenKind.AVANCER);
+			eat(TokenKind.LPAR);
+			Expr ie = parseExpression();
+			eat(TokenKind.RPAR);
+			return new Commande("Avancer",ie);
+		} else if (check(TokenKind.ECRIRE)){
+			eat(TokenKind.ECRIRE);
+			eat(TokenKind.LPAR);
+			Expr ie = parseExpression();
+			eat(TokenKind.RPAR);
+			return new Commande("Ecrire",ie);
 		} else if (check(TokenKind.IF)){
 			eat(TokenKind.IF);
 			Expr expr = parseExpression();

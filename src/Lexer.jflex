@@ -39,8 +39,11 @@ string = [a-zA-Z]+
 ("Faire"|"Do")      {return new Token(TokenKind.DO);}
 ("Fin"|"End")       {return new Token(TokenKind.END);}
 "Lire"              {return new Token(TokenKind.LIRE);}
+"Tourner"           {return new Token(TokenKind.TOURNER);}
+"Avancer"           {return new Token(TokenKind.AVANCER);}
+"Ecrire"            {return new Token(TokenKind.ECRIRE);}
 {int}               {return new IntToken(TokenKind.INT, Integer.parseInt(yytext()));}
-{string}            {return new StringToken(TokenKind.CMD, yytext()); }
+{string}            {return new StringToken(TokenKind.VAR, yytext());}
 {blank}             {}
 [^]	                {throw new java.io.IOException("Symbole non reconnu (" + yytext() + "");}
 <<EOF>>             {return new Token(TokenKind.EOF);}
