@@ -123,7 +123,7 @@ class Ope extends Expr {
 				else if(arg0.getType()==Type.INT && arg1.getType()==Type.INT)
 					return op.applyBool(arg0.evalInt(hm), arg1.evalInt(hm));
 				else {
-					throw new IOException("Types non support�s");
+					throw new IOException("Types non supportés");
 				}
 			}
 			else {

@@ -43,4 +43,70 @@ class Commande implements Instr {
 	public String toString() {
 		return commande + "(" + expression + ");";
 	}
+	
+	
 }
+
+class If implements Instr {
+
+	private Expr condition;
+	private Program body;
+
+	public If(Expr ie,Program body) {
+		this.condition = ie;
+		this.body=body;
+	}
+
+	public void eval(Map<String,Integer> hm) throws IOException {
+		if(condition.evalBool(hm)) {
+			body.eval();
+		}
+	}
+
+	public void debug(Map<String,Integer> hm) throws IOException {
+		System.out.print("If(");
+		condition.debug(hm);
+		System.out.println(")["); 
+		body.debug(); 
+		System.out.println("]");
+	}
+
+	@Override
+	public String toString() {
+		return "If("+condition+")[\n"+body+"]";
+	}
+	
+	
+}
+
+class While implements Instr {
+	private Expr condition;
+	private Program body;
+
+	public While(Expr ie,Program body) {
+		this.condition = ie;
+		this.body=body;
+	}
+
+	public void eval(Map<String,Integer> hm) throws IOException {
+		while(condition.evalBool(hm)) {
+			body.eval();
+		}
+	}
+
+	public void debug(Map<String,Integer> hm) throws IOException {
+		System.out.print("While(");
+		condition.debug(hm);
+		System.out.println(")["); 
+		body.debug(); 
+		System.out.println("]");
+	}
+	
+	@Override
+	public String toString() {
+		return "While("+condition+")[\n"+body+"]";
+	}
+	
+	
+}
+
