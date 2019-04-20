@@ -7,7 +7,7 @@ public abstract class Expr {
     public int evalInt(Map<String,Integer> hm) throws IOException {
     	throw new IOException("Pas un entier");
     }
-    public boolean evalBool(Map<String,Boolean> hm) throws IOException {
+    public boolean evalBool(Map<String,Integer> hm) throws IOException {
     	throw new IOException("Pas un booleen");
     }
     /*public boolean eval(Map<String,Integer> hm) {
@@ -24,7 +24,7 @@ public abstract class Expr {
         }
     	
     	@Override
-		public boolean evalBool(Map<String,Boolean> hm) throws IOException {
+		public boolean evalBool(Map<String,Integer> hm) throws IOException {
 			return true;
 		}
 
@@ -44,7 +44,7 @@ public abstract class Expr {
         }
     	
     	@Override
-		public boolean evalBool(Map<String,Boolean> hm) throws IOException {
+		public boolean evalBool(Map<String,Integer> hm) throws IOException {
 			return false;
 		}
 
@@ -121,7 +121,7 @@ public abstract class Expr {
 		private final Expr arg0, arg1;
 		
 		public void setType() {
-        	type=Type.INT;
+        	type=op.getType();
         }
 		
 		public Ope(BinOp op, Expr arg0, Expr arg1) {
@@ -132,7 +132,28 @@ public abstract class Expr {
 
 		@Override
 		public int evalInt(Map<String,Integer> hm) throws IOException {
-			return op.apply(arg0.evalInt(hm), arg1.evalInt(hm));
+			if(op.getType()==Type.INT) {
+				return op.applyInt(arg0.evalInt(hm), arg1.evalInt(hm));
+			}
+			else {
+				throw new IOException("Pas un entier");
+			}
+			
+		}
+		public boolean evalBool(Map<String,Integer> hm) throws IOException {
+			if(op.getType()==Type.BOOL) {
+				if(arg0.getType()==Type.BOOL && arg1.getType()==Type.BOOL)
+					return op.applyBool(arg0.evalBool(hm), arg1.evalBool(hm));
+				else if(arg0.getType()==Type.INT && arg1.getType()==Type.INT)
+					return op.applyBool(arg0.evalInt(hm), arg1.evalInt(hm));
+				else {
+					throw new IOException("Types non supportés");
+				}
+			}
+			else {
+				throw new IOException("Pas un entier");
+			}
+			
 		}
 
 		@Override
