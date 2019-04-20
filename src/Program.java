@@ -19,17 +19,27 @@ public class Program {
 
 	public void eval() throws IOException {
 		ValueEnvironnement hm = new ValueEnvironnement();
+		this.setType(hm);
+		hm = new ValueEnvironnement();
 		for (Instr instr : liste) {
 			instr.eval(hm);
 		}
 	}
-
+	
+	
+	public void setType(ValueEnvironnement hm) throws IOException {
+		for(int i=0;i<liste.size();i++) {
+			liste.get(i).setType(hm);
+		}
+	}
 	/**
 	 * Fonction servant à afficher les fonction et afficher les valeurs des expressions.
 	 */
 
 	public void debug() throws IOException {
 		ValueEnvironnement hm=new ValueEnvironnement();
+		this.setType(hm);
+		hm = new ValueEnvironnement();
 		for (Instr instr : liste) {
 			instr.debug(hm);
 		}

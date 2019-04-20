@@ -4,6 +4,7 @@ import java.io.IOException;
 public interface Instr {
 	void eval(ValueEnvironnement hm) throws IOException;
 	void debug(ValueEnvironnement hm) throws IOException;
+	void setType(ValueEnvironnement hm) throws IOException;
 }
 
 class Commande implements Instr {
@@ -14,7 +15,9 @@ class Commande implements Instr {
 	public Commande(String commande, Expr ie) {
 		this.expression = ie;
 		this.commande = commande;
-		expression.setType();
+	}
+	public void setType(ValueEnvironnement hm) throws IOException {
+		expression.setType(hm);
 	}
 
 	public void eval(ValueEnvironnement hm) throws IOException {
@@ -51,6 +54,10 @@ class If implements Instr {
 
 	private Expr condition;
 	private Program body;
+	public void setType(ValueEnvironnement hm) throws IOException {
+		condition.setType(hm);
+		body.setType(hm);
+	}
 
 	public If(Expr ie,Program body) {
 		this.condition = ie;
@@ -80,22 +87,69 @@ class If implements Instr {
 }
 
 class Assign implements Instr {
-	private String nom;
+	private String name;
 	private Expr value;
 	public Assign(String nom,Expr val) {
-		this.nom=nom;
+		this.name=nom;
 		this.value=val;
 		
 	}
+	
+	public void setType(ValueEnvironnement hm) throws IOException {
+		value.setType(hm);
+		if(value.getType()==Type.BOOL)
+			hm.addBoolean(name,true );
+		if(value.getType()==Type.INT)
+			hm.addInteger(name,0);
+			
+	}
+	
 	@Override
 	public void eval(ValueEnvironnement hm) throws IOException {
-		// TODO Auto-generated method stub
+		value.setType(hm);
+		Type type=value.getType();
+		if(hm.exists(name)==null || type==hm.exists(name)) {
+			if(value.getType()==Type.BOOL) {
+				hm.addBoolean(name, value.evalBool(hm));
+			}
+			else if(value.getType()==Type.INT) {
+				hm.addInteger(name, value.evalInt(hm));
+			}
+		}
+		else {
+			throw new IOException("Type non compatible "+name+" de type "+name+" de type "+hm.exists(name)+" n'est pas de type "+type);
+		}
 		
 	}
 	@Override
 	public void debug(ValueEnvironnement hm) throws IOException {
-		// TODO Auto-generated method stub
+		value.setType(hm);
+		Type type=value.getType();
+		if(hm.exists(name)==null || type==hm.exists(name)) {
+			if(hm.exists(name)==null) {
+				System.out.print("Assign ");
+			}
+			System.out.print(name+"=");
+			value.debug(hm);
+			if(value.getType()==Type.BOOL) {
+				hm.addBoolean(name, value.evalBool(hm));
+				System.out.println("["+value.evalBool(hm)+"]");
+			}
+			else if(value.getType()==Type.INT) {
+				hm.addInteger(name, value.evalInt(hm));
+				System.out.println("["+value.evalInt(hm)+"]");
+			}
+			
+			
+		}
+		else {
+			throw new IOException("Type non compatible "+name+" de type "+name+" de type "+hm.exists(name)+" n'est pas de type "+type);
+		}
 		
+	}
+	
+	public String toString() {
+		return name+"="+value;
 	}
 	
 }
@@ -109,6 +163,11 @@ class While implements Instr {
 		this.body=body;
 	}
 
+	public void setType(ValueEnvironnement hm) throws IOException {
+		condition.setType(hm);
+		body.setType(hm);
+	}
+	
 	public void eval(ValueEnvironnement hm) throws IOException {
 		while(condition.evalBool(hm)) {
 			body.eval();
