@@ -19,8 +19,9 @@ public class Program {
 	 */
 
 	public void eval() throws IOException {
+		HashMap <String,Integer> hm = new HashMap<>();
 		for (Instr instr : liste) {
-			instr.eval(new HashMap<>());
+			instr.eval(hm);
 		}
 	}
 
