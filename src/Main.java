@@ -95,7 +95,6 @@ public class Main {
         		System.out.println("Grille après execution :");
         		System.out.println(grid);
         		System.out.println(" ==> Fichier correct.");
-        		p.debug();
         	}
         	catch (IOException e) {
         		System.out.println(" ==> Fichier incorrect. Cause: [" + e.getMessage() + "]");
