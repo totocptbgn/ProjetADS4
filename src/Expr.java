@@ -1,14 +1,63 @@
+import java.io.IOException;
 import java.util.Map;
 
 public abstract class Expr {
 	private Type type;
-	abstract void debug(Map<String,Integer> hm);
-    abstract int eval(Map<String,Integer> hm);
+	abstract void debug(Map<String,Integer> hm) throws IOException;
+    public int evalInt(Map<String,Integer> hm) throws IOException {
+    	throw new IOException("Pas un entier");
+    }
+    public boolean evalBool(Map<String,Boolean> hm) throws IOException {
+    	throw new IOException("Pas un booleen");
+    }
+    /*public boolean eval(Map<String,Integer> hm) {
+    	throw new IOException("Pas un entier");
+    }
+    */
     abstract void setType();
     public Type getType() {
     	return type;
     }
+    class True extends Expr {
+    	public void setType() {
+        	type=Type.BOOL;
+        }
+    	
+    	@Override
+		public boolean evalBool(Map<String,Boolean> hm) throws IOException {
+			return true;
+		}
 
+		@Override
+		public void debug(Map<String,Integer> hm) throws IOException {
+			System.out.print("True");
+		}
+
+		@Override
+        public String toString() {
+            return "True";
+        }
+    }
+    class False extends Expr {
+    	public void setType() {
+        	type=Type.BOOL;
+        }
+    	
+    	@Override
+		public boolean evalBool(Map<String,Boolean> hm) throws IOException {
+			return false;
+		}
+
+		@Override
+		public void debug(Map<String,Integer> hm) throws IOException {
+			System.out.print("False");
+		}
+
+		@Override
+        public String toString() {
+            return "False";
+        }
+    }
     class PosInt extends Expr {
     	
     	private final int value;
@@ -22,12 +71,12 @@ public abstract class Expr {
         }
 
 		@Override
-		public int eval(Map<String,Integer> hm) {
+		public int evalInt(Map<String,Integer> hm) {
 			return value;
 		}
 
 		@Override
-		public void debug(Map<String,Integer> hm) {
+		public void debug(Map<String,Integer> hm) throws IOException {
 			System.out.print(value);
 		}
 
@@ -50,12 +99,12 @@ public abstract class Expr {
         }
 
 		@Override
-		public int eval(Map<String,Integer> hm) {
-			return -arg0.eval(hm);
+		public int evalInt(Map<String,Integer> hm) throws IOException {
+			return -arg0.evalInt(hm);
 		}
 
 		@Override
-    	public void debug(Map<String,Integer> hm) {
+    	public void debug(Map<String,Integer> hm) throws IOException {
         	System.out.print("-");
         	arg0.debug(hm);
         }
@@ -82,18 +131,18 @@ public abstract class Expr {
 		}
 
 		@Override
-		public int eval(Map<String,Integer> hm) {
-			return op.apply(arg0.eval(hm), arg1.eval(hm));
+		public int evalInt(Map<String,Integer> hm) throws IOException {
+			return op.apply(arg0.evalInt(hm), arg1.evalInt(hm));
 		}
 
 		@Override
-		public void debug(Map<String,Integer> hm) {
+		public void debug(Map<String,Integer> hm) throws IOException {
     		System.out.print("(");
     		arg0.debug(hm);
         	op.debug();
         	arg1.debug(hm);
         	System.out.print(")");
-        	System.out.print("[Value:"+this.eval(hm));
+        	System.out.print("[Value:"+this.evalInt(hm));
     		System.out.print("]");
         }
 
@@ -109,13 +158,13 @@ public abstract class Expr {
         	type=Type.INT;
         }
 		
-    	public int eval(Map<String,Integer> hm) {
+    	public int evalInt(Map<String,Integer> hm) throws IOException {
             return SmartInterpreter.lire();
         }
 
 		@Override
-		public void debug(Map<String,Integer> hm) {
-			System.out.print("Lire[Value:"+eval(hm)+"]");
+		public void debug(Map<String,Integer> hm) throws IOException {
+			System.out.print("Lire[Value:"+evalInt(hm)+"]");
 		}
 
 		@Override
