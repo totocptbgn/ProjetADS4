@@ -1,4 +1,3 @@
-import java.util.Map;
 import java.io.IOException;
 
 public interface Instr {
@@ -43,8 +42,6 @@ class Commande implements Instr {
 	public String toString() {
 		return commande + "(" + expression + ");";
 	}
-	
-	
 }
 
 class If implements Instr {
@@ -54,11 +51,11 @@ class If implements Instr {
 
 	public If(Expr ie,Program body) {
 		this.condition = ie;
-		this.body=body;
+		this.body = body;
 	}
 
 	public void eval(ValueEnvironnement hm) throws IOException {
-		if(condition.evalBool(hm)) {
+		if (condition.evalBool(hm)) {
 			body.eval();
 		}
 	}
@@ -73,31 +70,28 @@ class If implements Instr {
 
 	@Override
 	public String toString() {
-		return "If("+condition+")[\n"+body+"]";
+		return "If(" + condition + ")[\n" + body + "]";
 	}
-	
-	
 }
 
 class Assign implements Instr {
-	private String nom;
+	private String name;
 	private Expr value;
-	public Assign(String nom,Expr val) {
-		this.nom=nom;
-		this.value=val;
-		
+
+	public Assign(String nom, Expr val) {
+		this.name = nom;
+		this.value = val;
 	}
+
 	@Override
 	public void eval(ValueEnvironnement hm) throws IOException {
-		// TODO Auto-generated method stub
-		
+
 	}
+
 	@Override
 	public void debug(ValueEnvironnement hm) throws IOException {
-		// TODO Auto-generated method stub
-		
+
 	}
-	
 }
 
 class While implements Instr {
@@ -106,7 +100,7 @@ class While implements Instr {
 
 	public While(Expr ie,Program body) {
 		this.condition = ie;
-		this.body=body;
+		this.body = body;
 	}
 
 	public void eval(ValueEnvironnement hm) throws IOException {
@@ -125,9 +119,7 @@ class While implements Instr {
 	
 	@Override
 	public String toString() {
-		return "While("+condition+")[\n"+body+"]";
+		return "While(" + condition + ")[\n" + body + "]";
 	}
-	
-	
 }
 

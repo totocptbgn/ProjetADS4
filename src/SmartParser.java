@@ -88,6 +88,12 @@ public class SmartParser implements Parser {
 			eat(TokenKind.DO);
 			Program prog = parseInProgram();
 			return new While(expr, prog);
+		} else if (check(TokenKind.VAR)){
+			String name = token.getStringValue();
+			eat(TokenKind.VAR);
+			eat(TokenKind.EQ);
+			Expr expr = parseExpression();
+			return new Assign(name, expr);
 		} else {
 			throw new IOException("Instruction attendue. Trouvé:(" + token.kind + ")" + lexerPos());
 		}
