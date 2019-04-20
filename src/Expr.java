@@ -19,7 +19,8 @@ public abstract class Expr {
     public Type getType() {
     	return type;
     }
-    class True extends Expr {
+}
+class True extends Expr {
     	public void setType() {
         	type=Type.BOOL;
         }
@@ -29,44 +30,19 @@ public abstract class Expr {
 			return true;
 		}
 
-class True extends Expr {
-	public void setType() {
-		type = Type.BOOL;
-	}
-
 		@Override
-        public String toString() {
-            return "True";
-        }
-    }
-    class False extends Expr {
-    	public void setType() {
-        	type=Type.BOOL;
-        }
-
-    	@Override
-		public boolean evalBool(Map<String,Integer> hm) throws IOException {
-			return false;
+		void debug(Map<String, Integer> hm) throws IOException {
+			System.out.println("True");
+			
 		}
-
-	@Override
-	public void debug(Map<String,Integer> hm) throws IOException {
-		System.out.print("True");
-	}
-
-	@Override
-	public String toString() {
-		return "True";
-	}
 }
-
 class False extends Expr {
 	public void setType() {
 		type=Type.BOOL;
 	}
 
 	@Override
-	public boolean evalBool(Map<String,Boolean> hm) throws IOException {
+	public boolean evalBool(Map<String,Integer> hm) throws IOException {
 		return false;
 	}
 
@@ -108,7 +84,7 @@ class PosInt extends Expr {
 	}
 }
 
-class Minus extends Expr {
+class Ope extends Expr {
 
     	private final BinOp op;
 		private final Expr arg0, arg1;
@@ -126,7 +102,11 @@ class Minus extends Expr {
 		@Override
 		public int evalInt(Map<String,Integer> hm) throws IOException {
 			if(op.getType()==Type.INT) {
-				return op.applyInt(arg0.evalInt(hm), arg1.evalInt(hm));
+				if(arg0.getType()==Type.INT && arg1.getType()==Type.INT)
+					return op.applyInt(arg0.evalInt(hm), arg1.evalInt(hm));
+				else {
+					throw new IOException("Arguments pas entier");
+				}
 			}
 			else {
 				throw new IOException("Pas un entier");
@@ -149,9 +129,35 @@ class Minus extends Expr {
 
 		}
 
-	public void setType() {
-		type=Type.INT;
+		public void debug(Map<String,Integer> hm) throws IOException {
+    		System.out.print("(");
+    		arg0.debug(hm);
+        	op.debug();
+        	arg1.debug(hm);
+        	System.out.print(")");
+        	if(op.getType()==Type.BOOL) {
+        		System.out.print("[Value:"+this.evalInt(hm));
+        	}
+        	else if(op.getType()==Type.INT) {
+        		System.out.print("[Value:"+this.evalBool(hm));
+        	}
+    		System.out.print("]");
+        }
+
+	
+}
+
+class Minus extends Expr {
+
+	private final Expr arg0;
+
+	public Minus(Expr arg0) {
+		this.arg0 = arg0;
 	}
+	
+	public void setType() {
+    	type=Type.INT;
+    }
 
 	@Override
 	public int evalInt(Map<String,Integer> hm) throws IOException {
@@ -160,51 +166,14 @@ class Minus extends Expr {
 
 	@Override
 	public void debug(Map<String,Integer> hm) throws IOException {
-		System.out.print("-");
-		arg0.debug(hm);
-	}
+    	System.out.print("-");
+    	arg0.debug(hm);
+    }
 
-	@Override
-	public String toString() {
-		return "Minus(" + arg0 + ")";
-	}
-}
-
-class Ope extends Expr {
-
-	private final BinOp op;
-	private final Expr arg0, arg1;
-
-	public void setType() {
-		type = Type.INT;
-	}
-
-	public Ope(BinOp op, Expr arg0, Expr arg1) {
-		this.op = op;
-		this.arg0 = arg0;
-		this.arg1 = arg1;
-	}
-
-	@Override
-	public int evalInt(Map<String,Integer> hm) throws IOException {
-		return op.apply(arg0.evalInt(hm), arg1.evalInt(hm));
-	}
-
-	@Override
-	public void debug(Map<String,Integer> hm) throws IOException {
-		System.out.print("(");
-		arg0.debug(hm);
-		op.debug();
-		arg1.debug(hm);
-		System.out.print(")");
-		System.out.print("[Value:"+this.evalInt(hm));
-		System.out.print("]");
-	}
-
-	@Override
-	public String toString() {
-		return "Ope(" + op + ", " + arg0 + ", " + arg1 + ")";
-	}
+    @Override
+    public String toString() {
+        return "Minus(" + arg0 + ")";
+    }
 }
 
 class Lire extends Expr {
@@ -226,8 +195,12 @@ class Lire extends Expr {
 	public String toString() {
 		return "Lire";
 	}
+	
 }
-
+   
+enum Type {
+	BOOL, INT
+}
 	/*
     class Var implements Expr {
         private final String name;
@@ -251,7 +224,5 @@ class Lire extends Expr {
 		public void debug(Map<String, Integer> hm) {}
 	}
 	*/
+    
 
-enum Type {
-	BOOL, INT
-}
