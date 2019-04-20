@@ -26,6 +26,13 @@ public class Program {
 		}
 	}
 	
+	public void eval(ValueEnvironnement hm) throws IOException {
+		hm = new ValueEnvironnement();
+		for (Instr instr : liste) {
+			instr.eval(hm);
+		}
+	}
+	
 	
 	public void setType(ValueEnvironnement hm) throws IOException {
 		for(int i=0;i<liste.size();i++) {
@@ -39,6 +46,13 @@ public class Program {
 	public void debug() throws IOException {
 		ValueEnvironnement hm=new ValueEnvironnement();
 		this.setType(hm);
+		hm = new ValueEnvironnement();
+		for (Instr instr : liste) {
+			instr.debug(hm);
+		}
+	}
+	
+	public void debug(ValueEnvironnement hm) throws IOException {
 		hm = new ValueEnvironnement();
 		for (Instr instr : liste) {
 			instr.debug(hm);

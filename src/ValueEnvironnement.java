@@ -26,6 +26,7 @@ public class ValueEnvironnement {
 	}
 	public int getInteger(String nom) {
 		return integers.get(nom);
+		
 	}
 
 	public boolean getBoolean(String nom) {

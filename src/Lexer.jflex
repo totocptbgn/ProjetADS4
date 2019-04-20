@@ -39,9 +39,7 @@ string = [a-zA-Z]+
 ("Faire"|"Do")      {return new Token(TokenKind.DO);}
 ("Fin"|"End")       {return new Token(TokenKind.END);}
 "Lire"              {return new Token(TokenKind.LIRE);}
-"Tourner"           {return new Token(TokenKind.TOURNER);}
-"Avancer"           {return new Token(TokenKind.AVANCER);}
-"Ecrire"            {return new Token(TokenKind.ECRIRE);}
+("Tourner"|"Avancer"|"Ecrire")         {return new StringToken(TokenKind.COM,yytext());}
 {int}               {return new IntToken(TokenKind.INT, Integer.parseInt(yytext()));}
 {string}            {return new StringToken(TokenKind.VAR, yytext());}
 {blank}             {}

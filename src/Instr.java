@@ -63,7 +63,7 @@ class If implements Instr {
 
 	public void eval(ValueEnvironnement hm) throws IOException {
 		if (condition.evalBool(hm)) {
-			body.eval();
+			body.eval(hm);
 		}
 	}
 
@@ -93,21 +93,22 @@ class Assign implements Instr {
 	public void setType(ValueEnvironnement hm) throws IOException {
 		value.setType(hm);
 		if(value.getType()==Type.BOOL)
-			hm.addBoolean(name,true );
-		if(value.getType()==Type.INT)
+			hm.addBoolean(name,true);
+		else if(value.getType()==Type.INT)
 			hm.addInteger(name,0);
 
 	}
 
 	@Override
 	public void eval(ValueEnvironnement hm) throws IOException {
-		value.setType(hm);
 		Type type=value.getType();
+		
 		if(hm.exists(name)==null || type==hm.exists(name)) {
-			if(value.getType()==Type.BOOL) {
+			System.out.println(type);
+			if(type==Type.BOOL) {
 				hm.addBoolean(name, value.evalBool(hm));
 			}
-			else if(value.getType()==Type.INT) {
+			else if(type==Type.INT) {
 				hm.addInteger(name, value.evalInt(hm));
 			}
 		}
@@ -165,8 +166,9 @@ class While implements Instr {
 	}
 
 	public void eval(ValueEnvironnement hm) throws IOException {
+		
 		while(condition.evalBool(hm)) {
-			body.eval();
+			body.eval(hm);
 		}
 	}
 
@@ -174,7 +176,7 @@ class While implements Instr {
 		System.out.print("While(");
 		condition.debug(hm);
 		System.out.println(")[");
-		body.debug();
+		body.debug(hm);
 		System.out.println("]");
 	}
 

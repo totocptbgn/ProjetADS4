@@ -58,24 +58,13 @@ public class SmartParser implements Parser {
 	}
 
 	private Instr parseInstruction() throws IOException {
-		if (check(TokenKind.TOURNER)){
-			eat(TokenKind.TOURNER);
+		if (check(TokenKind.COM)){
+			String commande=token.getStringValue();
+			eat(TokenKind.COM);
 			eat(TokenKind.LPAR);
 			Expr ie = parseExpression();
 			eat(TokenKind.RPAR);
-			return new Commande("Tourner",ie);
-		} else if (check(TokenKind.AVANCER)){
-			eat(TokenKind.AVANCER);
-			eat(TokenKind.LPAR);
-			Expr ie = parseExpression();
-			eat(TokenKind.RPAR);
-			return new Commande("Avancer",ie);
-		} else if (check(TokenKind.ECRIRE)){
-			eat(TokenKind.ECRIRE);
-			eat(TokenKind.LPAR);
-			Expr ie = parseExpression();
-			eat(TokenKind.RPAR);
-			return new Commande("Ecrire",ie);
+			return new Commande(commande,ie);
 		} else if (check(TokenKind.IF)){
 			eat(TokenKind.IF);
 			Expr expr = parseExpression();
@@ -148,6 +137,10 @@ public class SmartParser implements Parser {
 		} else if (check(TokenKind.FALSE)){
 			eat(TokenKind.FALSE);
 			return new False();
+		} else if (check(TokenKind.VAR)){
+			String name=token.getStringValue();
+			eat(TokenKind.VAR);
+			return new Var(name);
 		} else {
 			throw new IOException("Attendu: (Expression) Trouvé: (" + token.kind + ")" + lexerPos());
 		}

@@ -15,13 +15,13 @@ public abstract class Expr {
     	throw new IOException("Pas un entier");
     }
     */
-    abstract void setType(ValueEnvironnement hm);
+    abstract void setType(ValueEnvironnement hm) throws IOException;
     public Type getType() {
     	return type;
     }
 }
 class True extends Expr {
-    	public void setType(ValueEnvironnement hm) {
+    	public void setType(ValueEnvironnement hm) throws IOException {
         	type = Type.BOOL;
         }
 
@@ -36,7 +36,7 @@ class True extends Expr {
 		}
 }
 class False extends Expr {
-	public void setType(ValueEnvironnement hm) {
+	public void setType(ValueEnvironnement hm) throws IOException {
 		type=Type.BOOL;
 	}
 
@@ -63,7 +63,7 @@ class PosInt extends Expr {
 		this.value = value;
 	}
 
-	public void setType(ValueEnvironnement hm) {
+	public void setType(ValueEnvironnement hm) throws IOException {
 		type = Type.INT;
 	}
 
@@ -88,7 +88,7 @@ class Ope extends Expr {
     	private final BinOp op;
 		private final Expr arg0, arg1;
 
-		public void setType(ValueEnvironnement hm) {
+		public void setType(ValueEnvironnement hm) throws IOException {
         	type = op.getType();
         	arg0.setType(hm);
         	arg1.setType(hm);
@@ -159,8 +159,8 @@ class Minus extends Expr {
 		this.arg0 = arg0;
 	}
 
-	public void setType(ValueEnvironnement hm) {
-    	type = Type.INT;
+	public void setType(ValueEnvironnement hm) throws IOException {
+    	type = Type.INT; 
     	arg0.setType(hm);
     }
 
@@ -183,12 +183,19 @@ class Minus extends Expr {
 class Var extends Expr {
 	
 	private String nom;
+	
+	public Var(String nom) {
+		this.nom=nom;
+	}
+	
 	@Override
-	public void setType(ValueEnvironnement hm) {
+	public void setType(ValueEnvironnement hm) throws IOException {
 		type=hm.exists(nom);
+		if(type==null) throw new IOException("La variable "+nom+" n'existe pas");
 	}
 
 	public int evalInt(ValueEnvironnement hm) throws IOException {
+		System.out.println(hm.exists(nom));
 		if(hm.exists(nom)!=Type.INT) throw new IOException(nom+" pas un Entier");
 		return hm.getInteger(nom);
 	}
@@ -223,7 +230,7 @@ class Lire extends Expr {
 		return SmartInterpreter.lire();
 	}
 	
-	public void setType(ValueEnvironnement hm) {
+	public void setType(ValueEnvironnement hm) throws IOException {
 		type=Type.INT;
 	}
 
@@ -242,26 +249,3 @@ class Lire extends Expr {
 enum Type {
 	BOOL, INT
 }
-	/*
-    class Var implements Expr {
-        private final String name;
-
-        public Var(String name) {
-            this.name = name;
-        }
-
-        @Override
-        public String toString() {
-            return "Var(" + name + ")";
-        }
-
-		@Override
-		public int eval(Map<String,Integer> hm) {
-			hm.putIfAbsent(name, 0);
-			return hm.get(name);
-		}
-
-		@Override
-		public void debug(Map<String, Integer> hm) {}
-	}
-	*/
