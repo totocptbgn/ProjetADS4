@@ -78,10 +78,12 @@ class If implements Instr {
 	
 	
 }
+/*
 class Assign implements Instr {
 	private Expr expr;
 	
 }
+*/
 class While implements Instr {
 	private Expr condition;
 	private Program body;
