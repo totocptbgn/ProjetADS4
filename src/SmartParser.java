@@ -46,7 +46,7 @@ public class SmartParser implements Parser {
 
 	private Instr parseInstruction() throws IOException {
 		if (check(TokenKind.CMD)){
-			String name=token.getStringValue();
+			String name = token.getStringValue();
 			eat(TokenKind.CMD);
 			eat(TokenKind.LPAR);
 			Expr ie=parseExpression();
@@ -61,13 +61,13 @@ public class SmartParser implements Parser {
 		Expr expr;
 		if (check(TokenKind.LIRE)){
 			eat(TokenKind.LIRE);
-			expr = new Expr.Lire();
+			expr = new Lire();
 		} else if (check(TokenKind.MINUS)){
 			eat(TokenKind.MINUS);
 			Expr minusExpr = parseExpression();
-			expr = new Expr.Minus(minusExpr);
+			expr = new Minus(minusExpr);
 		} else if (check(TokenKind.INT)){
-			expr = new Expr.PosInt(token.getIntValue());
+			expr = new PosInt(token.getIntValue());
 			eat(TokenKind.INT);
 		} else if (check(TokenKind.LPAR)){
 			eat(TokenKind.LPAR);
@@ -84,7 +84,7 @@ public class SmartParser implements Parser {
 			}
 			Expr expr1 = parseExpression();
 			eat(TokenKind.RPAR);
-			expr = new Expr.Ope(op, expr0, expr1);
+			expr = new Ope(op, expr0, expr1);
 		} else {
 			throw new IOException("Attendu: (Expression) Trouvé: (" + token.kind + ")" + lexerPos());
 		}

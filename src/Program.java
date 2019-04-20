@@ -14,7 +14,6 @@ public class Program {
 	 * Fonction qui va interpreter le programme, c'est-à-dire parcourir les instructions et calculer les expressions
 	 * puis les executer sur la grille.
 	 *
-	 * @param hm HashMap servant à faire lien entre les varible (String) et leurs valeurs (Integer).
 	 * @throws IOException Si la commande à executer n'existe pas, alors une exception est levée.
 	 */
 
