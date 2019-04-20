@@ -46,25 +46,25 @@ class Commande implements Instr {
 	
 }
 
-class Condition implements Instr {
+class If implements Instr {
 
-	private Expr expression;
+	private Expr condition;
 	private Program body;
 
-	public Condition(Expr ie,Program body) {
-		this.expression = ie;
+	public If(Expr ie,Program body) {
+		this.condition = ie;
 		this.body=body;
 	}
 
 	public void eval(Map<String,Integer> hm) throws IOException {
-		if(expression.evalBool(hm)) {
+		if(condition.evalBool(hm)) {
 			body.eval();
 		}
 	}
 
 	public void debug(Map<String,Integer> hm) throws IOException {
 		System.out.print("If(");
-		expression.debug(hm);
+		condition.debug(hm);
 		System.out.println(")["); 
 		body.debug(); 
 		System.out.println("]");
@@ -72,7 +72,7 @@ class Condition implements Instr {
 
 	@Override
 	public String toString() {
-		return "If("+expression+")[\n"+body+"]";
+		return "If("+condition+")[\n"+body+"]";
 	}
 	
 	
