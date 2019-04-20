@@ -22,7 +22,7 @@ public abstract class Expr {
 }
 class True extends Expr {
     	public void setType() {
-        	type=Type.BOOL;
+        	type = Type.BOOL;
         }
 
     	@Override
@@ -33,7 +33,6 @@ class True extends Expr {
 		@Override
 		void debug(Map<String, Integer> hm) throws IOException {
 			System.out.println("True");
-			
 		}
 }
 class False extends Expr {
@@ -139,7 +138,7 @@ class Ope extends Expr {
         	arg1.debug(hm);
         	System.out.print(")");
         	if(op.getType()==Type.BOOL) {
-        		System.out.print("[Value:"+this.evalInt(hm));
+        		System.out.print("[Value:" + this.evalInt(hm));
         	}
         	else if(op.getType()==Type.INT) {
         		System.out.print("[Value:"+this.evalBool(hm));

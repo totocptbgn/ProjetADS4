@@ -27,12 +27,11 @@ public class Main {
 
         // Intrepetation et execution du programme sur la grille
         Interpreter interp = new SmartInterpreter();
-        interp.run(prog, grid);
+		System.out.println(grid);
+		interp.run(prog, grid);
+		//prog.debug();
+		System.out.println(grid);
 
-        /*
-        prog.debug();
-        ioEnv.outGrid.print(grid);
-        */
     }
 
     /**
@@ -98,6 +97,7 @@ public class Main {
         		System.out.println("Grille après execution :");
         		System.out.println(grid);
         		System.out.println(" ==> Fichier correct.");
+        		p.debug();
         	}
         	catch (IOException e) {
         		System.out.println(" ==> Fichier incorrect. Cause: [" + e.getMessage() + "]");
