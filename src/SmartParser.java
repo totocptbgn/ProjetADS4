@@ -11,7 +11,7 @@ public class SmartParser implements Parser {
 		this.token = null;
 		try {
 			next();
-		} catch (IOException e) {}
+		} catch (IOException ignored) {}
 	}
 
 	public String lexerPos() {

@@ -26,6 +26,11 @@ string = [a-zA-Z]+
 ")"         {return new Token(TokenKind.RPAR);}
 "-"         {return new Token(TokenKind.MINUS);}
 "+"         {return new Token(TokenKind.PLUS);}
+"Et"        {return new Token(TokenKind.ET);}
+"Ou"        {return new Token(TokenKind.OU);}
+">"         {return new Token(TokenKind.SUP);}
+"<"         {return new Token(TokenKind.INF);}
+"="         {return new Token(TokenKind.EQ);}
 "Lire"      {return new Token(TokenKind.LIRE);}
 {int}       {return new IntToken(TokenKind.INT, Integer.parseInt(yytext()));}
 {string}    {return new StringToken(TokenKind.CMD, yytext()); }

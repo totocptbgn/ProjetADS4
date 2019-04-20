@@ -31,8 +31,9 @@ public class Lexer {
    */
   private static final String ZZ_CMAP_PACKED = 
     "\11\0\2\2\2\0\1\2\22\0\1\2\7\0\1\5\1\6\1\0"+
-    "\1\10\1\0\1\7\2\0\12\1\1\0\1\4\5\0\13\3\1\11"+
-    "\16\3\6\0\4\3\1\14\3\3\1\12\10\3\1\13\10\3\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uff95\0";
+    "\1\10\1\0\1\7\2\0\12\1\1\0\1\4\1\16\1\17\1\15"+
+    "\2\0\4\3\1\11\6\3\1\20\2\3\1\13\13\3\6\0\4\3"+
+    "\1\23\3\3\1\21\10\3\1\22\1\3\1\12\1\14\5\3\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uff95\0";
 
   /** 
    * Translates characters to character classes
@@ -46,10 +47,11 @@ public class Lexer {
 
   private static final String ZZ_ACTION_PACKED_0 =
     "\1\0\1\1\1\2\1\3\1\4\1\5\1\6\1\7"+
-    "\1\10\1\11\3\4\1\12";
+    "\1\10\1\11\2\4\1\12\1\13\1\14\1\4\1\15"+
+    "\1\16\2\4\1\17";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[14];
+    int [] result = new int[21];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -74,11 +76,12 @@ public class Lexer {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\15\0\32\0\15\0\47\0\15\0\15\0\15"+
-    "\0\15\0\15\0\64\0\101\0\116\0\47";
+    "\0\0\0\24\0\50\0\24\0\74\0\24\0\24\0\24"+
+    "\0\24\0\24\0\120\0\144\0\24\0\24\0\24\0\170"+
+    "\0\74\0\74\0\214\0\240\0\74";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[14];
+    int [] result = new int[21];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -102,13 +105,16 @@ public class Lexer {
 
   private static final String ZZ_TRANS_PACKED_0 =
     "\1\2\1\3\1\4\1\5\1\6\1\7\1\10\1\11"+
-    "\1\12\1\13\3\5\16\0\1\3\16\0\1\5\5\0"+
-    "\4\5\3\0\1\5\5\0\1\5\1\14\2\5\3\0"+
-    "\1\5\5\0\2\5\1\15\1\5\3\0\1\5\5\0"+
-    "\3\5\1\16";
+    "\1\12\1\13\1\5\1\14\1\5\1\15\1\16\1\17"+
+    "\1\20\3\5\25\0\1\3\25\0\1\5\5\0\4\5"+
+    "\3\0\4\5\3\0\1\5\5\0\1\5\1\21\2\5"+
+    "\3\0\4\5\3\0\1\5\5\0\3\5\1\22\3\0"+
+    "\4\5\3\0\1\5\5\0\4\5\3\0\1\5\1\23"+
+    "\2\5\3\0\1\5\5\0\4\5\3\0\2\5\1\24"+
+    "\1\5\3\0\1\5\5\0\4\5\3\0\3\5\1\25";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[91];
+    int [] result = new int[180];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -146,10 +152,11 @@ public class Lexer {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\1\0\1\11\1\1\1\11\1\1\5\11\4\1";
+    "\1\0\1\11\1\1\1\11\1\1\5\11\2\1\3\11"+
+    "\6\1";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[14];
+    int [] result = new int[21];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -225,15 +232,9 @@ public class Lexer {
   private int zzFinalHighSurrogate = 0;
 
   /* user code: */
-	public int getColumn() {
-		return yycolumn;
-	}
-		public int getLine() {
-		return yyline;
-	}
-		public int getChar() {
-		return yychar;
-	}
+	public int getColumn() { return yycolumn; }
+	public int getLine() { return yyline; }
+	public int getChar() { return yychar; }
 
 
   /**
@@ -256,7 +257,7 @@ public class Lexer {
     char [] map = new char[0x110000];
     int i = 0;  /* index in packed string  */
     int j = 0;  /* index in unpacked array */
-    while (i < 92) {
+    while (i < 112) {
       int  count = packed.charAt(i++);
       char value = packed.charAt(i++);
       do map[j++] = value; while (--count > 0);
@@ -393,15 +394,15 @@ public class Lexer {
 
 
   /**
-   * Returns the character at position <tt>lexerPos</tt> from the
+   * Returns the character at position <tt>pos</tt> from the 
    * matched text. 
    * 
-   * It is equivalent to yytext().charAt(lexerPos), but faster
+   * It is equivalent to yytext().charAt(pos), but faster
    *
    * @param pos the position of the character to fetch. 
    *            A value from 0 to yylength()-1.
    *
-   * @return the character at position lexerPos
+   * @return the character at position pos
    */
   public final char yycharat(int pos) {
     return zzBuffer[zzStartRead+pos];
@@ -614,52 +615,77 @@ public class Lexer {
             { throw new java.io.IOException("Symbole non reconnu (" + yytext() + "");
             } 
             // fall through
-          case 11: break;
+          case 16: break;
           case 2: 
             { return new IntToken(TokenKind.INT, Integer.parseInt(yytext()));
             } 
             // fall through
-          case 12: break;
+          case 17: break;
           case 3: 
             { 
             } 
             // fall through
-          case 13: break;
+          case 18: break;
           case 4: 
             { return new StringToken(TokenKind.CMD, yytext());
             } 
             // fall through
-          case 14: break;
+          case 19: break;
           case 5: 
             { return new Token(TokenKind.SEMICOLON);
             } 
             // fall through
-          case 15: break;
+          case 20: break;
           case 6: 
             { return new Token(TokenKind.LPAR);
             } 
             // fall through
-          case 16: break;
+          case 21: break;
           case 7: 
             { return new Token(TokenKind.RPAR);
             } 
             // fall through
-          case 17: break;
+          case 22: break;
           case 8: 
             { return new Token(TokenKind.MINUS);
             } 
             // fall through
-          case 18: break;
+          case 23: break;
           case 9: 
             { return new Token(TokenKind.PLUS);
             } 
             // fall through
-          case 19: break;
+          case 24: break;
           case 10: 
+            { return new Token(TokenKind.SUP);
+            } 
+            // fall through
+          case 25: break;
+          case 11: 
+            { return new Token(TokenKind.INF);
+            } 
+            // fall through
+          case 26: break;
+          case 12: 
+            { return new Token(TokenKind.EQ);
+            } 
+            // fall through
+          case 27: break;
+          case 13: 
+            { return new Token(TokenKind.ET);
+            } 
+            // fall through
+          case 28: break;
+          case 14: 
+            { return new Token(TokenKind.OU);
+            } 
+            // fall through
+          case 29: break;
+          case 15: 
             { return new Token(TokenKind.LIRE);
             } 
             // fall through
-          case 20: break;
+          case 30: break;
           default:
             zzScanError(ZZ_NO_MATCH);
         }
