@@ -1,16 +1,24 @@
 import java.util.Map;
 
-public interface Expr {
+public abstract class Expr {
+	private Type type;
+	abstract void debug(Map<String,Integer> hm);
+    abstract int eval(Map<String,Integer> hm);
+    abstract void setType();
+    public Type getType() {
+    	return type;
+    }
 
-	void debug(Map<String,Integer> hm);
-    int eval(Map<String,Integer> hm);
-
-    class PosInt implements Expr {
-
+    class PosInt extends Expr {
+    	
     	private final int value;
 
         public PosInt(int value) {
             this.value = value;
+        }
+        
+        public void setType() {
+        	type=Type.INT;
         }
 
 		@Override
@@ -29,13 +37,17 @@ public interface Expr {
         }
     }
 
-    class Minus implements Expr {
+    class Minus extends Expr {
 
     	private final Expr arg0;
 
 		public Minus(Expr arg0) {
 			this.arg0 = arg0;
 		}
+		
+		public void setType() {
+        	type=Type.INT;
+        }
 
 		@Override
 		public int eval(Map<String,Integer> hm) {
@@ -54,11 +66,15 @@ public interface Expr {
         }
     }
 
-    class Ope implements Expr {
+    class Ope extends Expr {
 
     	private final BinOp op;
 		private final Expr arg0, arg1;
-
+		
+		public void setType() {
+        	type=Type.INT;
+        }
+		
 		public Ope(BinOp op, Expr arg0, Expr arg1) {
 			this.op = op;
 			this.arg0 = arg0;
@@ -87,8 +103,12 @@ public interface Expr {
         }
     }
 
-    class Lire implements Expr {
+    class Lire extends Expr {
 		@Override
+		public void setType() {
+        	type=Type.INT;
+        }
+		
     	public int eval(Map<String,Integer> hm) {
             return SmartInterpreter.lire();
         }
@@ -127,4 +147,8 @@ public interface Expr {
 		public void debug(Map<String, Integer> hm) {}
 	}
 	*/
+}
+
+enum Type {
+	BOOL,INT;
 }
