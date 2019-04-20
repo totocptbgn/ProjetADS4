@@ -14,8 +14,14 @@ public class ValueEnvironnement {
 	public void addBoolean(String nom,boolean value) {
 		Booleans.put(nom,value);
 	}
-	public boolean exists(String nom) {
-		return nom
+	public Type exists(String nom) {
+		if(Integers.get(nom)!=null) {
+			return Type.INT;
+		}
+		else if(Booleans.get(nom)!=null) {
+			return Type.BOOL;
+		}
+		return null;
 	}
 	
 }

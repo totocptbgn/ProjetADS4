@@ -18,7 +18,7 @@ public class Program {
 	 */
 
 	public void eval() throws IOException {
-		HashMap <String,Integer> hm = new HashMap<>();
+		ValueEnvironnement hm = new ValueEnvironnement();
 		for (Instr instr : liste) {
 			instr.eval(hm);
 		}
@@ -29,7 +29,7 @@ public class Program {
 	 */
 
 	public void debug() throws IOException {
-		Map<String,Integer> hm=new HashMap<>();
+		ValueEnvironnement hm=new ValueEnvironnement();
 		for (Instr instr : liste) {
 			instr.debug(hm);
 		}

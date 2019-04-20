@@ -4,11 +4,11 @@ import java.util.Map;
 public abstract class Expr {
 	Type type;
 
-	abstract void debug(Map<String,Integer> hm) throws IOException;
-    public int evalInt(Map<String,Integer> hm) throws IOException {
+	abstract void debug(ValueEnvironnement hm) throws IOException;
+    public int evalInt(ValueEnvironnement hm) throws IOException {
     	throw new IOException("Pas un entier");
     }
-    public boolean evalBool(Map<String,Integer> hm) throws IOException {
+    public boolean evalBool(ValueEnvironnement hm) throws IOException {
     	throw new IOException("Pas un booleen");
     }
     /*public boolean eval(Map<String,Integer> hm) {
@@ -26,12 +26,12 @@ class True extends Expr {
         }
 
     	@Override
-		public boolean evalBool(Map<String,Integer> hm) throws IOException {
+		public boolean evalBool(ValueEnvironnement hm) throws IOException {
 			return true;
 		}
 
 		@Override
-		void debug(Map<String, Integer> hm) throws IOException {
+		void debug(ValueEnvironnement hm) throws IOException {
 			System.out.println("True");
 			
 		}
@@ -42,12 +42,12 @@ class False extends Expr {
 	}
 
 	@Override
-	public boolean evalBool(Map<String,Integer> hm) throws IOException {
+	public boolean evalBool(ValueEnvironnement hm) throws IOException {
 		return false;
 	}
 
 	@Override
-	public void debug(Map<String,Integer> hm) throws IOException {
+	public void debug(ValueEnvironnement hm) throws IOException {
 		System.out.print("False");
 	}
 
@@ -69,12 +69,12 @@ class PosInt extends Expr {
 	}
 
 	@Override
-	public int evalInt(Map<String,Integer> hm) {
+	public int evalInt(ValueEnvironnement hm) {
 		return value;
 	}
 
 	@Override
-	public void debug(Map<String,Integer> hm) throws IOException {
+	public void debug(ValueEnvironnement hm) throws IOException {
 		System.out.print(value);
 	}
 
@@ -103,7 +103,7 @@ class Ope extends Expr {
 		}
 
 		@Override
-		public int evalInt(Map<String,Integer> hm) throws IOException {
+		public int evalInt(ValueEnvironnement hm) throws IOException {
 			if (op.getType() == Type.INT) {
 				if (arg0.getType() == Type.INT && arg1.getType() == Type.INT)
 					return op.applyInt(arg0.evalInt(hm), arg1.evalInt(hm));
@@ -117,7 +117,7 @@ class Ope extends Expr {
 
 		}
 
-		public boolean evalBool(Map<String,Integer> hm) throws IOException {
+		public boolean evalBool(ValueEnvironnement hm) throws IOException {
 			if (op.getType() == Type.BOOL) {
 				if (arg0.getType() == Type.BOOL && arg1.getType() == Type.BOOL)
 					return op.applyBool(arg0.evalBool(hm), arg1.evalBool(hm));
@@ -132,7 +132,7 @@ class Ope extends Expr {
 			}
 		}
 
-		public void debug(Map<String,Integer> hm) throws IOException {
+		public void debug(ValueEnvironnement hm) throws IOException {
     		System.out.print("(");
     		arg0.debug(hm);
         	op.debug();
@@ -167,12 +167,12 @@ class Minus extends Expr {
     }
 
 	@Override
-	public int evalInt(Map<String,Integer> hm) throws IOException {
+	public int evalInt(ValueEnvironnement hm) throws IOException {
 		return -arg0.evalInt(hm);
 	}
 
 	@Override
-	public void debug(Map<String,Integer> hm) throws IOException {
+	public void debug(ValueEnvironnement hm) throws IOException {
     	System.out.print("-");
     	arg0.debug(hm);
     }
@@ -189,12 +189,12 @@ class Lire extends Expr {
 		type=Type.INT;
 	}
 
-	public int evalInt(Map<String,Integer> hm) throws IOException {
+	public int evalInt(ValueEnvironnement hm) throws IOException {
 		return SmartInterpreter.lire();
 	}
 
 	@Override
-	public void debug(Map<String,Integer> hm) throws IOException {
+	public void debug(ValueEnvironnement hm) throws IOException {
 		System.out.print("Lire[Value:"+evalInt(hm)+"]");
 	}
 

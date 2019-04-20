@@ -2,8 +2,8 @@ import java.util.Map;
 import java.io.IOException;
 
 public interface Instr {
-	void eval(Map<String,Integer> hm) throws IOException;
-	void debug(Map<String,Integer> hm) throws IOException;
+	void eval(ValueEnvironnement hm) throws IOException;
+	void debug(ValueEnvironnement hm) throws IOException;
 }
 
 class Commande implements Instr {
@@ -17,7 +17,7 @@ class Commande implements Instr {
 		expression.setType();
 	}
 
-	public void eval(Map<String,Integer> hm) throws IOException {
+	public void eval(ValueEnvironnement hm) throws IOException {
 		switch(commande) {
 			case "Avancer":
 				SmartInterpreter.avancer(expression.evalInt(hm));
@@ -33,7 +33,7 @@ class Commande implements Instr {
 		}
 	}
 
-	public void debug(Map<String,Integer> hm) throws IOException {
+	public void debug(ValueEnvironnement hm) throws IOException {
 		System.out.print(commande+"(");
 		expression.debug(hm);
 		System.out.print(")[" + expression.evalInt(hm) + "]\n");
@@ -57,13 +57,13 @@ class If implements Instr {
 		this.body=body;
 	}
 
-	public void eval(Map<String,Integer> hm) throws IOException {
+	public void eval(ValueEnvironnement hm) throws IOException {
 		if(condition.evalBool(hm)) {
 			body.eval();
 		}
 	}
 
-	public void debug(Map<String,Integer> hm) throws IOException {
+	public void debug(ValueEnvironnement hm) throws IOException {
 		System.out.print("If(");
 		condition.debug(hm);
 		System.out.println(")["); 
@@ -78,12 +78,28 @@ class If implements Instr {
 	
 	
 }
-/*
+
 class Assign implements Instr {
-	private Expr expr;
+	private String nom;
+	private Expr value;
+	public Assign(String nom,Expr val) {
+		this.nom=nom;
+		this.value=val;
+		
+	}
+	@Override
+	public void eval(ValueEnvironnement hm) throws IOException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void debug(ValueEnvironnement hm) throws IOException {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }
-*/
+
 class While implements Instr {
 	private Expr condition;
 	private Program body;
@@ -93,13 +109,13 @@ class While implements Instr {
 		this.body=body;
 	}
 
-	public void eval(Map<String,Integer> hm) throws IOException {
+	public void eval(ValueEnvironnement hm) throws IOException {
 		while(condition.evalBool(hm)) {
 			body.eval();
 		}
 	}
 
-	public void debug(Map<String,Integer> hm) throws IOException {
+	public void debug(ValueEnvironnement hm) throws IOException {
 		System.out.print("While(");
 		condition.debug(hm);
 		System.out.println(")["); 
