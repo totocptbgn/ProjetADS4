@@ -723,12 +723,12 @@ public class Lexer {
             // fall through
           case 34: break;
           case 13: 
-            { return new Token(TokenKind.ET);
+            { return new Token(TokenKind.AND);
             } 
             // fall through
           case 35: break;
           case 14: 
-            { return new Token(TokenKind.OU);
+            { return new Token(TokenKind.OR);
             } 
             // fall through
           case 36: break;

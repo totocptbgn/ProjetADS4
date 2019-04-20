@@ -17,7 +17,7 @@ public enum BinOp {
     		return Type.INT;
     	}
     },
-    ET {
+    AND {
         @Override
         public boolean applyBool(boolean a, boolean b) { return a && b; }
         public void debug() { System.out.print("Et"); }
@@ -25,7 +25,7 @@ public enum BinOp {
     		return Type.BOOL;
     	}
     },
-    OU {
+    OR {
         @Override
         public boolean applyBool(boolean a, boolean b) { return a || b; }
         public void debug() { System.out.print("Ou"); }

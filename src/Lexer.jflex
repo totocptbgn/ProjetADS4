@@ -26,8 +26,8 @@ string = [a-zA-Z]+
 ")"                 {return new Token(TokenKind.RPAR);}
 "-"                 {return new Token(TokenKind.MINUS);}
 "+"                 {return new Token(TokenKind.PLUS);}
-("Et"|"&&"|"And")   {return new Token(TokenKind.ET);}
-("Ou"|"&&"|"Or")    {return new Token(TokenKind.OU);}
+("Et"|"&&"|"And")   {return new Token(TokenKind.AND);}
+("Ou"|"&&"|"Or")    {return new Token(TokenKind.OR);}
 ">"                 {return new Token(TokenKind.SUP);}
 "<"                 {return new Token(TokenKind.INF);}
 "="                 {return new Token(TokenKind.EQ);}

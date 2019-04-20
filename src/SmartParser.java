@@ -67,12 +67,18 @@ public class SmartParser implements Parser {
 			return new Commande(name,ie);
 		} else if (check(TokenKind.IF)){
 			eat(TokenKind.IF);
-			parseExpression();
+			Expr expr = parseExpression();
 			eat(TokenKind.THEN);
-			parseInProgram();
-			return null; // A COMPLETER
+			Program prog = parseInProgram();
+			return new If(expr, prog);
+		} else if (check(TokenKind.WHILE)){
+			eat(TokenKind.WHILE);
+			Expr expr = parseExpression();
+			eat(TokenKind.DO);
+			Program prog = parseInProgram();
+			return new While(expr, prog);
 		} else {
-			throw new IOException("Instruction attendu. Trouvé:(" + token.kind + ")" + lexerPos());
+			throw new IOException("Instruction attendue. Trouvé:(" + token.kind + ")" + lexerPos());
 		}
 	}
 
@@ -98,12 +104,30 @@ public class SmartParser implements Parser {
 			} else if (check(TokenKind.MINUS)){
 				eat(TokenKind.MINUS);
 				op = BinOp.MINUS;
+			} else if (check(TokenKind.AND)){
+				eat(TokenKind.AND);
+				op = BinOp.AND;
+			} else if (check(TokenKind.OR)){
+				eat(TokenKind.OR);
+				op = BinOp.OR;
+			} else if (check(TokenKind.INF)){
+				eat(TokenKind.INF);
+				op = BinOp.INF;
+			} else if (check(TokenKind.EQ)){
+				eat(TokenKind.EQ);
+				op = BinOp.EQ;
 			} else {
-				throw new IOException("Attendu: (MINUS ou PLUS) Trouvé: (" + token.kind + ")" + lexerPos());
+				throw new IOException("Attendu: BinOP Trouvé: (" + token.kind + ")" + lexerPos());
 			}
 			Expr expr1 = parseExpression();
 			eat(TokenKind.RPAR);
 			expr = new Ope(op, expr0, expr1);
+		} else if (check(TokenKind.TRUE)){
+			eat(TokenKind.TRUE);
+			return new True();
+		} else if (check(TokenKind.FALSE)){
+			eat(TokenKind.FALSE);
+			return new False();
 		} else {
 			throw new IOException("Attendu: (Expression) Trouvé: (" + token.kind + ")" + lexerPos());
 		}

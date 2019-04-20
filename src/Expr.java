@@ -161,7 +161,7 @@ class Minus extends Expr {
 	}
 	
 	public void setType() {
-    	type=Type.INT;
+    	type = Type.INT;
     	arg0.setType();
     }
 

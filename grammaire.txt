@@ -8,7 +8,7 @@ Instr   →   Avancer(Expr) |
 Expr   →    Lire |
             nombre |
             (Expr binOp Expr) |
-            -nombre |
+            -Expr |
             bool
 binOp   →   + | - | Et | Ou | < | > | =
 nombre   →  ?[1-9][0-9]* | 0
