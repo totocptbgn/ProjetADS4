@@ -139,10 +139,10 @@ class Ope extends Expr {
         	arg1.debug(hm);
         	System.out.print(")");
         	if(op.getType()==Type.BOOL) {
-        		System.out.print("[Value:"+this.evalInt(hm));
+        		System.out.print("[Value:"+this.evalBool(hm));
         	}
         	else if(op.getType()==Type.INT) {
-        		System.out.print("[Value:"+this.evalBool(hm));
+        		System.out.print("[Value:"+this.evalInt(hm));
         	}
     		System.out.print("]");
         }

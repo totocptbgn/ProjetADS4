@@ -1,5 +1,4 @@
-Avancer(Lire); Tourner(Lire);
-Avancer(7);    Tourner(-3);
-Avancer(Lire); Tourner(1);
-Avancer(Lire); Tourner((2-1));
-Avancer(Lire); Ecrire((Lire+10));
+If (5 < 3)
+Then
+Avancer(Lire);
+End;

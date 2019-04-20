@@ -24,10 +24,11 @@ public class Main {
         Program prog = parser.parseProgram(exeName, ioEnv.inProgram);
         System.out.println(prog);
         Grid grid = Grid.parseGrid(exeName, ioEnv.inGrid);
-
+      
         // Intrepetation et execution du programme sur la grille
         Interpreter interp = new SmartInterpreter();
         interp.run(prog, grid);
+        prog.debug();
 
         /*
         prog.debug();
