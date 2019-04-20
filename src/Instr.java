@@ -1,4 +1,3 @@
-import java.util.Map;
 import java.io.IOException;
 
 public interface Instr {
@@ -46,8 +45,6 @@ class Commande implements Instr {
 	public String toString() {
 		return commande + "(" + expression + ");";
 	}
-	
-	
 }
 
 class If implements Instr {
@@ -61,11 +58,11 @@ class If implements Instr {
 
 	public If(Expr ie,Program body) {
 		this.condition = ie;
-		this.body=body;
+		this.body = body;
 	}
 
 	public void eval(ValueEnvironnement hm) throws IOException {
-		if(condition.evalBool(hm)) {
+		if (condition.evalBool(hm)) {
 			body.eval();
 		}
 	}
@@ -73,17 +70,15 @@ class If implements Instr {
 	public void debug(ValueEnvironnement hm) throws IOException {
 		System.out.print("If(");
 		condition.debug(hm);
-		System.out.println(")["); 
-		body.debug(); 
+		System.out.println(")[");
+		body.debug();
 		System.out.println("]");
 	}
 
 	@Override
 	public String toString() {
-		return "If("+condition+")[\n"+body+"]";
+		return "If(" + condition + ")[\n" + body + "]";
 	}
-	
-	
 }
 
 class Assign implements Instr {
@@ -92,18 +87,18 @@ class Assign implements Instr {
 	public Assign(String nom,Expr val) {
 		this.name=nom;
 		this.value=val;
-		
+
 	}
-	
+
 	public void setType(ValueEnvironnement hm) throws IOException {
 		value.setType(hm);
 		if(value.getType()==Type.BOOL)
 			hm.addBoolean(name,true );
 		if(value.getType()==Type.INT)
 			hm.addInteger(name,0);
-			
+
 	}
-	
+
 	@Override
 	public void eval(ValueEnvironnement hm) throws IOException {
 		value.setType(hm);
@@ -119,8 +114,9 @@ class Assign implements Instr {
 		else {
 			throw new IOException("Type non compatible "+name+" de type "+name+" de type "+hm.exists(name)+" n'est pas de type "+type);
 		}
-		
+
 	}
+
 	@Override
 	public void debug(ValueEnvironnement hm) throws IOException {
 		value.setType(hm);
@@ -139,19 +135,19 @@ class Assign implements Instr {
 				hm.addInteger(name, value.evalInt(hm));
 				System.out.println("["+value.evalInt(hm)+"]");
 			}
-			
-			
+
+
 		}
 		else {
 			throw new IOException("Type non compatible "+name+" de type "+name+" de type "+hm.exists(name)+" n'est pas de type "+type);
 		}
-		
+
 	}
-	
+
 	public String toString() {
 		return name+"="+value;
 	}
-	
+
 }
 
 class While implements Instr {
@@ -160,14 +156,14 @@ class While implements Instr {
 
 	public While(Expr ie,Program body) {
 		this.condition = ie;
-		this.body=body;
+		this.body = body;
 	}
 
 	public void setType(ValueEnvironnement hm) throws IOException {
 		condition.setType(hm);
 		body.setType(hm);
 	}
-	
+
 	public void eval(ValueEnvironnement hm) throws IOException {
 		while(condition.evalBool(hm)) {
 			body.eval();
@@ -177,16 +173,13 @@ class While implements Instr {
 	public void debug(ValueEnvironnement hm) throws IOException {
 		System.out.print("While(");
 		condition.debug(hm);
-		System.out.println(")["); 
-		body.debug(); 
+		System.out.println(")[");
+		body.debug();
 		System.out.println("]");
 	}
-	
+
 	@Override
 	public String toString() {
-		return "While("+condition+")[\n"+body+"]";
+		return "While(" + condition + ")[\n" + body + "]";
 	}
-	
-	
 }
-

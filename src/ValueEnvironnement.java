@@ -14,11 +14,12 @@ public class ValueEnvironnement {
 	public void addBoolean(String nom,boolean value) {
 		booleans.put(nom,value);
 	}
+
 	public Type exists(String nom) {
-		if(integers.get(nom)!=null) {
+		if (integers.get(nom) != null) {
 			return Type.INT;
 		}
-		else if(booleans.get(nom)!=null) {
+		else if (booleans.get(nom) != null) {
 			return Type.BOOL;
 		}
 		return null;
@@ -26,9 +27,9 @@ public class ValueEnvironnement {
 	public int getInteger(String nom) {
 		return integers.get(nom);
 	}
-	
+
 	public boolean getBoolean(String nom) {
 		return booleans.get(nom);
 	}
-	
+
 }
