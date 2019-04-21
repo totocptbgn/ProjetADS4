@@ -15,6 +15,7 @@ class Commande implements Instr {
 		this.expression = ie;
 		this.commande = commande;
 	}
+
 	public void setType(ValueEnvironnement hm) throws IOException {
 		expression.setType(hm);
 	}
@@ -36,7 +37,7 @@ class Commande implements Instr {
 	}
 
 	public void debug(ValueEnvironnement hm) throws IOException {
-		System.out.print(commande+"(");
+		System.out.print(commande + "(");
 		expression.debug(hm);
 		System.out.print(")[" + expression.evalInt(hm) + "]\n");
 	}
@@ -51,6 +52,7 @@ class If implements Instr {
 
 	private Expr condition;
 	private Program body;
+
 	public void setType(ValueEnvironnement hm) throws IOException {
 		condition.setType(hm);
 		body.setType(hm);
@@ -84,17 +86,17 @@ class If implements Instr {
 class Assign implements Instr {
 	private String name;
 	private Expr value;
-	public Assign(String nom,Expr val) {
-		this.name=nom;
-		this.value=val;
 
+	public Assign(String nom,Expr val) {
+		this.name = nom;
+		this.value = val;
 	}
 
 	public void setType(ValueEnvironnement hm) throws IOException {
 		value.setType(hm);
-		if(value.getType()==Type.BOOL)
+		if (value.getType()==Type.BOOL)
 			hm.addBoolean(name,true);
-		else if(value.getType()==Type.INT)
+		else if (value.getType()==Type.INT)
 			hm.addInteger(name,0);
 	}
 

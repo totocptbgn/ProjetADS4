@@ -1,7 +1,7 @@
-i=0;
+i = 0;
 If 
-	(i=0)
+	(i = 0)
 Then
-	i=(i+3);
+	i = (i + 3);
 	Tourner(i);
 End;

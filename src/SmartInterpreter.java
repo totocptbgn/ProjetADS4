@@ -1,6 +1,7 @@
 import java.io.IOException;
 
 public class SmartInterpreter implements Interpreter {
+
 	private static Grid grille;
 
 	public static void avancer(int dist) {

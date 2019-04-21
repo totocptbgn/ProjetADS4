@@ -59,12 +59,12 @@ public class SmartParser implements Parser {
 
 	private Instr parseInstruction() throws IOException {
 		if (check(TokenKind.COM)){
-			String commande=token.getStringValue();
+			String commande = token.getStringValue();
 			eat(TokenKind.COM);
 			eat(TokenKind.LPAR);
 			Expr ie = parseExpression();
 			eat(TokenKind.RPAR);
-			return new Commande(commande,ie);
+			return new Commande(commande, ie);
 		} else if (check(TokenKind.IF)){
 			eat(TokenKind.IF);
 			Expr expr = parseExpression();
@@ -138,7 +138,7 @@ public class SmartParser implements Parser {
 			eat(TokenKind.FALSE);
 			return new False();
 		} else if (check(TokenKind.VAR)){
-			String name=token.getStringValue();
+			String name = token.getStringValue();
 			eat(TokenKind.VAR);
 			return new Var(name);
 		} else {

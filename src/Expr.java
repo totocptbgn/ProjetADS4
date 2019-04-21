@@ -1,52 +1,58 @@
 import java.io.IOException;
-import java.util.Map;
 
 public abstract class Expr {
+
 	Type type;
 
 	abstract void debug(ValueEnvironnement hm) throws IOException;
-    public int evalInt(ValueEnvironnement hm) throws IOException {
-    	throw new IOException("Pas un entier");
-    }
-    public boolean evalBool(ValueEnvironnement hm) throws IOException {
-    	throw new IOException("Pas un booleen");
-    }
-    /*public boolean eval(Map<String,Integer> hm) {
-    	throw new IOException("Pas un entier");
-    }
-    */
-    abstract void setType(ValueEnvironnement hm) throws IOException;
-    public Type getType() {
-    	return type;
-    }
+
+	public int evalInt(ValueEnvironnement hm) throws IOException {
+		throw new IOException("Pas un entier");
+	}
+
+	public boolean evalBool(ValueEnvironnement hm) throws IOException {
+		throw new IOException("Pas un booleen");
+	}
+
+	abstract void setType(ValueEnvironnement hm) throws IOException;
+
+	public Type getType() {
+		return type;
+	}
 }
+
+enum Type {
+	BOOL, INT
+}
+
 class True extends Expr {
-    	public void setType(ValueEnvironnement hm) throws IOException {
-        	type = Type.BOOL;
-        }
-
-    	@Override
-		public boolean evalBool(ValueEnvironnement hm) throws IOException {
-			return true;
-		}
-
-		@Override
-		void debug(ValueEnvironnement hm) throws IOException {
-			System.out.println("True");
-		}
-}
-class False extends Expr {
-	public void setType(ValueEnvironnement hm) throws IOException {
-		type=Type.BOOL;
+	public void setType(ValueEnvironnement hm) {
+		type = Type.BOOL;
 	}
 
 	@Override
-	public boolean evalBool(ValueEnvironnement hm) throws IOException {
+	public boolean evalBool(ValueEnvironnement hm) {
+		return true;
+	}
+
+	@Override
+	void debug(ValueEnvironnement hm) {
+		System.out.println("True");
+	}
+}
+
+class False extends Expr {
+	public void setType(ValueEnvironnement hm) {
+		type = Type.BOOL;
+	}
+
+	@Override
+	public boolean evalBool(ValueEnvironnement hm) {
 		return false;
 	}
 
 	@Override
-	public void debug(ValueEnvironnement hm) throws IOException {
+	public void debug(ValueEnvironnement hm) {
 		System.out.print("False");
 	}
 
@@ -63,7 +69,7 @@ class PosInt extends Expr {
 		this.value = value;
 	}
 
-	public void setType(ValueEnvironnement hm) throws IOException {
+	public void setType(ValueEnvironnement hm) {
 		type = Type.INT;
 	}
 
@@ -73,7 +79,7 @@ class PosInt extends Expr {
 	}
 
 	@Override
-	public void debug(ValueEnvironnement hm) throws IOException {
+	public void debug(ValueEnvironnement hm) {
 		System.out.print(value);
 	}
 
@@ -85,65 +91,63 @@ class PosInt extends Expr {
 
 class Ope extends Expr {
 
-    	private final BinOp op;
-		private final Expr arg0, arg1;
+	private final BinOp op;
+	private final Expr arg0, arg1;
 
-		public void setType(ValueEnvironnement hm) throws IOException {
-        	type = op.getType();
-        	arg0.setType(hm);
-        	arg1.setType(hm);
-        }
+	public void setType(ValueEnvironnement hm) throws IOException {
+		type = op.getType();
+		arg0.setType(hm);
+		arg1.setType(hm);
+	}
 
-		public Ope(BinOp op, Expr arg0, Expr arg1) {
-			this.op = op;
-			this.arg0 = arg0;
-			this.arg1 = arg1;
-		}
+	public Ope(BinOp op, Expr arg0, Expr arg1) {
+		this.op = op;
+		this.arg0 = arg0;
+		this.arg1 = arg1;
+	}
 
-		@Override
-		public int evalInt(ValueEnvironnement hm) throws IOException {
-			if (op.getType() == Type.INT) {
-				if (arg0.getType() == Type.INT && arg1.getType() == Type.INT)
-					return op.applyInt(arg0.evalInt(hm), arg1.evalInt(hm));
-				else {
-					throw new IOException("Arguments pas entier");
-				}
-			}
+	@Override
+	public int evalInt(ValueEnvironnement hm) throws IOException {
+		if (op.getType() == Type.INT) {
+			if (arg0.getType() == Type.INT && arg1.getType() == Type.INT)
+				return op.applyInt(arg0.evalInt(hm), arg1.evalInt(hm));
 			else {
-				throw new IOException("Pas un expression entiere");
+				throw new IOException("Arguments pas entier");
 			}
-
+		} else {
+			throw new IOException("Pas un expression entiere");
 		}
 
-		public boolean evalBool(ValueEnvironnement hm) throws IOException {
-			if (op.getType() == Type.BOOL) {
-				if (arg0.getType() == Type.BOOL && arg1.getType() == Type.BOOL)
-					return op.applyBool(arg0.evalBool(hm), arg1.evalBool(hm));
-				else if (arg0.getType() == Type.INT && arg1.getType() == Type.INT)
-					return op.applyBool(arg0.evalInt(hm), arg1.evalInt(hm));
-				else {
-					throw new IOException("Types non supportés: arg0: " + arg0.getType() + " arg1: " + arg1.getType());
-				}
-			}
+	}
+
+	public boolean evalBool(ValueEnvironnement hm) throws IOException {
+		if (op.getType() == Type.BOOL) {
+			if (arg0.getType() == Type.BOOL && arg1.getType() == Type.BOOL)
+				return op.applyBool(arg0.evalBool(hm), arg1.evalBool(hm));
+			else if (arg0.getType() == Type.INT && arg1.getType() == Type.INT)
+				return op.applyBool(arg0.evalInt(hm), arg1.evalInt(hm));
 			else {
-				throw new IOException("Pas une expression booleen");
+				throw new IOException("Types non supportés: arg0: " + arg0.getType() + " arg1: " + arg1.getType());
 			}
+		} else {
+			throw new IOException("Pas une expression booleen");
 		}
+	}
 
-		public void debug(ValueEnvironnement hm) throws IOException {
-    		System.out.print("(");
-    		arg0.debug(hm);
-        	op.debug();
-        	arg1.debug(hm);
-        	System.out.print(")");
-        	if(op.getType()==Type.BOOL) {
-        		System.out.print("[Value:"+this.evalBool(hm));
-        	}
-        	else if(op.getType()==Type.INT) {
-        		System.out.print("[Value:"+this.evalInt(hm));
-        	}
-    		System.out.print("]");
-        }
+	public void debug(ValueEnvironnement hm) throws IOException {
+		System.out.print("(");
+		arg0.debug(hm);
+		op.debug();
+		arg1.debug(hm);
+		System.out.print(")");
+		if (op.getType() == Type.BOOL) {
+			System.out.print("[Value:"+this.evalBool(hm));
+		}
+		else if (op.getType() == Type.INT) {
+			System.out.print("[Value:"+this.evalInt(hm));
+		}
+		System.out.print("]");
+	}
 
 	@Override
 	public String toString() {
@@ -160,9 +164,9 @@ class Minus extends Expr {
 	}
 
 	public void setType(ValueEnvironnement hm) throws IOException {
-    	type = Type.INT; 
-    	arg0.setType(hm);
-    }
+		type = Type.INT;
+		arg0.setType(hm);
+	}
 
 	@Override
 	public int evalInt(ValueEnvironnement hm) throws IOException {
@@ -171,82 +175,74 @@ class Minus extends Expr {
 
 	@Override
 	public void debug(ValueEnvironnement hm) throws IOException {
-    	System.out.print("-");
-    	arg0.debug(hm);
-    }
+		System.out.print("-");
+		arg0.debug(hm);
+	}
 
-    @Override
-    public String toString() {
-        return "Minus(" + arg0 + ")";
-    }
+	@Override
+	public String toString() {
+		return "Minus(" + arg0 + ")";
+	}
 }
 class Var extends Expr {
-	
+
 	private String nom;
-	
+
 	public Var(String nom) {
-		this.nom=nom;
+		this.nom = nom;
 	}
-	
+
 	@Override
 	public void setType(ValueEnvironnement hm) throws IOException {
-		type=hm.exists(nom);
-		//System.out.println(type);
-		if(type==null) throw new IOException("La variable "+nom+" n'existe pas");
+		type = hm.exists(nom);
+		if (type == null) throw new IOException("La variable " + nom + " n'existe pas");
 	}
 
 	public int evalInt(ValueEnvironnement hm) throws IOException {
-		//System.out.println(hm.exists(nom)+" "+nom);
-		if(hm.exists(nom)!=Type.INT) throw new IOException(nom+" pas un Entier");
+		if (hm.exists(nom) != Type.INT) throw new IOException(nom + " pas un Entier");
 		return hm.getInteger(nom);
 	}
-	
+
 	public boolean evalBool(ValueEnvironnement hm) throws IOException {
-		if(hm.exists(nom)!=Type.BOOL) throw new IOException(nom+" pas un Booleen");
+		if (hm.exists(nom) != Type.BOOL) throw new IOException(nom + " pas un Booleen");
 		return hm.getBoolean(nom);
 	}
 
 	@Override
-	public void debug(ValueEnvironnement hm) throws IOException {
-		System.out.print("Var "+nom+"[Value:");
-		if(hm.exists(nom)==Type.BOOL)
+	public void debug(ValueEnvironnement hm) {
+		System.out.print("Var " + nom + "[Value:");
+		if (hm.exists(nom) == Type.BOOL)
 			System.out.print(hm.getBoolean(nom));
-		else if(hm.exists(nom)==Type.INT)
+		else if (hm.exists(nom) == Type.INT)
 			System.out.print(hm.getInteger(nom));
 		else
 			System.out.print("None");
-	
 		System.out.print("]");
 	}
 
 	@Override
 	public String toString() {
-		return "Var("+nom+")";
+		return "Var(" + nom + ")";
 	}
 }
 class Lire extends Expr {
-	
+
 	@Override
-	public int evalInt(ValueEnvironnement hm) throws IOException {
+	public int evalInt(ValueEnvironnement hm) {
 		return SmartInterpreter.lire();
 	}
-	
-	public void setType(ValueEnvironnement hm) throws IOException {
-		type=Type.INT;
+
+	public void setType(ValueEnvironnement hm) {
+		type = Type.INT;
 	}
 
 	@Override
-	public void debug(ValueEnvironnement hm) throws IOException {
-		System.out.print("Lire[Value:"+evalInt(hm)+"]");
+	public void debug(ValueEnvironnement hm) {
+		System.out.print("Lire[Value:" + evalInt(hm) + "]");
 	}
 
 	@Override
 	public String toString() {
 		return "Lire";
 	}
-
-}
-
-enum Type {
-	BOOL, INT
 }
