@@ -1,8 +1,6 @@
-Ecrire(4);
-/*
-dsqklfhukusdfjkbsdf
-qsdfnjqsdkjnqskd
-qsdnkqjsdnklqsd
-
-
-Ecrire(5);
+a = 4;
+b = 3;
+If (a != b)
+Then
+    Ecrire(4);
+End;

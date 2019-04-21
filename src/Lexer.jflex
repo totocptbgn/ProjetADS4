@@ -35,6 +35,7 @@ string = [a-zA-Z]+
 ">"                             {return new Token(TokenKind.SUP);}
 "<"                             {return new Token(TokenKind.INF);}
 "="                             {return new Token(TokenKind.EQ);}
+"!="                             {return new Token(TokenKind.NOTEQ);}
 "True"                          {return new Token(TokenKind.TRUE);}
 "False"                         {return new Token(TokenKind.FALSE);}
 ("Si"|"If")                     {return new Token(TokenKind.IF);}

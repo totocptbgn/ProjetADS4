@@ -125,6 +125,9 @@ public class SmartParser implements Parser {
 			} else if (check(TokenKind.EQ)){
 				eat(TokenKind.EQ);
 				op = BinOp.EQ;
+			} else if (check(TokenKind.NOTEQ)) {
+				eat(TokenKind.NOTEQ);
+				op = BinOp.NOTEQ;
 			} else if (check(TokenKind.TIMES)){
 				eat(TokenKind.TIMES);
 				op = BinOp.TIMES;
