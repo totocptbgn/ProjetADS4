@@ -96,15 +96,13 @@ class Assign implements Instr {
 			hm.addBoolean(name,true);
 		else if(value.getType()==Type.INT)
 			hm.addInteger(name,0);
-
 	}
 
 	@Override
 	public void eval(ValueEnvironnement hm) throws IOException {
 		Type type=value.getType();
-		
+		//System.out.println("de type "+type);
 		if(hm.exists(name)==null || type==hm.exists(name)) {
-			System.out.println(type);
 			if(type==Type.BOOL) {
 				hm.addBoolean(name, value.evalBool(hm));
 			}
@@ -120,7 +118,6 @@ class Assign implements Instr {
 
 	@Override
 	public void debug(ValueEnvironnement hm) throws IOException {
-		value.setType(hm);
 		Type type=value.getType();
 		if(hm.exists(name)==null || type==hm.exists(name)) {
 			if(hm.exists(name)==null) {

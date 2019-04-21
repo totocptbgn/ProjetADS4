@@ -9,19 +9,23 @@ public class ValueEnvironnement {
 		booleans=new HashMap<String,Boolean>();
 	}
 	public void addInteger(String nom,int value) {
+		//System.out.println("Ajout de "+nom+"="+value);
 		integers.put(nom,value);
 	}
 	public void addBoolean(String nom,boolean value) {
+		
 		booleans.put(nom,value);
 	}
 
 	public Type exists(String nom) {
 		if (integers.get(nom) != null) {
+			
 			return Type.INT;
 		}
 		else if (booleans.get(nom) != null) {
 			return Type.BOOL;
 		}
+		//System.out.println(integers.containsKey(1));
 		return null;
 	}
 	public int getInteger(String nom) {

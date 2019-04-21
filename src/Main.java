@@ -22,7 +22,6 @@ public class Main {
 
         // Construction du Program en lisant le ficher grâce au Parser
         Program prog = parser.parseProgram(exeName, ioEnv.inProgram);
-        System.out.println(prog);
         Grid grid = Grid.parseGrid(exeName, ioEnv.inGrid);
 
         // Intrepetation et execution du programme sur la grille
@@ -43,6 +42,8 @@ public class Main {
         testFile("good0");
         testFile("good1");
         testFile("good2");
+        testFile("good3");
+        testFile("good4");
         testFile("bad0");
         testFile("bad1");
         testFile("bad2");
@@ -88,10 +89,12 @@ public class Main {
 
         // Execution
         if (p != null) {
+        	
         	System.out.println("  - Execution :\n");
         	try {
         		System.out.println("Grille avant éxécution :");
         		System.out.println(grid);
+        		//p.debug();
         		p.eval();
         		System.out.println("Grille après execution :");
         		System.out.println(grid);

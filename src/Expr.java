@@ -110,7 +110,7 @@ class Ope extends Expr {
 				}
 			}
 			else {
-				throw new IOException("Pas un entier");
+				throw new IOException("Pas un expression entiere");
 			}
 
 		}
@@ -126,7 +126,7 @@ class Ope extends Expr {
 				}
 			}
 			else {
-				throw new IOException("Pas un entier");
+				throw new IOException("Pas une expression booleen");
 			}
 		}
 
@@ -191,11 +191,12 @@ class Var extends Expr {
 	@Override
 	public void setType(ValueEnvironnement hm) throws IOException {
 		type=hm.exists(nom);
+		//System.out.println(type);
 		if(type==null) throw new IOException("La variable "+nom+" n'existe pas");
 	}
 
 	public int evalInt(ValueEnvironnement hm) throws IOException {
-		System.out.println(hm.exists(nom));
+		//System.out.println(hm.exists(nom)+" "+nom);
 		if(hm.exists(nom)!=Type.INT) throw new IOException(nom+" pas un Entier");
 		return hm.getInteger(nom);
 	}

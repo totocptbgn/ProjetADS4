@@ -20,6 +20,7 @@ public class Program {
 	public void eval() throws IOException {
 		ValueEnvironnement hm = new ValueEnvironnement();
 		this.setType(hm);
+		System.out.println("fin de setType");
 		hm = new ValueEnvironnement();
 		for (Instr instr : liste) {
 			instr.eval(hm);
@@ -27,7 +28,6 @@ public class Program {
 	}
 	
 	public void eval(ValueEnvironnement hm) throws IOException {
-		hm = new ValueEnvironnement();
 		for (Instr instr : liste) {
 			instr.eval(hm);
 		}
