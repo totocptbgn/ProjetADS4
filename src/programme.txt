@@ -1,6 +1,6 @@
-a = 4;
+a = -4;
 b = 3;
-If (a != b)
+If !(a > b)
 Then
     Ecrire(4);
 End;

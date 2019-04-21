@@ -95,8 +95,12 @@ public class SmartParser implements Parser {
 			expr = new Lire();
 		} else if (check(TokenKind.MINUS)){
 			eat(TokenKind.MINUS);
-			Expr minusExpr = parseExpression();
-			expr = new Minus(minusExpr);
+			Expr expression = parseExpression();
+			expr = new Minus(expression);
+		} else if (check(TokenKind.NOT)){
+			eat(TokenKind.NOT);
+			Expr expression = parseExpression();
+			expr = new Not(expression);
 		} else if (check(TokenKind.INT)){
 			expr = new PosInt(token.getIntValue());
 			eat(TokenKind.INT);

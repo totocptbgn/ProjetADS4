@@ -30,6 +30,7 @@ string = [a-zA-Z]+
 "+"                             {return new Token(TokenKind.PLUS);}
 "*"                             {return new Token(TokenKind.TIMES);}
 "/"                             {return new Token(TokenKind.DIVIDE);}
+"!"                             {return new Token(TokenKind.NOT);}
 ("Et"|"&&"|"And")               {return new Token(TokenKind.AND);}
 ("Ou"|"&&"|"Or")                {return new Token(TokenKind.OR);}
 ">"                             {return new Token(TokenKind.SUP);}

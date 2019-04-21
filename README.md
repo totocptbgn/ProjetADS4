@@ -22,9 +22,11 @@ Instr         → Avancer(Expr) |
 
 Expr          → Lire |
                 nombre |
+                bool |
                 ( Expr binOp Expr ) |
                 - Expr |
-                bool
+                ! Expr
+               
 
 binOp         → + | - | * | / | Et | Ou | < | > | = | !=
 
@@ -39,11 +41,12 @@ var           → [a-zA-Z]+
 
 - les commentaires (`//` et `/* */`),
 - les opérations diviser `/` et multiplier `*`,
-- l'opération non-égal `!=`.
+- l'opération non-égal `!=`
+- et la négation `!`.
+
 
 ## Idées à ajouter :
 
-- les négations `!`,
 - les portées de blocs,
 - un `else` après le `if`,
 - et une interface graphique.

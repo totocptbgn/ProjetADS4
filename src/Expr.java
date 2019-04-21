@@ -61,6 +61,7 @@ class False extends Expr {
 		return "False";
 	}
 }
+
 class PosInt extends Expr {
 
 	private final int value;
@@ -184,6 +185,37 @@ class Minus extends Expr {
 		return "Minus(" + arg0 + ")";
 	}
 }
+
+class Not extends Expr {
+
+	private final Expr arg0;
+
+	public Not(Expr arg0) {
+		this.arg0 = arg0;
+	}
+
+	public void setType(ValueEnvironnement hm) throws IOException {
+		type = Type.BOOL;
+		arg0.setType(hm);
+	}
+
+	@Override
+	public boolean evalBool(ValueEnvironnement hm) throws IOException {
+		return !arg0.evalBool(hm);
+	}
+
+	@Override
+	public void debug(ValueEnvironnement hm) throws IOException {
+		System.out.print("!");
+		arg0.debug(hm);
+	}
+
+	@Override
+	public String toString() {
+		return "Not(" + arg0 + ")";
+	}
+}
+
 class Var extends Expr {
 
 	private String nom;
@@ -225,6 +257,7 @@ class Var extends Expr {
 		return "Var(" + nom + ")";
 	}
 }
+
 class Lire extends Expr {
 
 	@Override
