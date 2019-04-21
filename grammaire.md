@@ -19,7 +19,7 @@ Expr          → Lire |
                 - Expr |
                 bool
 
-binOp         → + | - | Et | Ou | < | > | =
+binOp         → + | - | * | / | Et | Ou | < | > | =
 
 nombre        → ?[1-9][0-9]* | 0
 

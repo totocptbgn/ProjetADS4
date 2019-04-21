@@ -26,6 +26,8 @@ string = [a-zA-Z]+
 ")"                             {return new Token(TokenKind.RPAR);}
 "-"                             {return new Token(TokenKind.MINUS);}
 "+"                             {return new Token(TokenKind.PLUS);}
+"*"                             {return new Token(TokenKind.TIMES);}
+"/"                             {return new Token(TokenKind.DIVIDE);}
 ("Et"|"&&"|"And")               {return new Token(TokenKind.AND);}
 ("Ou"|"&&"|"Or")                {return new Token(TokenKind.OR);}
 ">"                             {return new Token(TokenKind.SUP);}

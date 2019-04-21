@@ -3,7 +3,7 @@ import java.io.*;
 public class Main {
     public static void main(String[] args) throws Exception {
         runMain(args);
-        runTests();
+        // runTests();
     }
 
     /**
@@ -27,8 +27,9 @@ public class Main {
         // Intrepetation et execution du programme sur la grille
         Interpreter interp = new SmartInterpreter();
         interp.run(prog, grid);
-        prog.debug();
 
+        // Affichage de la grille
+        System.out.println(grid);
     }
 
     /**

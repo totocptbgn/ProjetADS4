@@ -11,7 +11,6 @@ public class Program {
 	public void eval() throws IOException {
 		ValueEnvironnement hm = new ValueEnvironnement();
 		this.setType(hm);
-		System.out.println("fin de setType");
 		hm = new ValueEnvironnement();
 		for (Instr instr : list) {
 			instr.eval(hm);

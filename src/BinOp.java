@@ -17,7 +17,23 @@ public enum BinOp {
     		return Type.INT;
     	}
     },
-    AND {
+	TIMES {
+		@Override
+		public int applyInt(int x, int y) { return x * y; }
+		public void debug() { System.out.print("*"); }
+		public Type getType() {
+			return Type.INT;
+		}
+	},
+	DIVIDE {
+		@Override
+		public int applyInt(int x, int y) { return x / y; }
+		public void debug() { System.out.print("/"); }
+		public Type getType() {
+			return Type.INT;
+		}
+	},
+	AND {
         @Override
         public boolean applyBool(boolean a, boolean b) { return a && b; }
         public void debug() { System.out.print("Et"); }
