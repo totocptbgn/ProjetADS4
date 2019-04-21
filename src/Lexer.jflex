@@ -8,6 +8,7 @@
 %char
 
 %yylexthrow java.io.IOException
+%state INCOMMENT
 
 %{
 	public int getColumn() { return yycolumn; }
@@ -21,6 +22,7 @@ string = [a-zA-Z]+
 
 %%
 
+<YYINITIAL> {
 ";"                             {return new Token(TokenKind.SEMICOLON);}
 "("                             {return new Token(TokenKind.LPAR);}
 ")"                             {return new Token(TokenKind.RPAR);}
@@ -45,5 +47,13 @@ string = [a-zA-Z]+
 {int}                           {return new IntToken(TokenKind.INT, Integer.parseInt(yytext()));}
 {string}                        {return new StringToken(TokenKind.VAR, yytext());}
 {blank}                         {}
+"//"[^\n]*                      {}
+"/*"                            {yybegin(INCOMMENT);}
 [^]	                            {throw new java.io.IOException("Symbole non reconnu (" + yytext() + "");}
 <<EOF>>                         {return new Token(TokenKind.EOF);}
+} <INCOMMENT> {
+"*/"                            {yybegin(YYINITIAL);}
+[^]                             {}
+<<EOF>>                         {return new Token(TokenKind.EOF);}
+}
+

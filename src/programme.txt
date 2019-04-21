@@ -1,4 +1,8 @@
-If (5 < 3)
-Then
-Avancer(Lire);
-End;
+Ecrire(4);
+/*
+dsqklfhukusdfjkbsdf
+qsdfnjqsdkjnqskd
+qsdnkqjsdnklqsd
+
+
+Ecrire(5);
