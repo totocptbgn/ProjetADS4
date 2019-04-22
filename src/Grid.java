@@ -70,7 +70,7 @@ public class Grid {
         for (int x = 0; x < sizeX; x ++) {
             gridCopy[x] = Arrays.copyOf(grid[x], sizeY);
         }
-        return new Grid(sizeX, sizeY,mod(posX, sizeX), mod(posY, sizeY), Dir.fromInt(dir), gridCopy);
+        return new Grid(sizeX, sizeY, mod(posX, sizeX), mod(posY, sizeY), Dir.fromInt(dir), gridCopy);
     }
 
     public static Grid parseGrid(String exeName, Reader reader) {

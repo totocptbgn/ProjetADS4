@@ -31,7 +31,7 @@ public class Program {
 	}
 
 	public void debug() throws IOException {
-		ValueEnvironnement hm=new ValueEnvironnement();
+		ValueEnvironnement hm = new ValueEnvironnement();
 		this.setType(hm);
 		hm = new ValueEnvironnement();
 		for (Instr instr : list) {
@@ -40,7 +40,7 @@ public class Program {
 	}
 	
 	public void debug(ValueEnvironnement hm) throws IOException {
-		hm = new ValueEnvironnement();
+		// hm = new ValueEnvironnement();
 		for (Instr instr : list) {
 			instr.debug(hm);
 		}

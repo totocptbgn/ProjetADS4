@@ -80,7 +80,7 @@ public class SmartParser implements Parser {
 		} else if (check(TokenKind.WHILE)){
 			eat(TokenKind.WHILE);
 			Expr expr = parseExpression();
-			eat(TokenKind.DO);
+			eat(TokenKind.THEN);
 			Program prog = parseInProgram();
 			return new While(expr, prog);
 		} else if (check(TokenKind.VAR)){

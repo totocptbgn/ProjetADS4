@@ -18,7 +18,7 @@ instruction   → Avancer(expression) |
                 Tourner(expression) |
                 Ecrire(expression) |
                 Si expression Alors InProgramme else |
-                TantQue expression Faire InProgramme |
+                TantQue expression Alors InProgramme |
                 var = expression
 
 expression    → Lire |
@@ -51,7 +51,7 @@ else          → Sinon Alors InProgramme | ε
 		   "Tourner(" <Expr> ")" |
 		   "Ecrire(" <Expr> ")" |
 	           "Si" <Expr> "Alors" <InProgramme> <else> |
-	           "TantQue" <Expr> "Faire" <InProgramme> |
+	           "TantQue" <Expr> "Alors" <InProgramme> |
 	           <var> "=" <Expr>
 
 <Expr> 	       ::= "Lire" |

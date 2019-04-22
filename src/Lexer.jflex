@@ -41,10 +41,9 @@ string = [a-zA-Z]+
 "False"                         {return new Token(TokenKind.FALSE);}
 ("Si"|"If")                     {return new Token(TokenKind.IF);}
 ("Sinon"|"Else")                {return new Token(TokenKind.ELSE);}
-("Alors"|"Then")                {return new Token(TokenKind.THEN);}
+("Alors"|"Then"|"{")            {return new Token(TokenKind.THEN);}
 ("TantQue"|"While")             {return new Token(TokenKind.WHILE);}
-("Faire"|"Do")                  {return new Token(TokenKind.DO);}
-("Fin"|"End")                   {return new Token(TokenKind.END);}
+("Fin"|"End"|"}")               {return new Token(TokenKind.END);}
 "Lire"                          {return new Token(TokenKind.LIRE);}
 ("Tourner"|"Avancer"|"Ecrire")  {return new StringToken(TokenKind.COM,yytext());}
 {int}                           {return new IntToken(TokenKind.INT, Integer.parseInt(yytext()));}

@@ -24,16 +24,13 @@ public class ValueEnvironnement {
 		} else if (booleans.get(nom) != null) {
 			return Type.BOOL;
 		}
-		//System.out.println(integers.containsKey(1));
 		return null;
 	}
 	public int getInteger(String nom) {
 		return integers.get(nom);
-		
 	}
 
 	public boolean getBoolean(String nom) {
 		return booleans.get(nom);
 	}
-
 }

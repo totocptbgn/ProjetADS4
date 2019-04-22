@@ -89,11 +89,11 @@ class If implements Instr {
 		System.out.print("If (");
 		condition.debug(hm);
 		System.out.println(")[");
-		body.debug();
+		body.debug(hm);
 		System.out.println("]");
 		if (hasElse){
 			System.out.println("Else [");
-			elseBody.debug();
+			elseBody.debug(hm);
 			System.out.println("]");
 		}
 	}

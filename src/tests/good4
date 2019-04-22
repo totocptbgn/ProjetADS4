@@ -2,21 +2,18 @@ total = 0;
 tailleX = 10;
 tailleY = 5;
 Y = 0;
-While (Y < tailleY)
-Do
+While (Y < tailleY) {
 	X = 0;
-	If (Y > 0)
-	Then
+	If (Y > 0) {
 		Tourner(-1);
-	End;
-	While (X < tailleX)
-	Do
+	};
+	While (X < tailleX) {
 		total = (total + Lire);
 		X = ( X + 1);
 		Avancer(1);
-	End;
+	};
 	Tourner(1);
 	Avancer(1);
 	Y = (Y + 1);
-End;
+};
 Ecrire(total);
