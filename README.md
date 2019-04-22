@@ -1,3 +1,4 @@
+
 # Projet d'ADS4
 
 > Projet d'analyse des données structurées pour le semestre 4 de la license d'infomatique à Paris Diderot. Le but est de créer un analyseur lexical et un interpreteur pour executer du code permettant de donner des instructions à un robot sur une grille de chiffres.
@@ -47,31 +48,31 @@ else          → Sinon Alors InProgramme | ε
 <InProgramme>  ::= <Instr> ";" <InProgramme> | "Fin"
 
 <Instr>        ::= "Avancer(" <Expr> ")" |
-		           "Tourner(" <Expr> ")" |
-				   "Ecrire(" <Expr> ")" |
-				   "Si" <Expr> "Alors" <InProgramme> <else> |
-				   "TantQue" <Expr> "Faire" <InProgramme> |
-				   <var> "=" <Expr>
+		   "Tourner(" <Expr> ")" |
+		   "Ecrire(" <Expr> ")" |
+	           "Si" <Expr> "Alors" <InProgramme> <else> |
+	           "TantQue" <Expr> "Faire" <InProgramme> |
+	           <var> "=" <Expr>
 
-<Expr> 		   ::= "Lire" |
-					<nombre> |
-					"(" <Expr> <binOp> <Expr> ")" |
-					"-" <Expr> |
-					<bool>
+<Expr> 	       ::= "Lire" |
+		   <nombre> |
+		   "(" <Expr> <binOp> <Expr> ")" |
+		   "-" <Expr> |
+		   <bool>
 
-<binOp> 	   ::= "+" | "-" | "*" | "/" | "Et" | "Ou" | "<" | ">" | "="
+<binOp>        ::= "+" | "-" | "*" | "/" | "Et" | "Ou" | "<" | ">" | "="
 
-<nombre> 	   ::= <chiffrePos> <nombrebis> | <chiffre>
+<nombre>       ::= <chiffrePos> <nombrebis> | <chiffre>
 
-<nombrebis>	   ::= <chiffre> <nombrebis> | <chiffre>
+<nombrebis>    ::= <chiffre> <nombrebis> | <chiffre>
 
 <chiffre>      ::= "0" | <chiffrePos>
 
 <chiffrePos>   ::= [1-9]
 
-<bool> 		   ::= "True" | "False"
+<bool> 	       ::= "True" | "False"
 
-<var>   	   ::= [a-zA-Z] <var> | [a-zA-Z]
+<var>          ::= [a-zA-Z] <var> | [a-zA-Z]
 
 <else>         ::= "Sinon" "Alors" <InProgramme> | ε
 ```
