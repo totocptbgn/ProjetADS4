@@ -1,0 +1,362 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html data-lt-installed="true">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <meta name="generator" content="Railroad Diagram Generator 1.59.1797">
+      <style type="text/css" xml:space="preserve">
+    ::-moz-selection
+    {
+      color: #FFFCF0;
+      background: #0F0C00;
+    }
+    ::selection
+    {
+      color: #FFFCF0;
+      background: #0F0C00;
+    }      
+    .ebnf a, .grammar a
+    {
+      text-decoration: none;
+    }
+    .ebnf a:hover, .grammar a:hover
+    {
+      color: #050400;
+      text-decoration: underline;
+    }    
+    .signature
+    {
+      color: #806600;
+      font-size: 11px;
+      text-align: right;
+    }
+    body
+    {
+      font: normal 12px Verdana, sans-serif;
+      color: #0F0C00;
+      background: #FFFCF0;
+    }
+    a:link, a:visited
+    {
+      color: #0F0C00;
+    }
+    a:link.signature, a:visited.signature
+    {
+      color: #806600;
+    }
+    a.button, #tabs li a
+    {
+      padding: 0.25em 0.5em;
+      border: 1px solid #806600;
+      background: #F1E8C6;
+      color: #806600;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    a.button:hover, #tabs li a:hover
+    {
+      color: #050400;
+      background: #FFF6D1;
+      border-color: #050400;       
+    }     
+    #tabs
+    {
+      padding: 3px 10px;
+      margin-left: 0;
+      margin-top: 58px;
+      border-bottom: 1px solid #0F0C00;
+    }  
+    #tabs li
+    {
+      list-style: none;
+      margin-left: 5px;
+      display: inline;
+    }
+    #tabs li a
+    {     
+      border-bottom: 1px solid #0F0C00;
+    }
+    #tabs li a.active
+    {
+      color: #0F0C00;
+      background: #FFFCF0;
+      border-color: #0F0C00;
+      border-bottom: 1px solid #FFFCF0;
+      outline: none;
+    }
+    #divs div
+    {
+      display: none;
+      overflow:auto;
+    }
+    #divs div.active
+    {
+      display: block;
+    }
+    #text
+    {
+      border-color: #806600;
+      background: #FFFEFA;
+      color: #050400;
+    }
+    .small
+    {
+      vertical-align: top;
+      text-align: right;
+      font-size: 9px;
+      font-weight: normal;
+      line-height: 120%;
+    }
+    td.small
+    {
+      padding-top: 0px;
+    }
+    .hidden
+    {
+      visibility: hidden;
+    }
+    td:hover .hidden 
+    {
+      visibility: visible;
+    }
+    div.download
+    {
+      display: none;
+      background: #FFFCF0;
+      position: absolute;
+      right: 34px;
+      top: 94px;
+      padding: 10px;
+      border: 1px dotted #0F0C00;
+    }
+    #divs div.ebnf, .ebnf code
+    {
+      display: block;
+      padding: 10px;
+      background: #FFF6D1;
+      width: 992px;
+    }
+    #divs div.grammar
+    {
+      display: block;
+      padding-left: 16px;
+      padding-top: 2px;
+      padding-bottom: 2px;
+      background: #FFF6D1;
+    }
+    pre
+    {
+      margin: 0px;
+    }
+    .ebnf div
+    {
+      padding-left: 13ch;
+      text-indent: -13ch;
+    }
+    .ebnf code, .grammar code, textarea, pre
+    {
+      font:12px SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
+    }
+    tr.option-line td:first-child
+    {
+      text-align: right
+    }
+    tr.option-text td
+    {
+      padding-bottom: 10px
+    }
+    table.palette
+    {
+      border-top: 1px solid #050400;
+      border-right: 1px solid #050400;
+      margin-bottom: 4px
+    }
+    td.palette
+    {
+      border-bottom: 1px solid #050400;
+      border-left: 1px solid #050400;
+    }
+    a.palette
+    {
+      padding: 2px 3px 2px 10px;
+      text-decoration: none;
+    }
+    .palette
+    {
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -o-user-select: none;
+      -ms-user-select: none;
+    }
+  </style>
+   </head>
+   <body>
+      
+      <p style="font-size: 14px; font-weight:bold"><a name="InProgramme">InProgramme:</a></p><img border="0" src="diagram/InProgramme.png" height="97" width="279" usemap="#InProgramme.map"><map name="InProgramme.map"><area shape="rect" coords="69,17,119,49" href="#Instr" title="Instr"><area shape="rect" coords="203,17,229,49" href="#%CE%B5" title="ε"></map><p>
+         
+         <div class="ebnf"><code>
+               
+               <div><a href="#InProgramme" title="InProgramme" shape="rect">InProgramme</a></div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;::= ( <a href="#Instr" title="Instr" shape="rect">Instr</a> ';' )+ <a href="#%CE%B5" title="ε" shape="rect">ε</a></div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 'Fin'</div></code></div>
+         </p>
+      
+      <p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#Instr" title="Instr">Instr</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="Instr">Instr:</a></p><img border="0" src="diagram/Instr.png" height="323" width="485" usemap="#Instr.map"><map name="Instr.map"><area shape="rect" coords="191,1,239,33" href="#Expr" title="Expr"><area shape="rect" coords="121,133,169,165" href="#Expr" title="Expr"><area shape="rect" coords="167,177,215,209" href="#Expr" title="Expr"><area shape="rect" coords="329,133,435,165" href="#InProgramme" title="InProgramme"><area shape="rect" coords="261,243,309,275" href="#Expr" title="Expr"></map><p>
+         
+         <div class="ebnf"><code>
+               
+               <div><a href="#Instr" title="Instr" shape="rect">Instr</a>&nbsp;&nbsp;&nbsp;&nbsp;::= ( 'Avancer(' | 'Tourner(' | 'Ecrire(' ) <a href="#Expr" title="Expr" shape="rect">Expr</a> ')'</div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| ( 'Si' <a href="#Expr" title="Expr" shape="rect">Expr</a> 'Alors' | 'TantQue' <a href="#Expr" title="Expr" shape="rect">Expr</a> 'Faire' ) <a href="#InProgramme" title="InProgramme" shape="rect">InProgramme</a></div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| [a-zA-Z]+ '=' <a href="#Expr" title="Expr" shape="rect">Expr</a></div></code></div>
+         </p>
+      
+      <p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#InProgramme" title="InProgramme">InProgramme</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="Expr">Expr:</a></p><img border="0" src="diagram/Expr.png" height="213" width="383" usemap="#Expr.map"><map name="Expr.map"><area shape="rect" coords="49,45,117,77" href="#nombre" title="nombre"><area shape="rect" coords="95,89,143,121" href="#Expr" title="Expr"><area shape="rect" coords="163,89,219,121" href="#binOp" title="binOp"><area shape="rect" coords="239,89,287,121" href="#Expr" title="Expr"><area shape="rect" coords="95,133,143,165" href="#Expr" title="Expr"><area shape="rect" coords="49,177,95,209" href="#bool" title="bool"></map><p>
+         
+         <div class="ebnf"><code>
+               
+               <div><a href="#Expr" title="Expr" shape="rect">Expr</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;::= 'Lire'</div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a href="#nombre" title="nombre" shape="rect">nombre</a></div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| '(' <a href="#Expr" title="Expr" shape="rect">Expr</a> <a href="#binOp" title="binOp" shape="rect">binOp</a> <a href="#Expr" title="Expr" shape="rect">Expr</a> ')'</div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| '-' <a href="#Expr" title="Expr" shape="rect">Expr</a></div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a href="#bool" title="bool" shape="rect">bool</a></div></code></div>
+         </p>
+      
+      <p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#Expr" title="Expr">Expr</a></li>
+            
+            <li><a href="#Instr" title="Instr">Instr</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="binOp">binOp:</a></p><img border="0" src="diagram/binOp.png" height="345" width="139"><p>
+         
+         <div class="ebnf"><code>
+               
+               <div><a href="#binOp" title="binOp" shape="rect">binOp</a>&nbsp;&nbsp;&nbsp;&nbsp;::= '+'</div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| '-'</div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| '*'</div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| '/'</div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 'Et'</div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 'Ou'</div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| ''</div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| '='</div></code></div>
+         </p>
+      
+      <p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#Expr" title="Expr">Expr</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="nombre">nombre:</a></p><img border="0" src="diagram/nombre.png" height="97" width="299" usemap="#nombre.map"><map name="nombre.map"><area shape="rect" coords="49,17,131,49" href="#chiffrePos" title="chiffrePos"><area shape="rect" coords="171,17,229,49" href="#chiffre" title="chiffre"><area shape="rect" coords="49,61,107,93" href="#chiffre" title="chiffre"></map><p>
+         
+         <div class="ebnf"><code>
+               
+               <div><a href="#nombre" title="nombre" shape="rect">nombre</a>&nbsp;&nbsp;&nbsp;::= <a href="#chiffrePos" title="chiffrePos" shape="rect">chiffrePos</a> <a href="#chiffre" title="chiffre" shape="rect">chiffre</a>+</div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a href="#chiffre" title="chiffre" shape="rect">chiffre</a></div></code></div>
+         </p>
+      
+      <p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#Expr" title="Expr">Expr</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="chiffre">chiffre:</a></p><img border="0" src="diagram/chiffre.png" height="81" width="181" usemap="#chiffre.map"><map name="chiffre.map"><area shape="rect" coords="49,45,131,77" href="#chiffrePos" title="chiffrePos"></map><p>
+         
+         <div class="ebnf"><code>
+               
+               <div><a href="#chiffre" title="chiffre" shape="rect">chiffre</a>&nbsp;&nbsp;::= '0'</div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a href="#chiffrePos" title="chiffrePos" shape="rect">chiffrePos</a></div></code></div>
+         </p>
+      
+      <p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#nombre" title="nombre">nombre</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="chiffrePos">chiffrePos:</a></p><img border="0" src="diagram/chiffrePos.png" height="37" width="121"><p>
+         
+         <div class="ebnf"><code>
+               
+               <div><a href="#chiffrePos" title="chiffrePos" shape="rect">chiffrePos</a></div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;::= [1-9]</div></code></div>
+         </p>
+      
+      <p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#chiffre" title="chiffre">chiffre</a></li>
+            
+            <li><a href="#nombre" title="nombre">nombre</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="bool">bool:</a></p><img border="0" src="diagram/bool.png" height="81" width="153"><p>
+         
+         <div class="ebnf"><code>
+               
+               <div><a href="#bool" title="bool" shape="rect">bool</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;::= 'True'</div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 'False'</div></code></div>
+         </p>
+      
+      <p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#Expr" title="Expr">Expr</a></li>
+            </ul>
+         </p><br><hr>
+      
+      <p>
+         
+         <table border="0" class="signature">
+            
+            <tr>
+               
+               <td style="width: 100%">&nbsp;</td>
+               
+               <td valign="top">
+                  
+                  <nobr class="signature">... generated by <a name="Railroad-Diagram-Generator" class="signature" title="https://www.bottlecaps.de/rr/ui" href="https://www.bottlecaps.de/rr/ui" target="_blank">Railroad Diagram Generator</a></nobr>
+                  </td>
+               
+               <td><a name="Railroad-Diagram-Generator" title="https://www.bottlecaps.de/rr/ui" href="https://www.bottlecaps.de/rr/ui" target="_blank"><img border="0" src="diagram/rr-1.59.1797.png" height="16" width="16"></a></td>
+               </tr>
+            </table>
+         </p>
+      </body>
+</html>
