@@ -70,7 +70,13 @@ public class SmartParser implements Parser {
 			Expr expr = parseExpression();
 			eat(TokenKind.THEN);
 			Program prog = parseInProgram();
-			return new If(expr, prog);
+			If ifInstr = new If(expr, prog);
+			if (check(TokenKind.ELSE)){
+				eat(TokenKind.ELSE);
+				eat(TokenKind.THEN);
+				ifInstr.addElse(parseInProgram());
+			}
+			return ifInstr;
 		} else if (check(TokenKind.WHILE)){
 			eat(TokenKind.WHILE);
 			Expr expr = parseExpression();

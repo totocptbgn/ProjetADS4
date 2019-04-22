@@ -53,33 +53,58 @@ class If implements Instr {
 	private Expr condition;
 	private Program body;
 
+	private boolean hasElse;
+	private Program elseBody;
+
 	public void setType(ValueEnvironnement hm) throws IOException {
 		condition.setType(hm);
 		body.setType(hm);
+		if (hasElse){
+			elseBody.setType(hm);
+		}
 	}
 
 	public If(Expr ie,Program body) {
 		this.condition = ie;
 		this.body = body;
+		this.hasElse = false;
+	}
+
+	public void addElse(Program elseBody){
+		this.hasElse = true;
+		this.elseBody = elseBody;
 	}
 
 	public void eval(ValueEnvironnement hm) throws IOException {
 		if (condition.evalBool(hm)) {
 			body.eval(hm);
+		} else {
+			if (hasElse){
+				elseBody.eval(hm);
+			}
 		}
 	}
 
 	public void debug(ValueEnvironnement hm) throws IOException {
-		System.out.print("If(");
+		System.out.print("If (");
 		condition.debug(hm);
 		System.out.println(")[");
 		body.debug();
 		System.out.println("]");
+		if (hasElse){
+			System.out.println("Else [");
+			elseBody.debug();
+			System.out.println("]");
+		}
 	}
 
 	@Override
 	public String toString() {
-		return "If(" + condition + ")[\n" + body + "]";
+		String s = "If(" + condition + ")[\n" + body + "]";
+		if (hasElse){
+			s += "Else [\n" + elseBody + "]";
+		}
+		return s;
 	}
 }
 

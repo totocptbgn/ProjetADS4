@@ -11,22 +11,21 @@ Par [Thomas Copt-Bignon](https://github.com/totocptbgn) et [Dao Thauvin](https:/
 ```
 programme     → instruction ; programme | ε
 
-InProgramme   → instruction ; programme | Fin
+InProgramme   → instruction ; InProgramme | Fin
 
-Instr         → Avancer(Expr) |
-                Tourner(Expr) |
-                Ecrire(Expr) |
-                Si Expr Alors InProgramme |
-                TantQue Expr Faire InProgramme |
-                var = Expr
+instruction   → Avancer(expression) |
+                Tourner(expression) |
+                Ecrire(expression) |
+                Si expression Alors InProgramme else |
+                TantQue expression Faire InProgramme |
+                var = expression
 
-Expr          → Lire |
+expression    → Lire |
                 nombre |
                 bool |
                 ( Expr binOp Expr ) |
                 - Expr |
                 ! Expr
-               
 
 binOp         → + | - | * | / | Et | Ou | < | > | = | !=
 
@@ -35,6 +34,8 @@ nombre        → ?[1-9][0-9]* | 0
 bool          → True | False
 
 var           → [a-zA-Z]+
+
+else          → Sinon Faire InProgramme | ε
 ```
 
 ## Fonctionnalités ajoutées pour la Partie 3 :
