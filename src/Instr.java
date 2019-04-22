@@ -53,7 +53,7 @@ class If implements Instr {
 	private Expr condition;
 	private Program body;
 
-	private boolean hasElse;
+	private boolean hasElse=false;
 	private Program elseBody;
 
 	public void setType(ValueEnvironnement hm) throws IOException {
@@ -64,15 +64,13 @@ class If implements Instr {
 		}
 	}
 
-	public If(Expr ie,Program body) {
+	public If(Expr ie,Program body,Program elseBody) {
 		this.condition = ie;
 		this.body = body;
-		this.hasElse = false;
-	}
-
-	public void addElse(Program elseBody){
-		this.hasElse = true;
-		this.elseBody = elseBody;
+		if(elseBody!=null) {
+			this.hasElse = true;
+			this.elseBody=elseBody;
+		}
 	}
 
 	public void eval(ValueEnvironnement hm) throws IOException {

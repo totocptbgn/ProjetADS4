@@ -44,7 +44,7 @@ public class SmartParser implements Parser {
 		}
 	}
 
-	public Program parseInProgram() throws IOException {
+	private Program parseInProgram() throws IOException {
 		if (check(TokenKind.END)){
 			eat(TokenKind.END);
 			return new Program();
@@ -70,13 +70,9 @@ public class SmartParser implements Parser {
 			Expr expr = parseExpression();
 			eat(TokenKind.THEN);
 			Program prog = parseInProgram();
-			If ifInstr = new If(expr, prog);
-			if (check(TokenKind.ELSE)){
-				eat(TokenKind.ELSE);
-				eat(TokenKind.THEN);
-				ifInstr.addElse(parseInProgram());
-			}
-			return ifInstr;
+			
+			Program bodyprog = parseElse();
+			return new If(expr, prog, bodyprog);
 		} else if (check(TokenKind.WHILE)){
 			eat(TokenKind.WHILE);
 			Expr expr = parseExpression();
@@ -113,40 +109,7 @@ public class SmartParser implements Parser {
 		} else if (check(TokenKind.LPAR)){
 			eat(TokenKind.LPAR);
 			Expr expr0 = parseExpression();
-			BinOp op;
-			if (check(TokenKind.PLUS)){
-				eat(TokenKind.PLUS);
-				op = BinOp.PLUS;
-			} else if (check(TokenKind.MINUS)){
-				eat(TokenKind.MINUS);
-				op = BinOp.MINUS;
-			} else if (check(TokenKind.AND)){
-				eat(TokenKind.AND);
-				op = BinOp.AND;
-			} else if (check(TokenKind.OR)){
-				eat(TokenKind.OR);
-				op = BinOp.OR;
-			} else if (check(TokenKind.INF)){
-				eat(TokenKind.INF);
-				op = BinOp.INF;
-			} else if (check(TokenKind.SUP)){
-				eat(TokenKind.SUP);
-				op = BinOp.SUP;
-			} else if (check(TokenKind.EQ)){
-				eat(TokenKind.EQ);
-				op = BinOp.EQ;
-			} else if (check(TokenKind.NOTEQ)) {
-				eat(TokenKind.NOTEQ);
-				op = BinOp.NOTEQ;
-			} else if (check(TokenKind.TIMES)){
-				eat(TokenKind.TIMES);
-				op = BinOp.TIMES;
-			} else if (check(TokenKind.DIVIDE)){
-				eat(TokenKind.DIVIDE);
-				op = BinOp.DIVIDE;
-			} else {
-				throw new IOException("Attendu: BinOP Trouvé: (" + token.kind + ")" + lexerPos());
-			}
+			BinOp op=parseBinOp();
 			Expr expr1 = parseExpression();
 			eat(TokenKind.RPAR);
 			expr = new Ope(op, expr0, expr1);
@@ -164,5 +127,54 @@ public class SmartParser implements Parser {
 			throw new IOException("Attendu: (Expression) Trouvé: (" + token.kind + ")" + lexerPos());
 		}
 		return expr;
+	}
+	
+	private BinOp parseBinOp() throws IOException {
+		if (check(TokenKind.PLUS)){
+			eat(TokenKind.PLUS);
+			return BinOp.PLUS;
+		} else if (check(TokenKind.MINUS)){
+			eat(TokenKind.MINUS);
+			return BinOp.MINUS;
+		} else if (check(TokenKind.AND)){
+			eat(TokenKind.AND);
+			return BinOp.AND;
+		} else if (check(TokenKind.OR)){
+			eat(TokenKind.OR);
+			return BinOp.OR;
+		} else if (check(TokenKind.INF)){
+			eat(TokenKind.INF);
+			return BinOp.INF;
+		} else if (check(TokenKind.SUP)){
+			eat(TokenKind.SUP);
+			return BinOp.SUP;
+		} else if (check(TokenKind.EQ)){
+			eat(TokenKind.EQ);
+			return BinOp.EQ;
+		} else if (check(TokenKind.NOTEQ)) {
+			eat(TokenKind.NOTEQ);
+			return BinOp.NOTEQ;
+		} else if (check(TokenKind.TIMES)){
+			eat(TokenKind.TIMES);
+			return BinOp.TIMES;
+		} else if (check(TokenKind.DIVIDE)){
+			eat(TokenKind.DIVIDE);
+			return BinOp.DIVIDE;
+		} else {
+			throw new IOException("Attendu: BinOP Trouvé: (" + token.kind + ")" + lexerPos());
+		}
+	}
+	
+	public Program parseElse() throws IOException {
+		if (check(TokenKind.SEMICOLON)){
+			return null;
+		} else if (check(TokenKind.ELSE)){
+			eat(TokenKind.ELSE);
+			eat(TokenKind.THEN);
+			return this.parseInProgram();
+		}
+		else {
+			throw new IOException("Attendu: Else ou ; Trouvé: (" + token.kind + ")" + lexerPos());
+		}
 	}
 }
