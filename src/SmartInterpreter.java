@@ -19,6 +19,14 @@ public class SmartInterpreter implements Interpreter {
 	public static int lire() {
 		return grille.lire();
 	}
+	
+	public static int getWidth() {
+		return grille.getSizeX();
+	}
+	
+	public static int getHeight() {
+		return grille.getSizeY();
+	}
 
 	public void run(Program prog, Grid initGrid) {
 		grille = initGrid;

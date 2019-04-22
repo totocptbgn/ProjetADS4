@@ -60,4 +60,3 @@ string = [a-zA-Z]+
 [^]                             {}
 <<EOF>>                         {return new Token(TokenKind.EOF);}
 }
-

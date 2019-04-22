@@ -48,7 +48,6 @@ public class Main {
         testFile("good2");
         testFile("good3");
         testFile("good4");
-        testFile("good5");
         testFile("bad0");
         testFile("bad1");
         testFile("bad2");

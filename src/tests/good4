@@ -1,6 +1,6 @@
 total = 0;
-tailleX = 10;
-tailleY = 5;
+tailleX = Width;
+tailleY = Height;
 Y = 0;
 While (Y < tailleY) {
 	X = 0;

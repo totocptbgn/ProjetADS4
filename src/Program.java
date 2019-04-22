@@ -10,11 +10,18 @@ public class Program {
 
 	public void eval() throws IOException {
 		ValueEnvironnement hm = new ValueEnvironnement();
+		this.initVariables(hm);
 		this.setType(hm);
 		hm = new ValueEnvironnement();
+		this.initVariables(hm);
 		for (Instr instr : list) {
 			instr.eval(hm);
 		}
+	}
+	
+	private void initVariables(ValueEnvironnement hm) {
+		hm.addInteger("Width", SmartInterpreter.getWidth());
+		hm.addInteger("Height", SmartInterpreter.getHeight());
 	}
 	
 	public void eval(ValueEnvironnement hm) throws IOException {
@@ -32,15 +39,16 @@ public class Program {
 
 	public void debug() throws IOException {
 		ValueEnvironnement hm = new ValueEnvironnement();
+		this.initVariables(hm);
 		this.setType(hm);
 		hm = new ValueEnvironnement();
+		this.initVariables(hm);
 		for (Instr instr : list) {
 			instr.debug(hm);
 		}
 	}
 	
 	public void debug(ValueEnvironnement hm) throws IOException {
-		// hm = new ValueEnvironnement();
 		for (Instr instr : list) {
 			instr.debug(hm);
 		}
