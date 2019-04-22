@@ -35,7 +35,45 @@ bool          → True | False
 
 var           → [a-zA-Z]+
 
-else          → Sinon Faire InProgramme | ε
+else          → Sinon Alors InProgramme | ε
+```
+
+## Forme Bachus-Naur étendue :
+> Autre notation pour la grammaire.
+
+```
+<programme>    ::= <Instr> ";" <programme> | ε
+
+<InProgramme>  ::= <Instr> ";" <InProgramme> | "Fin"
+
+<Instr>        ::= "Avancer(" <Expr> ")" |
+		           "Tourner(" <Expr> ")" |
+				   "Ecrire(" <Expr> ")" |
+				   "Si" <Expr> "Alors" <InProgramme> <else> |
+				   "TantQue" <Expr> "Faire" <InProgramme> |
+				   <var> "=" <Expr>
+
+<Expr> 		   ::= "Lire" |
+					<nombre> |
+					"(" <Expr> <binOp> <Expr> ")" |
+					"-" <Expr> |
+					<bool>
+
+<binOp> 	   ::= "+" | "-" | "*" | "/" | "Et" | "Ou" | "<" | ">" | "="
+
+<nombre> 	   ::= <chiffrePos> <nombrebis> | <chiffre>
+
+<nombrebis>	   ::= <chiffre> <nombrebis> | <chiffre>
+
+<chiffre>      ::= "0" | <chiffrePos>
+
+<chiffrePos>   ::= [1-9]
+
+<bool> 		   ::= "True" | "False"
+
+<var>   	   ::= [a-zA-Z] <var> | [a-zA-Z]
+
+<else>         ::= "Sinon" "Alors" <InProgramme> | ε
 ```
 
 ## Fonctionnalités ajoutées pour la Partie 3 :
@@ -43,11 +81,11 @@ else          → Sinon Faire InProgramme | ε
 - les commentaires (`//` et `/* */`),
 - les opérations diviser `/` et multiplier `*`,
 - l'opération non-égal `!=`
-- et la négation `!`.
+- la négation `!`,
+- et la possibilité de mettre un `Else` après le `If`.
 
 
 ## Idées à ajouter :
 
 - les portées de blocs,
-- un `else` après le `if`,
 - et une interface graphique.
