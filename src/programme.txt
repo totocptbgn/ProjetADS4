@@ -1,4 +1,6 @@
-If (5 < 3)
+a = -4;
+b = 3;
+If !(a > b)
 Then
-Avancer(Lire);
+    Ecrire(4);
 End;

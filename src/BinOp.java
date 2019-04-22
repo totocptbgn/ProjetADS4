@@ -75,7 +75,18 @@ public enum BinOp {
         public boolean applyBool(boolean a, boolean b) { return a == b; }
         public void debug() { System.out.print("="); }
        
-    };
+    },
+	NOTEQ {
+		public Type getType() {
+			return Type.BOOL;
+		}
+		@Override
+		public boolean applyBool(int x, int y) { return x != y; }
+		@Override
+		public boolean applyBool(boolean a, boolean b) { return a != b; }
+		public void debug() { System.out.print("!="); }
+
+	};
 	
     public int applyInt(int x, int y) throws IOException {
         throw new IOException("Cette expression ne peut renvoyer un int.");
