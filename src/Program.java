@@ -2,7 +2,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Program {
-	private ArrayList<Instr> list;
+	private ArrayList<Block> list;
 	
 	public Program() {
 		this.list = new ArrayList<>();
@@ -14,8 +14,8 @@ public class Program {
 		this.setType(hm);
 		hm = new ValueEnvironnement();
 		this.initVariables(hm);
-		for (Instr instr : list) {
-			instr.eval(hm);
+		for (Block block : list) {
+			block.eval(hm);
 		}
 	}
 	
@@ -25,15 +25,15 @@ public class Program {
 	}
 	
 	public void eval(ValueEnvironnement hm) throws IOException {
-		for (Instr instr : list) {
-			instr.eval(hm);
+		for (Block block : list) {
+			block.eval(hm);
 		}
 	}
 	
 	
 	public void setType(ValueEnvironnement hm) throws IOException {
-		for (Instr instr : list) {
-			instr.setType(hm);
+		for (Block block : list) {
+			block.setType(hm);
 		}
 	}
 
@@ -43,25 +43,25 @@ public class Program {
 		this.setType(hm);
 		hm = new ValueEnvironnement();
 		this.initVariables(hm);
-		for (Instr instr : list) {
-			instr.debug(hm);
+		for (Block block : list) {
+			block.debug(hm);
 		}
 	}
 	
 	public void debug(ValueEnvironnement hm) throws IOException {
-		for (Instr instr : list) {
-			instr.debug(hm);
+		for (Block block : list) {
+			block.debug(hm);
 		}
 	}
 	
-	public void add(Instr instr) {
-		list.add(0, instr);
+	public void add(Block block) {
+		list.add(0, block);
 	}
 
 	public String toString() {
 		String ens = "";
-		for (Instr instr : list) {
-			ens = ens + instr.toString() + "\n";
+		for (Block block : list) {
+			ens = ens + block.toString() + "\n";
 		}
 		return ens;
 	}

@@ -43,9 +43,11 @@ else          → Sinon Alors InProgramme | ε
 > Autre notation pour la grammaire.
 
 ```
-<programme>    ::= <Instr> ";" <programme> | ε
+<programme>    ::= <Block> <programme> | ε
 
-<InProgramme>  ::= <Instr> ";" <InProgramme> | "Fin"
+<InProgramme>  ::= <Block> <InProgramme> | "Fin"
+
+<Block>		   ::= <Instr> ";" <Block> | ε
 
 <Instr>        ::= "Avancer(" <Expr> ")" |
 		   "Tourner(" <Expr> ")" |
@@ -83,10 +85,13 @@ else          → Sinon Alors InProgramme | ε
 - les opérations diviser `/` et multiplier `*`,
 - l'opération non-égal `!=`
 - la négation `!`,
-- et la possibilité de mettre un `Else` après le `If`.
+- la possibilité de mettre un `Else` après le `If`,
+- et les variables typées (booleen et entier), `var = Expr`.
 
 
 ## Idées à ajouter :
 
 - les portées de blocs,
+- le try catch et les blocs,
+- les procedures
 - et une interface graphique.

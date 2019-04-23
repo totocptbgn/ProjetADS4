@@ -5,13 +5,10 @@ public class SmartParser implements Parser {
 
 	private Lexer lexer;
 	private Token token;
-
+	private int numero=0;
 	public SmartParser(Reader reader) {
 		this.lexer = new Lexer(reader);
-		this.token = null;
-		try {
-			next();
-		} catch (IOException ignored) {}
+		this.token = new Token(TokenKind.OPEN);
 	}
 
 	public String lexerPos() {
@@ -27,33 +24,68 @@ public class SmartParser implements Parser {
 	}
 
 	public void eat(TokenKind tokenTest) throws IOException {
+		System.out.println(this.token.kind);
 		if (!check(tokenTest)) throw new IOException("Attendu: (" + tokenTest + ") Trouvé: (" + token.kind + ")" + lexerPos());
-		next();
+		if(token.islastcopy()) {
+			next();
+		}
+		else {
+			token.useOneCopy();
+		}
 	}
 
 	@Override
 	public Program parseProgram(String exeName, Reader reader) throws IOException {
 		if (check(TokenKind.EOF)){
+			
 			return new Program();
-		} else {
-			Instr instr = parseInstruction();
-			eat(TokenKind.SEMICOLON);
+		} else if(check(TokenKind.OPEN)) {
+			
+			eat(TokenKind.OPEN);
+			Block block = parseBlock();
 			Program p = parseProgram(exeName, reader);
-			p.add(instr);
+			p.add(block);
 			return p;
 		}
+		else {
+			throw new IOException("Impossible");
+		}
 	}
-
+	
+	private Block parseBlock() throws IOException {
+		if(check(TokenKind.CLOSE)) {
+			eat(TokenKind.CLOSE);
+			return new Block();
+		}
+		else if(check(TokenKind.EOF)) {
+			eat(TokenKind.EOF);
+			return new Block();
+		}
+		else {
+			Instr instr = parseInstruction();
+			eat(TokenKind.SEMICOLON);
+			Block b = parseBlock();
+			b.add(instr);
+			return b;
+			
+		}
+	}
+	
 	private Program parseInProgram() throws IOException {
 		if (check(TokenKind.END)){
 			eat(TokenKind.END);
 			return new Program();
-		} else {
-			Instr instr = parseInstruction();
-			eat(TokenKind.SEMICOLON);
+		} else if(check(TokenKind.OPEN)) {
+			
+			eat(TokenKind.OPEN);
+			Block block = parseBlock();
 			Program p = parseInProgram();
-			p.add(instr);
+			p.add(block);
 			return p;
+		}
+		else {
+			System.out.println(this.token.kind);
+			throw new IOException("Indentation manquante");
 		}
 	}
 

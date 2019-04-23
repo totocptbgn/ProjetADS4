@@ -19,9 +19,9 @@ public class Main {
 
         // Création du Parser
         Parser parser = new SmartParser(ioEnv.inProgram);
-
         // Construction du Program en lisant le ficher grâce au Parser
         Program prog = parser.parseProgram(exeName, ioEnv.inProgram);
+        //System.out.println(prog);
         Grid grid = Grid.parseGrid(exeName, ioEnv.inGrid);
 
         // Intrepetation et execution du programme sur la grille
@@ -30,7 +30,6 @@ public class Main {
 
         // Affichage de la grille
         System.out.println(grid);
-
         // Affichage du débug
 		prog.debug();
     }

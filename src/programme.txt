@@ -12,6 +12,7 @@ While (i != 10) {
     } Else {
         Ecrire(impair);
     };
+
     Avancer(1);
     // Ici, `i = (i + 1);` aurait aussi marché...
     temp = i;
