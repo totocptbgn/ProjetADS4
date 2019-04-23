@@ -5,7 +5,7 @@ public class SmartParser implements Parser {
 
 	private Lexer lexer;
 	private Token token;
-	private int numero=0;
+
 	public SmartParser(Reader reader) {
 		this.lexer = new Lexer(reader);
 		this.token = new Token(TokenKind.OPEN);
@@ -24,7 +24,7 @@ public class SmartParser implements Parser {
 	}
 
 	public void eat(TokenKind tokenTest) throws IOException {
-		System.out.println(this.token.kind);
+		//System.out.println(this.token.kind);
 		if (!check(tokenTest)) throw new IOException("Attendu: (" + tokenTest + ") Trouvé: (" + token.kind + ")" + lexerPos());
 		if(token.islastcopy()) {
 			next();
@@ -39,16 +39,12 @@ public class SmartParser implements Parser {
 		if (check(TokenKind.EOF)){
 			
 			return new Program();
-		} else if(check(TokenKind.OPEN)) {
+		} else {
 			
-			eat(TokenKind.OPEN);
-			Block block = parseBlock();
+			Instr instr = parseInstruction();
 			Program p = parseProgram(exeName, reader);
-			p.add(block);
+			p.add(instr);
 			return p;
-		}
-		else {
-			throw new IOException("Impossible");
 		}
 	}
 	
@@ -63,7 +59,6 @@ public class SmartParser implements Parser {
 		}
 		else {
 			Instr instr = parseInstruction();
-			eat(TokenKind.SEMICOLON);
 			Block b = parseBlock();
 			b.add(instr);
 			return b;
@@ -71,21 +66,17 @@ public class SmartParser implements Parser {
 		}
 	}
 	
+	
 	private Program parseInProgram() throws IOException {
 		if (check(TokenKind.END)){
 			eat(TokenKind.END);
 			return new Program();
-		} else if(check(TokenKind.OPEN)) {
+		} else {
 			
-			eat(TokenKind.OPEN);
-			Block block = parseBlock();
+			Instr instr = parseInstruction();
 			Program p = parseInProgram();
-			p.add(block);
+			p.add(instr);
 			return p;
-		}
-		else {
-			System.out.println(this.token.kind);
-			throw new IOException("Indentation manquante");
 		}
 	}
 
@@ -96,6 +87,7 @@ public class SmartParser implements Parser {
 			eat(TokenKind.LPAR);
 			Expr ie = parseExpression();
 			eat(TokenKind.RPAR);
+			eat(TokenKind.SEMICOLON);
 			return new Commande(commande, ie);
 		} else if (check(TokenKind.IF)){
 			eat(TokenKind.IF);
@@ -116,8 +108,14 @@ public class SmartParser implements Parser {
 			eat(TokenKind.VAR);
 			eat(TokenKind.EQ);
 			Expr expr = parseExpression();
+			eat(TokenKind.SEMICOLON);
 			return new Assign(name, expr);
-		} else {
+		}
+		else if (check(TokenKind.OPEN)){
+			eat(TokenKind.OPEN);
+			return parseBlock();
+		}
+		else {
 			throw new IOException("Instruction attendue. Trouvé:(" + token.kind + ")" + lexerPos());
 		}
 	}
@@ -198,15 +196,16 @@ public class SmartParser implements Parser {
 	}
 	
 	public Program parseElse() throws IOException {
-		if (check(TokenKind.SEMICOLON)){
-			return null;
-		} else if (check(TokenKind.ELSE)){
+		if (check(TokenKind.ELSE)){
 			eat(TokenKind.ELSE);
 			eat(TokenKind.THEN);
 			return this.parseInProgram();
 		}
+		else if(check(TokenKind.CLOSE) || check(TokenKind.EOF) || check(TokenKind.END)) {
+			return null;
+		}
 		else {
-			throw new IOException("Attendu: Else ou ; Trouvé: (" + token.kind + ")" + lexerPos());
+			throw new IOException("Attendu: Else ou Instruction Trouvé: (" + token.kind + ")" + lexerPos());
 		}
 	}
 }

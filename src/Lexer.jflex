@@ -24,19 +24,20 @@ import java.util.Stack;
 %init}
 
 int = [0-9]+
-blank = [\r\t ]
+blank = [\r\t\n ]
 string = [a-zA-Z]+
 
 %%
 
 <YYINITIAL> {
-(\r|\n|\r\n|\u2028|\u2029|\u000B|\u000C|\u008)([ ]*)$ {}
-(\r|\n|\r\n|\u2028|\u2029|\u000B|\u000C|\u008)([ ]*)	{
+(\r|\n|\r\n|\u2028|\u2029|\u000B|\u000C|\u008)([ \t]*)$ {}
+(\r|\n|\r\n|\u2028|\u2029|\u000B|\u000C|\u008)([ \t]*)	{
 																	if(isNewLine) {
 
 																				int nbspace=0;
 																				for(int i=1;i<yytext().length();i++) {
 																					if(yytext().charAt(i)==' ') nbspace++;
+																					else if(yytext().charAt(i)=='\t') nbspace=nbspace+4;
 																				}
 																				if(stackSpace.empty() || stackSpace.peek()<nbspace) {
 																				 	stackSpace.push(nbspace);
@@ -92,8 +93,7 @@ string = [a-zA-Z]+
 	 																		stackSpace.pop();
 																 }
 																 return new Token(TokenKind.EOF,nbspace+1);
-
-																}
+																 }
 }
 
 <INCOMMENT> {

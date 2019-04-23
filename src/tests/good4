@@ -5,15 +5,15 @@ Y = 0;
 While (Y < tailleY) {
 	X = 0;
 	If (Y > 0) {
-		Tourner(-1);
+	Tourner(-1);
 	}
 	While (X < tailleX) {
 		total = (total + Lire);
 		X = ( X + 1);
 		Avancer(1);
-	};
+	}
 	Tourner(1);
 	Avancer(1);
 	Y = (Y + 1);
-};
+}
 Ecrire(total);

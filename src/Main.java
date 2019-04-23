@@ -51,6 +51,7 @@ public class Main {
         testFile("bad1");
         testFile("bad2");
         testFile("bad3");
+        testFile("bad4");
 		System.out.println("---------------------------- Fin des tests. ----------------------------\n");
     }
 

@@ -7,19 +7,23 @@ Le sujet est présent [ici](sujet.pdf).
 Par [Thomas Copt-Bignon](https://github.com/totocptbgn) et [Dao Thauvin](https://github.com/daothauvin).
 
 ## Grammaire :
-> Grammaire utilisée pour le Parser.
+> Grammaire utilisée pour le Parser. Remarque: OPEN et CLOSE représentent les indentations descendante et ascendante et EOF : end of file
 
 ```
-programme     → instruction ; programme | ε
 
-InProgramme   → instruction ; InProgramme | Fin
+programme     → Instr programme | EOF
+
+InProgramme   → Instr InProgramme | Fin
+
+Block 		  → Instr Block | CLOSE
 
 instruction   → Avancer(expression) |
                 Tourner(expression) |
                 Ecrire(expression) |
                 Si expression Alors InProgramme else |
                 TantQue expression Alors InProgramme |
-                var = expression
+                var = expression |
+				OPEN Block
 
 expression    → Lire |
                 nombre |
@@ -43,18 +47,20 @@ else          → Sinon Alors InProgramme | ε
 > Autre notation pour la grammaire.
 
 ```
-<programme>    ::= <Block> <programme> | ε
+<programme>    ::= <Instr>  <programme> | EOF
 
-<InProgramme>  ::= <Block> <InProgramme> | "Fin"
+<InProgramme>  ::= <Instr>  <InProgramme> | "Fin"
 
-<Block>		   ::= <Instr> ";" <Block> | ε
+<Block>		   ::= <Instr>  <Block> | CLOSE
 
-<Instr>        ::= "Avancer(" <Expr> ")" |
-		   "Tourner(" <Expr> ")" |
-		   "Ecrire(" <Expr> ")" |
+
+<Instr>        ::= "Avancer(" <Expr> ");" |
+		   "Tourner(" <Expr> ");" |
+		   "Ecrire(" <Expr> ");" |
 	           "Si" <Expr> "Alors" <InProgramme> <else> |
 	           "TantQue" <Expr> "Alors" <InProgramme> |
-	           <var> "=" <Expr>
+	           <var> "=" <Expr> ";" |
+				OPEN <Block>
 
 <Expr> 	       ::= "Lire" |
 		   <nombre> |

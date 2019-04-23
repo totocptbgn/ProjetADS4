@@ -1,4 +1,6 @@
 import java.io.IOException;
+import java.io.IOException;
+import java.util.ArrayList;
 
 public interface Instr {
 	void eval(ValueEnvironnement hm) throws IOException;
@@ -207,3 +209,46 @@ class While implements Instr {
 		return "While(" + condition + ")[\n" + body + "]";
 	}
 }
+
+class Block implements Instr {
+	protected ArrayList<Instr> list;
+	
+	public Block() {
+		this.list = new ArrayList<>();
+	}
+	
+	
+	public void eval(ValueEnvironnement hm) throws IOException {
+		for (Instr instr : list) {
+			instr.eval(hm);
+		}
+	}
+	
+	
+	public void setType(ValueEnvironnement hm) throws IOException {
+		for (Instr instr : list) {
+			instr.setType(hm);
+		}
+	}
+	
+	public void debug(ValueEnvironnement hm) throws IOException {
+		System.out.print("  ");
+		for (Instr instr : list) {
+			instr.debug(hm);
+			System.out.print("  ");
+		}
+	}
+	
+	public void add(Instr instr) {
+		list.add(0, instr);
+	}
+
+	public String toString() {
+		String ens = "  ";
+		for (Instr instr : list) {
+			ens = ens + instr.toString() + "\n  ";
+		}
+		return ens;
+	}
+}
+
