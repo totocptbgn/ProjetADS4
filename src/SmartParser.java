@@ -24,7 +24,7 @@ public class SmartParser implements Parser {
 	}
 
 	public void eat(TokenKind tokenTest) throws IOException {
-		//System.out.println(this.token.kind);
+		//System.out.print(this.token.kind+" ");
 		if (!check(tokenTest)) throw new IOException("Attendu: (" + tokenTest + ") Trouvé: (" + token.kind + ")" + lexerPos());
 		if(token.islastcopy()) {
 			next();
@@ -49,6 +49,7 @@ public class SmartParser implements Parser {
 	}
 	
 	private Block parseBlock() throws IOException {
+
 		if(check(TokenKind.CLOSE)) {
 			eat(TokenKind.CLOSE);
 			return new Block();

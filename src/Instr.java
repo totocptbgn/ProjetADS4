@@ -90,19 +90,19 @@ class If implements Instr {
 		condition.debug(hm);
 		System.out.println(")[");
 		body.debug(hm);
-		System.out.println("]");
+		System.out.println(Block.getIndent()+"]");
 		if (hasElse){
-			System.out.println("Else [");
+			System.out.println(Block.getIndent()+"Else [");
 			elseBody.debug(hm);
-			System.out.println("]");
+			System.out.println(Block.getIndent()+"]");
 		}
 	}
 
 	@Override
 	public String toString() {
-		String s = "If(" + condition + ")[\n" + body + "]";
+		String s = "If(" + condition + ")[\n" + body + Block.getIndent() + "]";
 		if (hasElse){
-			s += "Else [\n" + elseBody + "]";
+			s += Block.getIndent()+"Else [\n" + elseBody + Block.getIndent() +"]";
 		}
 		return s;
 	}
@@ -201,12 +201,12 @@ class While implements Instr {
 		condition.debug(hm);
 		System.out.println(")[");
 		body.debug(hm);
-		System.out.println("]");
+		System.out.println(Block.getIndent()+"]");
 	}
 
 	@Override
 	public String toString() {
-		return "While(" + condition + ")[\n" + body + "]";
+		return "While(" + condition + ")[\n" + body + Block.getIndent() + "]";
 	}
 }
 
@@ -216,7 +216,6 @@ class Block implements Instr {
 	public Block() {
 		this.list = new ArrayList<>();
 	}
-	
 	
 	public void eval(ValueEnvironnement hm) throws IOException {
 		for (Instr instr : list) {
@@ -230,24 +229,34 @@ class Block implements Instr {
 			instr.setType(hm);
 		}
 	}
-	
-	public void debug(ValueEnvironnement hm) throws IOException {
-		System.out.print("  ");
-		for (Instr instr : list) {
-			instr.debug(hm);
-			System.out.print("  ");
+	public static String getIndent() {
+		String ens="";
+		for(int i=0;i<indent;i++) {
+			ens=ens+" ";
 		}
+		return ens;
+	}
+	public void debug(ValueEnvironnement hm) throws IOException {
+		indent=indent+1;
+		for (Instr instr : list) {
+			System.out.print(getIndent());
+			instr.debug(hm);
+			
+		}
+		indent=indent-1;
 	}
 	
 	public void add(Instr instr) {
 		list.add(0, instr);
 	}
-
+	private static int indent=0;
 	public String toString() {
-		String ens = "  ";
+		indent=indent+1;
+		String ens="";
 		for (Instr instr : list) {
-			ens = ens + instr.toString() + "\n  ";
+			ens = ens + getIndent() + instr.toString() + "\n";
 		}
+		indent=indent-1;
 		return ens;
 	}
 }

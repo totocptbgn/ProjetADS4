@@ -44,12 +44,14 @@ public class Program {
 		hm = new ValueEnvironnement();
 		this.initVariables(hm);
 		for (Instr instr : list) {
+			System.out.print(Block.getIndent());
 			instr.debug(hm);
 		}
 	}
 	
 	public void debug(ValueEnvironnement hm) throws IOException {
 		for (Instr instr : list) {
+			System.out.print(Block.getIndent());
 			instr.debug(hm);
 		}
 	}
@@ -61,7 +63,7 @@ public class Program {
 	public String toString() {
 		String ens = "";
 		for (Instr instr : list) {
-			ens = ens + instr.toString() + "\n";
+			ens = ens + Block.getIndent() + instr.toString() + "\n";
 		}
 		return ens;
 	}
