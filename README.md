@@ -17,12 +17,12 @@ InProgramme   → Instr InProgramme | Fin
 
 Block 		  → Instr Block | CLOSE
 
-instruction   → Avancer(expression) |
-                Tourner(expression) |
-                Ecrire(expression) |
+instruction   → Avancer( expression ); |
+                Tourner( expression ); |
+                Ecrire( expression ); |
                 Si expression Alors InProgramme else |
                 TantQue expression Alors InProgramme |
-                var = expression |
+                var = expression; |
 				OPEN Block
 
 expression    → Lire |

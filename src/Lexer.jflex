@@ -50,7 +50,7 @@ string = [a-zA-Z]+
 																						stackSpace.pop();
 																					}
 																					if(stackSpace.empty() || stackSpace.peek()<nbspace)
-																						throw new java.io.IOException("Bad Indentation Line "+getLine());
+																						throw new java.io.IOException("Bad Indentation Line "+(getLine()+1));
 																					else
 																						return new Token(TokenKind.CLOSE,nbSpace);
 
