@@ -1,0 +1,3 @@
+//remarque:impossible de faire une indentation premiere ligne (difficilement detectable)
+	j=3;
+j=(j+2);

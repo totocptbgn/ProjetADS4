@@ -12,8 +12,8 @@ While (i !=Width) {
     } Else {
         Ecrire(impair);
     }
-    Avancer(1);
+	Avancer(1);
     // Ici, `i = (i + 1);` aurait aussi marché...
-    temp = i;
-    i = (temp + 1);
+temp = i;
+i = (temp + 1);
 }

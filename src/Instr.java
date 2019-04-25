@@ -128,8 +128,8 @@ class Assign implements Instr {
 	@Override
 	public void eval(ValueEnvironnement hm) throws IOException {
 		Type type=value.getType();
-		//System.out.println("de type "+type);
-		if(hm.exists(name)==null || type==hm.exists(name)) {
+		//System.out.println(name+" de type "+type);
+		if(hm.defined(name)==null || type==hm.defined(name)) {
 			if(type==Type.BOOL) {
 				hm.addBoolean(name, value.evalBool(hm));
 			}
@@ -146,8 +146,8 @@ class Assign implements Instr {
 	@Override
 	public void debug(ValueEnvironnement hm) throws IOException {
 		Type type=value.getType();
-		if(hm.exists(name)==null || type==hm.exists(name)) {
-			if(hm.exists(name)==null) {
+		if(hm.defined(name)==null || type==hm.defined(name)) {
+			if(hm.defined(name)==null) {
 				System.out.print("Assign ");
 			}
 			System.out.print(name+"=");
@@ -218,16 +218,20 @@ class Block implements Instr {
 	}
 	
 	public void eval(ValueEnvironnement hm) throws IOException {
+		hm.open();
 		for (Instr instr : list) {
 			instr.eval(hm);
 		}
+		hm.close();
 	}
 	
 	
 	public void setType(ValueEnvironnement hm) throws IOException {
+		hm.open();
 		for (Instr instr : list) {
 			instr.setType(hm);
 		}
+		hm.close();
 	}
 	public static String getIndent() {
 		String ens="";
@@ -238,11 +242,13 @@ class Block implements Instr {
 	}
 	public void debug(ValueEnvironnement hm) throws IOException {
 		indent=indent+1;
+		hm.open();
 		for (Instr instr : list) {
 			System.out.print(getIndent());
 			instr.debug(hm);
 			
 		}
+		hm.close();
 		indent=indent-1;
 	}
 	

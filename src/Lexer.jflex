@@ -31,7 +31,7 @@ string = [a-zA-Z]+
 
 <YYINITIAL> {
 (\r|\n|\r\n|\u2028|\u2029|\u000B|\u000C|\u008)([ \t]*)$ {}
-(\r|\n|\r\n|\u2028|\u2029|\u000B|\u000C|\u008)([ \t]*)	{
+((\r|\n|\r\n|\u2028|\u2029|\u000B|\u000C|\u008)([ \t]*))	{
 																	if(isNewLine) {
 
 																				int nbspace=0;
@@ -78,7 +78,7 @@ string = [a-zA-Z]+
 ("Sinon"|"Else")                {isNewLine=false; return new Token(TokenKind.ELSE);}
 ("Alors"|"Then"|"{")            {isNewLine=true; return new Token(TokenKind.THEN);}
 ("TantQue"|"While")             {isNewLine=false; return new Token(TokenKind.WHILE);}
-("Fin"|"End"|"}")               {isNewLine=false; return new Token(TokenKind.END);}
+("Fin"|"End"|"}")               {isNewLine=true; return new Token(TokenKind.END);}
 "Lire"                          {isNewLine=false; return new Token(TokenKind.LIRE);}
 ("Tourner"|"Avancer"|"Ecrire")  {isNewLine=false; return new StringToken(TokenKind.COM,yytext());}
 {int}                           {isNewLine=false; return new IntToken(TokenKind.INT, Integer.parseInt(yytext()));}

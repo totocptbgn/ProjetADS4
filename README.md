@@ -11,11 +11,11 @@ Par [Thomas Copt-Bignon](https://github.com/totocptbgn) et [Dao Thauvin](https:/
 
 ```
 
-programme     → Instr programme | EOF
+programme     → instruction programme | EOF
 
-InProgramme   → Instr InProgramme | Fin
+InProgramme   → instruction InProgramme | Fin
 
-Block 		  → Instr Block | CLOSE
+Block 		  → instruction Block | CLOSE
 
 instruction   → Avancer( expression ); |
                 Tourner( expression ); |

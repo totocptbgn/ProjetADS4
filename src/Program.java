@@ -14,9 +14,12 @@ public class Program {
 		this.setType(hm);
 		hm = new ValueEnvironnement();
 		this.initVariables(hm);
+		
 		for (Instr instr : list) {
 			instr.eval(hm);
+			//System.out.println("end");
 		}
+		hm.close();
 	}
 	
 	private void initVariables(ValueEnvironnement hm) {
@@ -47,6 +50,7 @@ public class Program {
 			System.out.print(Block.getIndent());
 			instr.debug(hm);
 		}
+		hm.close();
 	}
 	
 	public void debug(ValueEnvironnement hm) throws IOException {

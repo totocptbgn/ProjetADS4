@@ -7,13 +7,13 @@ i = 0;
 pair = 0;
 impair = 1;
 While (i !=Width) {
-    If (((((i = 0) Or (i = 2)) Or (i = 4)) Or (i = 6)) Or (i = 8)) {
-        Ecrire(pair);
-    } Else {
-        Ecrire(impair);
-    }
-    Avancer(1);
-    // Ici, `i = (i + 1);` aurait aussi marché.
-    temp = i;
-    i = (temp + 1);
+If (((((i = 0) Or (i = 2)) Or (i = 4)) Or (i = 6)) Or (i = 8)) {
+Ecrire(pair);
+} Else {
+Ecrire(impair);
+}
+Avancer(1);
+// Ici, `i = (i + 1);` aurait aussi marché.
+temp = i;
+i = (temp + 1);
 }
