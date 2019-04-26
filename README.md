@@ -7,7 +7,8 @@ Le sujet est présent [ici](sujet.pdf).
 Par [Thomas Copt-Bignon](https://github.com/totocptbgn) et [Dao Thauvin](https://github.com/daothauvin).
 
 ## Grammaire :
-> Grammaire utilisée pour le Parser. Remarque: OPEN et CLOSE représentent les indentations descendante et ascendante et EOF : end of file
+> Grammaire utilisée pour le Parser.
+> Remarque: OPEN et CLOSE représentent les indentations descendantes et ascendantes et EOF : End Of File.
 
 ```
 
@@ -15,7 +16,7 @@ programme     → instruction programme | EOF
 
 InProgramme   → instruction InProgramme | Fin
 
-Block 		  → instruction Block | CLOSE
+Block 	      → instruction Block | CLOSE
 
 instruction   → Avancer( expression ); |
                 Tourner( expression ); |
@@ -23,7 +24,7 @@ instruction   → Avancer( expression ); |
                 Si expression Alors InProgramme else |
                 TantQue expression Alors InProgramme |
                 var = expression; |
-				OPEN Block
+	        OPEN Block
 
 expression    → Lire |
                 nombre |
@@ -51,7 +52,7 @@ else          → Sinon Alors InProgramme | ε
 
 <InProgramme>  ::= <Instr>  <InProgramme> | "Fin"
 
-<Block>		   ::= <Instr>  <Block> | CLOSE
+<Block>	       ::= <Instr>  <Block> | CLOSE
 
 
 <Instr>        ::= "Avancer(" <Expr> ");" |
@@ -60,7 +61,7 @@ else          → Sinon Alors InProgramme | ε
 	           "Si" <Expr> "Alors" <InProgramme> <else> |
 	           "TantQue" <Expr> "Alors" <InProgramme> |
 	           <var> "=" <Expr> ";" |
-				OPEN <Block>
+		   OPEN <Block>
 
 <Expr> 	       ::= "Lire" |
 		   <nombre> |
@@ -99,5 +100,5 @@ else          → Sinon Alors InProgramme | ε
 
 - les portées de blocs,
 - le try catch et les blocs,
-- les procedures
+- les procedures,
 - et une interface graphique.
