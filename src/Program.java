@@ -8,13 +8,12 @@ public class Program {
 		this.list = new ArrayList<>();
 	}
 
-	public void eval() throws IOException {
+	public void eval() throws IOException, NotAllowedMoveException {
 		ValueEnvironnement hm = new ValueEnvironnement();
 		this.initVariables(hm);
 		this.setType(hm);
 		hm = new ValueEnvironnement();
 		this.initVariables(hm);
-		
 		for (Instr instr : list) {
 			instr.eval(hm);
 		}
@@ -26,13 +25,12 @@ public class Program {
 		hm.addInteger("Height", SmartInterpreter.getHeight());
 	}
 	
-	public void eval(ValueEnvironnement hm) throws IOException {
+	public void eval(ValueEnvironnement hm) throws IOException, NotAllowedMoveException {
 		for (Instr instr : list) {
 			instr.eval(hm);
 		}
 	}
-	
-	
+
 	public void setType(ValueEnvironnement hm) throws IOException {
 		for (Instr instr : list) {
 			instr.setType(hm);
