@@ -6,7 +6,7 @@ public class Main {
         runTests();
     }
 
-    private static void runMain(String[] args) throws IOException, ExecutionException {
+    private static void runMain(String[] args) throws IOException {
         // Mise en place du programme
         String exeName = "Main";
         IOEnv ioEnv = IOEnv.parseArgs(exeName, args);

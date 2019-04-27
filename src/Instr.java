@@ -150,6 +150,7 @@ class New extends Assign {
 	}
 
 }
+
 class Assign implements Instr {
 	protected String name;
 	protected Expr value;
@@ -169,23 +170,25 @@ class Assign implements Instr {
 
 	@Override
 	public void eval(ValueEnvironnement hm) throws IOException, ExecutionException {
-		Type type = value.getType();
-		if (hm.defined(name) == null) {
-			if (type==Type.BOOL) {
-				hm.newBoolean(name, value.evalBool(hm));
+		Type type=value.getType();
+		//System.out.println(name+" de type "+type);
+		if(hm.defined(name)==null || type==hm.defined(name)) {
+			if(type==Type.BOOL) {
+				hm.addBoolean(name, value.evalBool(hm));
 			}
-			else if (type==Type.INT) {
-				hm.newInteger(name, value.evalInt(hm));
+			else if(type==Type.INT) {
+				hm.addInteger(name, value.evalInt(hm));
 			}
 		}
 		else {
-			throw new ExecutionException("La variable " + name + " existe déjà dans le bloc.");
+			throw new IOException("Type non compatible "+name+" de type "+name+" de type "+hm.exists(name)+" n'est pas de type "+type);
 		}
+
 	}
 
 	@Override
 	public void debug(ValueEnvironnement hm) throws IOException, ExecutionException {
-		Type type = value.getType();
+		Type type=value.getType();
 		if(hm.defined(name)==null || type==hm.defined(name)) {
 			if(hm.exists(name)==null) {
 				System.out.print("Assign ");
@@ -193,24 +196,28 @@ class Assign implements Instr {
 			System.out.print(name+"=");
 			value.debug(hm);
 			if(value.getType()==Type.BOOL) {
-				hm.newBoolean(name, value.evalBool(hm));
+				hm.addBoolean(name, value.evalBool(hm));
 				System.out.println("["+value.evalBool(hm)+"]");
 			}
 			else if(value.getType()==Type.INT) {
-				hm.newInteger(name, value.evalInt(hm));
+				hm.addInteger(name, value.evalInt(hm));
 				System.out.println("["+value.evalInt(hm)+"]");
 			}
+
+
 		}
 		else {
-			throw new ExecutionException("Type non compatible "+name+" de type "+hm.exists(name)+" n'est pas de type "+type);
+			throw new IOException("Type non compatible "+name+" de type "+hm.exists(name)+" n'est pas de type "+type);
 		}
+
 	}
 
 	public String toString() {
-		return name + "=" + value;
+		return name+"="+value;
 	}
 
 }
+
 
 class While implements Instr {
 	private Expr condition;
@@ -302,5 +309,32 @@ class Block implements Instr {
 		}
 		indent = indent-1;
 		return ens;
+	}
+	class Def implements Instr {
+		private ArrayList<String> arguments;
+		private Program body;
+
+		public Def(ArrayList<String> arguments, Program body) {
+			this.arguments=arguments;
+			this.body=body;
+		}
+
+		@Override
+		public void eval(ValueEnvironnement hm) throws IOException, ExecutionException {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void debug(ValueEnvironnement hm) throws IOException, ExecutionException {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void setType(ValueEnvironnement hm) throws IOException {
+			// TODO Auto-generated method stub
+
+		}
 	}
 }
