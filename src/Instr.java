@@ -322,19 +322,16 @@ class Block implements Instr {
 		@Override
 		public void eval(ValueEnvironnement hm) throws IOException, ExecutionException {
 			// TODO Auto-generated method stub
-
 		}
 
 		@Override
 		public void debug(ValueEnvironnement hm) throws IOException, ExecutionException {
 			// TODO Auto-generated method stub
-
 		}
 
 		@Override
 		public void setType(ValueEnvironnement hm) throws IOException {
 			// TODO Auto-generated method stub
-
 		}
 	}
 }
