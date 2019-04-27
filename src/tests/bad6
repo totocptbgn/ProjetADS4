@@ -1,0 +1,4 @@
+test=3;
+	new test=4;
+	x=4;
+	new x=3;

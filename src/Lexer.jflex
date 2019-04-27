@@ -50,7 +50,7 @@ string = [a-zA-Z]+
 																			stackSpace.pop();
 																		}
 																		if (stackSpace.empty() || stackSpace.peek() < nbspace)
-																			throw new java.io.IOException("Bad Indentation Line " + (getLine() + 1));
+																			throw new java.io.IOException("Mauvaise Indentation Ligne " + (getLine() + 1));
 																		else
 																			return new Token(TokenKind.CLOSE, nbSpace);
 																	}
@@ -72,6 +72,7 @@ string = [a-zA-Z]+
 "!="                            							{isNewLine = false; return new Token(TokenKind.NOTEQ);}
 "True"                          							{isNewLine = false; return new Token(TokenKind.TRUE);}
 "False"                         							{isNewLine = false; return new Token(TokenKind.FALSE);}
+("new"|"New")												{isNewLine = false; return new Token(TokenKind.NEW);}
 ("Si"|"If")                     							{isNewLine = false; return new Token(TokenKind.IF);}
 ("Sinon"|"Else")                							{isNewLine = false; return new Token(TokenKind.ELSE);}
 ("Alors"|"Then"|"{")            							{isNewLine = true; return new Token(TokenKind.THEN);}

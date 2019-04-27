@@ -3,17 +3,17 @@ tailleX = Width;
 tailleY = Height;
 Y = 0;
 While (Y < tailleY) {
-X = 0;
+	X = 0;
 	If (Y > 0) {
 	Tourner(-1);
 	}
-While (X < tailleX) { //Attention il est impossible d'ouvrir un corps en dehors du if et de le fermer dedans!
-total = (total + Lire);
-X = ( X + 1);
-Avancer(1);
-}
+	While (X < tailleX) { //Attention il est impossible d'ouvrir un corps en dehors du if et de le fermer dedans!
+		total = (total + Lire);
+		X = ( X + 1);
+		Avancer(1);
+	}
 	Tourner(1);
 	Avancer(1);
-Y = (Y + 1);
+	Y = (Y + 1);
 }
 Ecrire(total);

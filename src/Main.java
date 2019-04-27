@@ -48,12 +48,14 @@ public class Main {
         testFile("good2");
         testFile("good3");
         testFile("good4");
+        testFile("good5");
         testFile("bad0");
         testFile("bad1");
         testFile("bad2");
         testFile("bad3");
         testFile("bad4");
         testFile("bad5");
+        testFile("bad6");
 		System.out.println("---------------------------- Fin des tests. ----------------------------\n");
     }
 

@@ -14,6 +14,6 @@ While (i !=Width) {
     }
 	Avancer(1);
     // Ici, `i = (i + 1);` aurait aussi marché...
-temp = i;
-i = (temp + 1);
+	temp = i;
+	i = (temp + 1);
 }

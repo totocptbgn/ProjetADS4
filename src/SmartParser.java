@@ -58,7 +58,7 @@ public class SmartParser implements Parser {
 		} else if (check(TokenKind.EOF)) {
 			eat(TokenKind.EOF);
 			return new Block();
-		} else if (check(TokenKind.COM) || check(TokenKind.IF) || check(TokenKind.WHILE) || check(TokenKind.VAR) || check(TokenKind.OPEN)) {
+		} else if (check(TokenKind.NEW) || check(TokenKind.COM) || check(TokenKind.IF) || check(TokenKind.WHILE) || check(TokenKind.VAR) || check(TokenKind.OPEN)) {
 			Instr instr = parseInstruction();
 			Block b = parseBlock();
 			b.add(instr);
@@ -72,7 +72,7 @@ public class SmartParser implements Parser {
 		if (check(TokenKind.END)){
 			eat(TokenKind.END);
 			return new Program();
-		} else if (check(TokenKind.COM) || check(TokenKind.IF) || check(TokenKind.WHILE) || check(TokenKind.VAR) || check(TokenKind.OPEN)) {
+		} else if (check(TokenKind.NEW) || check(TokenKind.COM) || check(TokenKind.IF) || check(TokenKind.WHILE) || check(TokenKind.VAR) || check(TokenKind.OPEN)) {
 			Instr instr = parseInstruction();
 			Program p = parseInProgram();
 			p.add(instr);
@@ -114,6 +114,14 @@ public class SmartParser implements Parser {
 			Expr expr = parseExpression();
 			eat(TokenKind.SEMICOLON);
 			return new Assign(name, expr);
+		} else if (check(TokenKind.NEW)){
+			eat(TokenKind.NEW);
+			String name = token.getStringValue();
+			eat(TokenKind.VAR);
+			eat(TokenKind.EQ);
+			Expr expr = parseExpression();
+			eat(TokenKind.SEMICOLON);
+			return new New(name, expr);
 		}
 		else if (check(TokenKind.OPEN)){
 			eat(TokenKind.OPEN);
@@ -205,7 +213,7 @@ public class SmartParser implements Parser {
 			eat(TokenKind.THEN);
 			return this.parseInProgram();
 		}
-		else if (check(TokenKind.COM) || check(TokenKind.IF) || check(TokenKind.WHILE) || check(TokenKind.VAR) || check(TokenKind.OPEN) || check(TokenKind.CLOSE) || check(TokenKind.EOF) || check(TokenKind.END))
+		else if (check(TokenKind.COM) || check(TokenKind.IF) || check(TokenKind.WHILE) || check(TokenKind.VAR) || check(TokenKind.OPEN) || check(TokenKind.CLOSE) || check(TokenKind.EOF) || check(TokenKind.END) || check(TokenKind.NEW))
 			return null;
 		else
 			throw new IOException("Attendu: Else ou Instruction Trouvé: (" + token.kind + ")" + lexerPos());

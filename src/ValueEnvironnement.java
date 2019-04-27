@@ -12,13 +12,37 @@ public class ValueEnvironnement {
 		booleans = new ArrayList<>();
 		this.open();
 	}
-
-	public void addInteger(String nom, int value) {
+	
+	public void newInteger(String nom, int value) {
 		integers.get(0).put(nom,value);
 	}
-	public void addBoolean(String nom, boolean value) {
+
+	public void addInteger(String nom, int value) {
+		for (Map<String, Integer> integersblock : integers) {
+			if (integersblock.get(nom) != null) {
+				integersblock.put(nom,value);
+				return;
+			}
+		}
+		integers.get(0).put(nom,value);
+		
+	}
+	
+	public void newBoolean(String nom, boolean value) {
 		booleans.get(0).put(nom,value);
 	}
+	
+	public void addBoolean(String nom, boolean value) {
+		for (Map<String, Boolean> booleansblock : booleans) {
+			if (booleansblock.get(nom) != null) {
+				booleansblock.put(nom,value);
+				return;
+			}
+		}
+		booleans.get(0).put(nom,value);
+		
+	}
+
 
 	public Type exists(String nom) {
 		if (this.getInteger(nom) != null) {
@@ -39,17 +63,17 @@ public class ValueEnvironnement {
 	}
 	
 	public Integer getInteger(String nom) {
-		for (Map<String, Integer> integer : integers) {
-			if (integer.get(nom) != null)
-				return integer.get(nom);
+		for (Map<String, Integer> integersBlock : integers) {
+			if (integersBlock.get(nom) != null)
+				return integersBlock.get(nom);
 		}
 		return null;
 	}
 
 	public Boolean getBoolean(String nom) {
-		for (Map<String, Boolean> aBoolean : booleans) {
-			if (aBoolean.get(nom) != null)
-				return aBoolean.get(nom);
+		for (Map<String, Boolean> booleansBlock : booleans) {
+			if (booleansBlock.get(nom) != null)
+				return booleansBlock.get(nom);
 		}
 		return null;
 	}
