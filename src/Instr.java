@@ -1,9 +1,8 @@
 import java.io.IOException;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public interface Instr {
-	void eval(ValueEnvironnement hm) throws IOException;
+	void eval(ValueEnvironnement hm) throws IOException, NotAllowedMoveException;
 	void debug(ValueEnvironnement hm) throws IOException;
 	void setType(ValueEnvironnement hm) throws IOException;
 }
@@ -22,8 +21,8 @@ class Commande implements Instr {
 		expression.setType(hm);
 	}
 
-	public void eval(ValueEnvironnement hm) throws IOException {
-		switch(commande) {
+	public void eval(ValueEnvironnement hm) throws IOException, NotAllowedMoveException {
+		switch (commande) {
 			case "Avancer":
 				SmartInterpreter.avancer(expression.evalInt(hm));
 				break;
@@ -34,7 +33,7 @@ class Commande implements Instr {
 				SmartInterpreter.ecrire(expression.evalInt(hm));
 				break;
 			default:
-				throw new IOException("Commande "+commande+" introuvable.");
+				throw new IOException("Commande " + commande + " introuvable.");
 		}
 	}
 
@@ -75,7 +74,7 @@ class If implements Instr {
 		}
 	}
 
-	public void eval(ValueEnvironnement hm) throws IOException {
+	public void eval(ValueEnvironnement hm) throws IOException, NotAllowedMoveException {
 		if (condition.evalBool(hm)) {
 			body.eval(hm);
 		} else {
@@ -112,7 +111,7 @@ class New extends Assign {
 	public New(String nom, Expr val) {
 		super(nom, val);
 	}
-	
+
 	@Override
 	public void eval(ValueEnvironnement hm) throws IOException {
 		Type type=value.getType();
@@ -128,9 +127,9 @@ class New extends Assign {
 		else {
 			throw new IOException("La variable "+name+" existe déjà dans le bloc.");
 		}
-		
+
 	}
-	
+
 	@Override
 	public void debug(ValueEnvironnement hm) throws IOException {
 		if(hm.defined(name)==null) {
@@ -151,20 +150,20 @@ class New extends Assign {
 		else {
 			throw new IOException("La variable "+name+" existe déjà dans le bloc.");
 		}
-		
+
 	}
-	
+
 }
 class Assign implements Instr {
 	protected String name;
 	protected Expr value;
-	
+
 	public Assign(String nom,Expr val) {
 		this.name = nom;
 		this.value = val;
 	}
 
-	public void setType(ValueEnvironnement hm) throws IOException {	
+	public void setType(ValueEnvironnement hm) throws IOException {
 		value.setType(hm);
 		if (value.getType()==Type.BOOL)
 			hm.newBoolean(name,true);
@@ -176,16 +175,16 @@ class Assign implements Instr {
 	public void eval(ValueEnvironnement hm) throws IOException {
 		Type type=value.getType();
 		//System.out.println(name+" de type "+type);
-		if(hm.defined(name)==null || type==hm.defined(name)) {
+		if(hm.defined(name)==null) {
 			if(type==Type.BOOL) {
-				hm.addBoolean(name, value.evalBool(hm));
+				hm.newBoolean(name, value.evalBool(hm));
 			}
 			else if(type==Type.INT) {
-				hm.addInteger(name, value.evalInt(hm));
+				hm.newInteger(name, value.evalInt(hm));
 			}
 		}
 		else {
-			throw new IOException("Type non compatible "+name+" de type "+name+" de type "+hm.exists(name)+" n'est pas de type "+type);
+			throw new IOException("La variable "+name+" existe déjà dans le bloc.");
 		}
 
 	}
@@ -200,11 +199,11 @@ class Assign implements Instr {
 			System.out.print(name+"=");
 			value.debug(hm);
 			if(value.getType()==Type.BOOL) {
-				hm.addBoolean(name, value.evalBool(hm));
+				hm.newBoolean(name, value.evalBool(hm));
 				System.out.println("["+value.evalBool(hm)+"]");
 			}
 			else if(value.getType()==Type.INT) {
-				hm.addInteger(name, value.evalInt(hm));
+				hm.newInteger(name, value.evalInt(hm));
 				System.out.println("["+value.evalInt(hm)+"]");
 			}
 
@@ -213,11 +212,32 @@ class Assign implements Instr {
 		else {
 			throw new IOException("Type non compatible "+name+" de type "+hm.exists(name)+" n'est pas de type "+type);
 		}
+	}
 
+	@Override
+	public void debug(ValueEnvironnement hm) throws IOException {
+		Type type = value.getType();
+		if (hm.defined(name) == null || type == hm.defined(name)) {
+			if (hm.defined(name) == null) {
+				System.out.print("Assign ");
+			}
+			System.out.print(name + "=");
+			value.debug(hm);
+			if (value.getType() == Type.BOOL) {
+				hm.addBoolean(name, value.evalBool(hm));
+				System.out.println("[" + value.evalBool(hm) + "]");
+			}
+			else if (value.getType() == Type.INT) {
+				hm.addInteger(name, value.evalInt(hm));
+				System.out.println("[" + value.evalInt(hm) + "]");
+			}
+		} else {
+			throw new IOException("Type non compatible " + name + " de type " + name + " de type " + hm.exists(name) + " n'est pas de type " + type);
+		}
 	}
 
 	public String toString() {
-		return name+"="+value;
+		return name + "=" + value;
 	}
 
 }
@@ -236,9 +256,8 @@ class While implements Instr {
 		body.setType(hm);
 	}
 
-	public void eval(ValueEnvironnement hm) throws IOException {
-		
-		while(condition.evalBool(hm)) {
+	public void eval(ValueEnvironnement hm) throws IOException, NotAllowedMoveException {
+		while (condition.evalBool(hm)) {
 			body.eval(hm);
 		}
 	}
@@ -259,20 +278,20 @@ class While implements Instr {
 
 class Block implements Instr {
 	protected ArrayList<Instr> list;
-	
+	private static int indent = 0;
+
 	public Block() {
 		this.list = new ArrayList<>();
 	}
-	
-	public void eval(ValueEnvironnement hm) throws IOException {
+
+	public void eval(ValueEnvironnement hm) throws IOException, NotAllowedMoveException {
 		hm.open();
 		for (Instr instr : list) {
 			instr.eval(hm);
 		}
 		hm.close();
 	}
-	
-	
+
 	public void setType(ValueEnvironnement hm) throws IOException {
 		hm.open();
 		for (Instr instr : list) {
@@ -280,37 +299,39 @@ class Block implements Instr {
 		}
 		hm.close();
 	}
+
 	public static String getIndent() {
-		String ens="";
-		for(int i=0;i<indent;i++) {
-			ens=ens+" ";
+		String ens = "";
+		for(int i = 0; i < indent; i++) {
+			ens = ens + " ";
 		}
 		return ens;
 	}
+
 	public void debug(ValueEnvironnement hm) throws IOException {
 		indent=indent+1;
 		hm.open();
 		for (Instr instr : list) {
 			System.out.print(getIndent());
 			instr.debug(hm);
-			
+
 		}
 		hm.close();
-		indent=indent-1;
+		indent = indent-1;
 	}
-	
+
 	public void add(Instr instr) {
 		list.add(0, instr);
 	}
-	private static int indent=0;
+
+
 	public String toString() {
-		indent=indent+1;
-		String ens="";
+		indent = indent+1;
+		String ens = "";
 		for (Instr instr : list) {
 			ens = ens + getIndent() + instr.toString() + "\n";
 		}
-		indent=indent-1;
+		indent = indent-1;
 		return ens;
 	}
 }
-

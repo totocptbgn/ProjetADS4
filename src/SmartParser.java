@@ -3,16 +3,20 @@ import java.io.Reader;
 
 public class SmartParser implements Parser {
 
-	private Lexer lexer;
+	private static Lexer lexer;
 	private Token token;
 
 	public SmartParser(Reader reader) {
-		this.lexer = new Lexer(reader);
+		lexer = new Lexer(reader);
 		this.token = new Token(TokenKind.OPEN);
 	}
 
-	public String lexerPos() {
+	public static String lexerPos() {
 		return " Column: " + lexer.getColumn() + " Line: " + lexer.getLine() + " Char: " + lexer.getChar();
+	}
+
+	public static int getLine() {
+		return lexer.getLine();
 	}
 
 	public boolean check(TokenKind tokenTest){
@@ -27,8 +31,7 @@ public class SmartParser implements Parser {
 		if (!check(tokenTest)) throw new IOException("Attendu: (" + tokenTest + ") Trouvé: (" + token.kind + ")" + lexerPos());
 		if (token.islastcopy()) {
 			next();
-		}
-		else {
+		} else {
 			token.useOneCopy();
 		}
 	}

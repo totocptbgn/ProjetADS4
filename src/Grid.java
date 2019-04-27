@@ -12,9 +12,9 @@ public class Grid {
     private final int sizeX, sizeY;
     private int posX, posY;
     private Dir dir;
-    private final int[][] grid;
+    private final String[][] grid;
 
-    private Grid(int sizeX, int sizeY, int posX, int posY, Dir dir, int[][] grid) {
+    private Grid(int sizeX, int sizeY, int posX, int posY, Dir dir, String [][] grid) {
         this.sizeX = sizeX;
         this.sizeY = sizeY;
         this.posX = mod(posX, sizeX);
@@ -56,17 +56,21 @@ public class Grid {
     }
 
     public int getValue(int x, int y) {
-        return grid[x][y];
+        return Integer.valueOf(grid[x][y]);
+    }
+
+    public String getCurrentStringValue() {
+        return grid[posX][posY];
     }
 
     public void setValue(int x, int y, int val) {
-        grid[x][y] = val;
+        grid[x][y] = String.valueOf(val);
     }
 
-    public static Grid create(int[][] grid, int posX, int posY, int dir) {
+    public static Grid create(String[][] grid, int posX, int posY, int dir) {
         int sizeX = grid.length;
         int sizeY = sizeX == 0 ? 0 : grid[0].length;
-        int[][] gridCopy = new int[sizeX][sizeY];
+        String[][] gridCopy = new String[sizeX][sizeY];
         for (int x = 0; x < sizeX; x ++) {
             gridCopy[x] = Arrays.copyOf(grid[x], sizeY);
         }
@@ -81,10 +85,10 @@ public class Grid {
             int posX = scanner.nextInt();
             int posY = scanner.nextInt();
             int dir = scanner.nextInt();
-            int[][] grid = new int[sizeX][sizeY];
+            String[][] grid = new String[sizeX][sizeY];
             for (int j = sizeY - 1; j >= 0; j --) {
                 for (int i = 0; i < sizeX; i ++) {
-                    grid[i][j] = scanner.nextInt();
+                    grid[i][j] = scanner.next();
                 }
             }
             return create(grid, posX, posY, dir);
@@ -138,13 +142,12 @@ public class Grid {
         builder.append(" ").append(sizeY);
         builder.append(" ").append(posX);
         builder.append(" ").append(posY);
-        builder.append(" ").append(dir.toInt());
+        builder.append(" ").append(getDir());
         builder.append("\n");
         int[] lengths = colLengths();
         for (int y = sizeY - 1; y >= 0; y --) {
             for (int x = 0; x < sizeX; x ++) {
-                builder.append(String.format("%" + lengths[x] + "d",
-                        grid[x][y]));
+                builder.append(String.format("%" + lengths[x] + "s", grid[x][y]));
                 if (x < sizeX - 1)
                     builder.append(" ");
             }
@@ -154,9 +157,28 @@ public class Grid {
         return builder.toString();
     }
 
+    public void print() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Position du robot : ");
+        builder.append("[x:").append(posX).append(", ");
+        builder.append("y:").append(posY).append("]\n");
+        int[] lengths = colLengths();
+        for (int y = sizeY - 1; y >= 0; y --) {
+            for (int x = 0; x < sizeX; x ++) {
+                builder.append(String.format("%" + lengths[x] + "s", grid[x][y]));
+                if (x < sizeX - 1)
+                    builder.append(" ");
+            }
+            if (y > 0)
+                builder.append("\n");
+        }
+        builder.append("\n\n");
+        System.out.print(builder.toString());
+    }
+
     private int colLength(int x) {
         int length = 0;
-        for (int val : grid[x]) {
+        for (String val : grid[x]) {
             int valLength = String.valueOf(val).length();
             if (valLength > length)
                 length = valLength;
@@ -179,8 +201,7 @@ public class Grid {
 
         private final int intValue, moveX, moveY;
 
-        private static final Map<Integer, Dir> intToDir =
-                Stream.of(values()).collect(Collectors.toMap(Dir::toInt, e -> e));
+        private static final Map<Integer, Dir> intToDir = Stream.of(values()).collect(Collectors.toMap(Dir::toInt, e -> e));
 
         Dir(int intValue, int moveX, int moveY) {
             this.intValue = intValue;

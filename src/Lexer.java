@@ -362,9 +362,9 @@ public class Lexer {
   private int zzFinalHighSurrogate = 0;
 
   /* user code: */
-	public int getColumn() { return yycolumn; }
-	public int getLine() { return yyline; }
-	public int getChar() { return yychar; }
+	public int getColumn() { return yycolumn + 1; }
+	public int getLine() { return yyline + 1; }
+	public int getChar() { return yychar + 1; }
 	private Stack<Integer> stackSpace = new Stack<>();
 	private boolean isNewLine = true;
 
