@@ -6,7 +6,7 @@ public class ValueEnvironnement {
 
 	private ArrayList<Map<String, Integer>> integers;
 	private ArrayList<Map<String,Boolean>> booleans;
-
+	
 	public ValueEnvironnement () {
 		integers = new ArrayList<>();
 		booleans = new ArrayList<>();
@@ -87,4 +87,9 @@ public class ValueEnvironnement {
 		integers.remove(0);
 		booleans.remove(0);
 	}
+}
+
+class Fonction {
+	private ArrayList<Map<String,Expr>> attributs;
+	
 }
