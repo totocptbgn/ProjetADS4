@@ -316,6 +316,10 @@ class Fonction implements Instr {
 	private String nom;
 	private ArrayList<String> arguments;
 	private Program body;
+	
+	public String getNom() {
+		return nom;
+	}
 
 	public Fonction(String nom,ArrayList<String> arguments, Program body) {
 		this.nom=nom;

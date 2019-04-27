@@ -86,7 +86,21 @@ public class ValueEnvironnement {
 		booleans.add(0, new HashMap<>());
 		fonctions.add(0,new ArrayList<>());
 	}
+	public void addFonction(Fonction f) {
+		fonctions.get(0).add(f);
+	}
 	
+	public Fonction getFonction(String nom) {
+
+		for(ArrayList<Fonction> fonctionsBlock:fonctions) {
+			for(Fonction fonction:fonctionsBlock) {
+				if(fonction.getNom().equals(nom)) {
+					return fonction;
+				}
+			}
+		}
+		return null;
+	}
 	public void close() {
 		integers.remove(0);
 		booleans.remove(0);
