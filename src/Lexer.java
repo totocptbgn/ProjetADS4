@@ -359,8 +359,8 @@ public class Lexer {
 	public int getColumn() { return yycolumn; }
 	public int getLine() { return yyline; }
 	public int getChar() { return yychar; }
-	private Stack<Integer> stackSpace=new Stack<Integer>();
-	private boolean isNewLine=true;
+	private Stack<Integer> stackSpace = new Stack<>();
+	private boolean isNewLine = true;
 
 
   /**
@@ -734,21 +734,21 @@ public class Lexer {
         zzAtEOF = true;
             switch (zzLexicalState) {
             case YYINITIAL: {
-              int nbspace=0;
-																 while(!stackSpace.empty()) {
-	 														 				nbspace++;
-	 																		stackSpace.pop();
-																 }
-																 return new Token(TokenKind.EOF,nbspace+1);
+              int nbspace = 0;
+																while (!stackSpace.empty()) {
+																		nbspace++;
+																		stackSpace.pop();
+																}
+																return new Token(TokenKind.EOF, nbspace + 1);
             }  // fall though
             case 95: break;
             case INCOMMENT: {
-              int nbspace=0;
-																 while(!stackSpace.empty()) {
-		 													 	 nbspace++;
-		 													 	 stackSpace.pop();
-																 }
-																 return new Token(TokenKind.EOF,nbspace+1);
+              int nbspace = 0;
+																while (!stackSpace.empty()) {
+																	nbspace++;
+																	stackSpace.pop();
+																}
+																return new Token(TokenKind.EOF, nbspace + 1);
             }  // fall though
             case 96: break;
             default:
@@ -758,12 +758,12 @@ public class Lexer {
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1: 
-            { throw new java.io.IOException("Symbole non reconnu (" + yytext() + ") Line "+getLine()+" Column "+getColumn()+" Char "+getChar());
+            { throw new java.io.IOException("Symbole non reconnu (" + yytext() + ") Line " + getLine() + " Column " + getColumn() + " Char " + getChar());
             } 
             // fall through
           case 33: break;
           case 2: 
-            { isNewLine=false; return new IntToken(TokenKind.INT, Integer.parseInt(yytext()));
+            { isNewLine = false; return new IntToken(TokenKind.INT, Integer.parseInt(yytext()));
             } 
             // fall through
           case 34: break;
@@ -773,100 +773,99 @@ public class Lexer {
             // fall through
           case 35: break;
           case 4: 
-            { isNewLine=false; return new StringToken(TokenKind.VAR, yytext());
+            { isNewLine = false; return new StringToken(TokenKind.VAR, yytext());
             } 
             // fall through
           case 36: break;
           case 5: 
-            { if(isNewLine) {
-
-																				int nbspace=0;
-																				for(int i=1;i<yytext().length();i++) {
-																					if(yytext().charAt(i)==' ') nbspace++;
-																					else if(yytext().charAt(i)=='\t') nbspace=nbspace+4;
-																				}
-																				if(stackSpace.empty() || stackSpace.peek()<nbspace) {
-																				 	stackSpace.push(nbspace);
-																					return new Token(TokenKind.OPEN);
-																				}
-																				else if(nbspace!=stackSpace.peek()) {
-																					int nbSpace=0;
-																					while(!stackSpace.empty() && stackSpace.peek()>nbspace) {
-																						nbSpace++;
-																						stackSpace.pop();
-																					}
-																					if(stackSpace.empty() || stackSpace.peek()<nbspace)
-																						throw new java.io.IOException("Bad Indentation Line "+(getLine()+1));
-																					else
-																						return new Token(TokenKind.CLOSE,nbSpace);
-
-																				}
+            { if (isNewLine) {
+																	int nbspace = 0;
+																	for (int i = 1; i < yytext().length(); i++) {
+																		if (yytext().charAt(i) == ' ')
+																			nbspace++;
+																		else if (yytext().charAt(i) == '\t')
+																			nbspace = nbspace + 4;
+																	}
+																	if (stackSpace.empty() || stackSpace.peek() < nbspace) {
+																		stackSpace.push(nbspace);
+																		return new Token(TokenKind.OPEN);
+																	} else if (nbspace != stackSpace.peek()) {
+																		int nbSpace = 0;
+																		while (!stackSpace.empty() && stackSpace.peek() > nbspace) {
+																			nbSpace++;
+																			stackSpace.pop();
 																		}
+																		if (stackSpace.empty() || stackSpace.peek() < nbspace)
+																			throw new java.io.IOException("Bad Indentation Line " + (getLine() + 1));
+																		else
+																			return new Token(TokenKind.CLOSE, nbSpace);
+																	}
+																}
             } 
             // fall through
           case 37: break;
           case 6: 
-            { isNewLine=true; return new Token(TokenKind.SEMICOLON);
+            { isNewLine = true; return new Token(TokenKind.SEMICOLON);
             } 
             // fall through
           case 38: break;
           case 7: 
-            { isNewLine=false; return new Token(TokenKind.LPAR);
+            { isNewLine = false; return new Token(TokenKind.LPAR);
             } 
             // fall through
           case 39: break;
           case 8: 
-            { isNewLine=false; return new Token(TokenKind.RPAR);
+            { isNewLine = false; return new Token(TokenKind.RPAR);
             } 
             // fall through
           case 40: break;
           case 9: 
-            { isNewLine=false; return new Token(TokenKind.MINUS);
+            { isNewLine = false; return new Token(TokenKind.MINUS);
             } 
             // fall through
           case 41: break;
           case 10: 
-            { isNewLine=false; return new Token(TokenKind.PLUS);
+            { isNewLine = false; return new Token(TokenKind.PLUS);
             } 
             // fall through
           case 42: break;
           case 11: 
-            { isNewLine=false; return new Token(TokenKind.TIMES);
+            { isNewLine = false; return new Token(TokenKind.TIMES);
             } 
             // fall through
           case 43: break;
           case 12: 
-            { isNewLine=false; return new Token(TokenKind.DIVIDE);
+            { isNewLine = false; return new Token(TokenKind.DIVIDE);
             } 
             // fall through
           case 44: break;
           case 13: 
-            { isNewLine=false; return new Token(TokenKind.NOT);
+            { isNewLine = false; return new Token(TokenKind.NOT);
             } 
             // fall through
           case 45: break;
           case 14: 
-            { isNewLine=false; return new Token(TokenKind.SUP);
+            { isNewLine = false; return new Token(TokenKind.SUP);
             } 
             // fall through
           case 46: break;
           case 15: 
-            { isNewLine=false; return new Token(TokenKind.INF);
+            { isNewLine = false; return new Token(TokenKind.INF);
             } 
             // fall through
           case 47: break;
           case 16: 
-            { isNewLine=false; return new Token(TokenKind.EQ);
+            { isNewLine = false; return new Token(TokenKind.EQ);
             } 
             // fall through
           case 48: break;
           case 17: 
-            { isNewLine=true; return new Token(TokenKind.THEN);
+            { isNewLine = true; return new Token(TokenKind.THEN);
             } 
             // fall through
           case 49: break;
           case 18: 
-            { isNewLine=true; return new Token(TokenKind.END);
+            { isNewLine = true; return new Token(TokenKind.END);
             } 
             // fall through
           case 50: break;
@@ -884,27 +883,27 @@ public class Lexer {
             // fall through
           case 52: break;
           case 21: 
-            { isNewLine=false; return new Token(TokenKind.NOTEQ);
+            { isNewLine = false; return new Token(TokenKind.NOTEQ);
             } 
             // fall through
           case 53: break;
           case 22: 
-            { isNewLine=false; return new Token(TokenKind.AND);
+            { isNewLine = false; return new Token(TokenKind.AND);
             } 
             // fall through
           case 54: break;
           case 23: 
-            { isNewLine=false; return new Token(TokenKind.OR);
+            { isNewLine = false; return new Token(TokenKind.OR);
             } 
             // fall through
           case 55: break;
           case 24: 
-            { isNewLine=false; return new Token(TokenKind.IF);
+            { isNewLine = false; return new Token(TokenKind.IF);
             } 
             // fall through
           case 56: break;
           case 25: 
-            { isNewLine=false; yybegin(YYINITIAL);
+            { isNewLine = false; yybegin(YYINITIAL);
             } 
             // fall through
           case 57: break;
@@ -917,32 +916,32 @@ public class Lexer {
             // fall through
           case 58: break;
           case 27: 
-            { isNewLine=false; return new Token(TokenKind.ELSE);
+            { isNewLine = false; return new Token(TokenKind.ELSE);
             } 
             // fall through
           case 59: break;
           case 28: 
-            { isNewLine=false; return new Token(TokenKind.TRUE);
+            { isNewLine = false; return new Token(TokenKind.TRUE);
             } 
             // fall through
           case 60: break;
           case 29: 
-            { isNewLine=false; return new Token(TokenKind.LIRE);
+            { isNewLine = false; return new Token(TokenKind.LIRE);
             } 
             // fall through
           case 61: break;
           case 30: 
-            { isNewLine=false; return new Token(TokenKind.FALSE);
+            { isNewLine = false; return new Token(TokenKind.FALSE);
             } 
             // fall through
           case 62: break;
           case 31: 
-            { isNewLine=false; return new Token(TokenKind.WHILE);
+            { isNewLine = false; return new Token(TokenKind.WHILE);
             } 
             // fall through
           case 63: break;
           case 32: 
-            { isNewLine=false; return new StringToken(TokenKind.COM,yytext());
+            { isNewLine = false; return new StringToken(TokenKind.COM, yytext());
             } 
             // fall through
           case 64: break;

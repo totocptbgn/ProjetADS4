@@ -24,9 +24,8 @@ public class SmartParser implements Parser {
 	}
 
 	public void eat(TokenKind tokenTest) throws IOException {
-		//System.out.print(this.token.kind+" ");
 		if (!check(tokenTest)) throw new IOException("Attendu: (" + tokenTest + ") Trouvé: (" + token.kind + ")" + lexerPos());
-		if(token.islastcopy()) {
+		if (token.islastcopy()) {
 			next();
 		}
 		else {
@@ -37,10 +36,8 @@ public class SmartParser implements Parser {
 	@Override
 	public Program parseProgram(String exeName, Reader reader) throws IOException {
 		if (check(TokenKind.EOF)){
-			
 			return new Program();
 		} else if(check(TokenKind.COM) || check(TokenKind.IF) || check(TokenKind.WHILE) || check(TokenKind.VAR) || check(TokenKind.OPEN)) {
-			
 			Instr instr = parseInstruction();
 			Program p = parseProgram(exeName, reader);
 			p.add(instr);
@@ -48,48 +45,37 @@ public class SmartParser implements Parser {
 		}
 		else {
 			throw new IOException("404 error");
-			
 		}
 	}
 	
 	private Block parseBlock() throws IOException {
-
-		if(check(TokenKind.CLOSE)) {
+		if (check(TokenKind.CLOSE)) {
 			eat(TokenKind.CLOSE);
 			return new Block();
-		}
-		else if(check(TokenKind.EOF)) {
+		} else if (check(TokenKind.EOF)) {
 			eat(TokenKind.EOF);
 			return new Block();
-		}
-		else if(check(TokenKind.COM) || check(TokenKind.IF) || check(TokenKind.WHILE) || check(TokenKind.VAR) || check(TokenKind.OPEN)) {
+		} else if (check(TokenKind.COM) || check(TokenKind.IF) || check(TokenKind.WHILE) || check(TokenKind.VAR) || check(TokenKind.OPEN)) {
 			Instr instr = parseInstruction();
 			Block b = parseBlock();
 			b.add(instr);
 			return b;
-			
-		}
-		else {
+		} else {
 			throw new IOException("Attendu: CLOSE ou Instruction Trouvé: (" + token.kind + ")" + lexerPos());
-		
 		}
-		
 	}
-	
-	
+
 	private Program parseInProgram() throws IOException {
 		if (check(TokenKind.END)){
 			eat(TokenKind.END);
 			return new Program();
-		} else if(check(TokenKind.COM) || check(TokenKind.IF) || check(TokenKind.WHILE) || check(TokenKind.VAR) || check(TokenKind.OPEN)) {
-			
+		} else if (check(TokenKind.COM) || check(TokenKind.IF) || check(TokenKind.WHILE) || check(TokenKind.VAR) || check(TokenKind.OPEN)) {
 			Instr instr = parseInstruction();
 			Program p = parseInProgram();
 			p.add(instr);
 			return p;
-		}
-		else {
-			if(check(TokenKind.CLOSE)) {
+		} else {
+			if (check(TokenKind.CLOSE)) {
 				throw new IOException("Ouverture du block en dehors de la boucle : Le block ne peut pas être fermé ici " + lexerPos());
 			}
 			throw new IOException("Attendu: END ou Instruction Trouvé: (" + token.kind + ")" + lexerPos());
@@ -110,7 +96,6 @@ public class SmartParser implements Parser {
 			Expr expr = parseExpression();
 			eat(TokenKind.THEN);
 			Program prog = parseInProgram();
-			
 			Program bodyprog = parseElse();
 			return new If(expr, prog, bodyprog);
 		} else if (check(TokenKind.WHILE)){
@@ -217,10 +202,9 @@ public class SmartParser implements Parser {
 			eat(TokenKind.THEN);
 			return this.parseInProgram();
 		}
-		else if(check(TokenKind.COM) || check(TokenKind.IF) || check(TokenKind.WHILE) || check(TokenKind.VAR) || check(TokenKind.OPEN) || check(TokenKind.CLOSE) || check(TokenKind.EOF) || check(TokenKind.END))
+		else if (check(TokenKind.COM) || check(TokenKind.IF) || check(TokenKind.WHILE) || check(TokenKind.VAR) || check(TokenKind.OPEN) || check(TokenKind.CLOSE) || check(TokenKind.EOF) || check(TokenKind.END))
 			return null;
-		else {
+		else
 			throw new IOException("Attendu: Else ou Instruction Trouvé: (" + token.kind + ")" + lexerPos());
-		}
 	}
 }

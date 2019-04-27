@@ -8,8 +8,8 @@ public class ValueEnvironnement {
 	private ArrayList<Map<String,Boolean>> booleans;
 
 	public ValueEnvironnement () {
-		integers = new ArrayList<Map<String,Integer>>();
-		booleans = new ArrayList<Map<String,Boolean>>();
+		integers = new ArrayList<>();
+		booleans = new ArrayList<>();
 		this.open();
 	}
 
@@ -39,24 +39,24 @@ public class ValueEnvironnement {
 	}
 	
 	public Integer getInteger(String nom) {
-		for(int i=0;i<integers.size();i++) {
-			if(integers.get(i).get(nom)!=null)
-				return integers.get(i).get(nom);
+		for (Map<String, Integer> integer : integers) {
+			if (integer.get(nom) != null)
+				return integer.get(nom);
 		}
 		return null;
-		
 	}
 
 	public Boolean getBoolean(String nom) {
-		for(int i=0;i<booleans.size();i++) {
-			if(booleans.get(i).get(nom)!=null)
-				return booleans.get(i).get(nom);
+		for (Map<String, Boolean> aBoolean : booleans) {
+			if (aBoolean.get(nom) != null)
+				return aBoolean.get(nom);
 		}
 		return null;
 	}
+
 	public void open() {
-		integers.add(0, new HashMap<String,Integer>());
-		booleans.add(0, new HashMap<String,Boolean>());
+		integers.add(0, new HashMap<>());
+		booleans.add(0, new HashMap<>());
 	}
 	
 	public void close() {

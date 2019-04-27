@@ -1,9 +1,11 @@
 public class Token {
 
 	public final TokenKind kind;
-	private int multiple=1;
+	private int multiple;
+
 	public Token(TokenKind kind) {
 		this.kind = kind;
+		this.multiple = 1;
 	}
 
 	public int getIntValue(){
@@ -18,14 +20,16 @@ public class Token {
 	public String toString() {
 		return kind.toString();
 	}
+
 	public Token (TokenKind kind , int i) {
 		this.kind = kind;
 		this.multiple=i;
 	}
 	
 	public boolean islastcopy() {
-		return (this.multiple == 1 ) ;
+		return this.multiple == 1;
 	}
+
 	public void useOneCopy() {
 		this.multiple--;
 	}
@@ -73,6 +77,6 @@ class IntToken extends Token{
 
 enum TokenKind {
 	 LIRE, INT, SEMICOLON, LPAR, RPAR, MINUS, PLUS, TIMES, DIVIDE, AND, OR,
-	 SUP, INF, EQ, NOTEQ, TRUE, FALSE, NOT, IF, ELSE, WHILE, DO, THEN, END, 
-	 COM , VAR, EOF, HEIGHT, WIDTH, OPEN, CLOSE
+	 SUP, INF, EQ, NOTEQ, TRUE, FALSE, NOT, IF, ELSE, WHILE, THEN, END,
+	 COM , VAR, EOF, OPEN, CLOSE
 }

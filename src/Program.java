@@ -17,7 +17,6 @@ public class Program {
 		
 		for (Instr instr : list) {
 			instr.eval(hm);
-			//System.out.println("end");
 		}
 		hm.close();
 	}
