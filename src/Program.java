@@ -31,7 +31,7 @@ public class Program {
 		}
 	}
 
-	public void setType(ValueEnvironnement hm) throws IOException {
+	public void setType(ValueEnvironnement hm) throws IOException, ExecutionException {
 		for (Instr instr : list) {
 			instr.setType(hm);
 		}

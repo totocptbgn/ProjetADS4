@@ -45,7 +45,7 @@ public class SmartInterpreter implements Interpreter {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ExecutionException e){
-			writeConsole("> Exception in thread ExecutionException: " + e.getMessage());
+			writeConsole("> Exception in thread ExecutionException: " + e.getMessage() + " (line: " + SmartParser.getLine() + ").");
 		}
 		writeConsole("> Fin de l'execution.");
 	}
