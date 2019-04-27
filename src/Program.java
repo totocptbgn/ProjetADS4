@@ -46,7 +46,7 @@ public class Program {
 		hm = new ValueEnvironnement();
 		this.initVariables(hm);
 		for (Instr instr : list) {
-			System.out.print(Block.getIndent());
+			
 			instr.debug(hm);
 		}
 		hm.close();
@@ -54,7 +54,8 @@ public class Program {
 	
 	public void debug(ValueEnvironnement hm) throws IOException {
 		for (Instr instr : list) {
-			System.out.print(Block.getIndent());
+			if(!(instr instanceof Block))
+				System.out.print(Block.getIndent());
 			instr.debug(hm);
 		}
 	}
@@ -66,7 +67,10 @@ public class Program {
 	public String toString() {
 		String ens = "";
 		for (Instr instr : list) {
-			ens = ens + Block.getIndent() + instr.toString() + "\n";
+			if(instr instanceof Block)
+				ens = ens + instr.toString() + "\n";
+			else
+				ens = ens + Block.getIndent() + instr.toString() + "\n";
 		}
 		return ens;
 	}

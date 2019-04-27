@@ -37,7 +37,7 @@ class True extends Expr {
 
 	@Override
 	void debug(ValueEnvironnement hm) {
-		System.out.println("True");
+		System.out.print("True");
 	}
 }
 
