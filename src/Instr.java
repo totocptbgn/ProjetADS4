@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public interface Instr {
 	void eval(ValueEnvironnement hm) throws IOException, ExecutionException;
 	void debug(ValueEnvironnement hm) throws IOException, ExecutionException;
-	void setType(ValueEnvironnement hm) throws IOException;
+	void setType(ValueEnvironnement hm) throws IOException, ExecutionException;
 }
 
 class Commande implements Instr {
@@ -17,7 +17,7 @@ class Commande implements Instr {
 		this.commande = commande;
 	}
 
-	public void setType(ValueEnvironnement hm) throws IOException {
+	public void setType(ValueEnvironnement hm) throws IOException, ExecutionException {
 		expression.setType(hm);
 	}
 
@@ -37,7 +37,7 @@ class Commande implements Instr {
 		}
 	}
 
-	public void debug(ValueEnvironnement hm) throws IOException {
+	public void debug(ValueEnvironnement hm) throws IOException, ExecutionException {
 		System.out.print(commande + "(");
 		expression.debug(hm);
 		System.out.print(")[" + expression.evalInt(hm) + "]\n");
@@ -57,7 +57,7 @@ class If implements Instr {
 	private boolean hasElse=false;
 	private Program elseBody;
 
-	public void setType(ValueEnvironnement hm) throws IOException {
+	public void setType(ValueEnvironnement hm) throws IOException, ExecutionException {
 		condition.setType(hm);
 		body.setType(hm);
 		if (hasElse){
@@ -159,7 +159,7 @@ class Assign implements Instr {
 		this.value = val;
 	}
 
-	public void setType(ValueEnvironnement hm) throws IOException {
+	public void setType(ValueEnvironnement hm) throws IOException, ExecutionException {
 		value.setType(hm);
 		if (value.getType()==Type.BOOL)
 			hm.newBoolean(name,true);
@@ -221,7 +221,7 @@ class While implements Instr {
 		this.body = body;
 	}
 
-	public void setType(ValueEnvironnement hm) throws IOException {
+	public void setType(ValueEnvironnement hm) throws IOException, ExecutionException {
 		condition.setType(hm);
 		body.setType(hm);
 	}
@@ -262,7 +262,7 @@ class Block implements Instr {
 		hm.close();
 	}
 
-	public void setType(ValueEnvironnement hm) throws IOException {
+	public void setType(ValueEnvironnement hm) throws IOException, ExecutionException {
 		hm.open();
 		for (Instr instr : list) {
 			instr.setType(hm);

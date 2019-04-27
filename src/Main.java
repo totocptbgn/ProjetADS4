@@ -27,7 +27,7 @@ public class Main {
         // Intrepetation et execution du programme sur la grille
         Interpreter interp = new SmartInterpreter();
         interp.run(prog, grid);
-		System.out.println("------------------------------- Console -------------------------------\n");
+		System.out.println("-------------------------------- Console -------------------------------\n");
 		System.out.print(((SmartInterpreter) interp).getConsole());
 
 		// Affichage de la grille d'arrivée
@@ -36,7 +36,11 @@ public class Main {
 
 		// Affichage du débug
 		System.out.println("-------------------------------- Débug ----------------------------------\n");
-		prog.debug();
+		try {
+			prog.debug();
+		} catch (ExecutionException e){
+			e.printStackTrace();
+		}
 		System.out.print("\n");
     }
 
@@ -101,11 +105,9 @@ public class Main {
         		grid.print();
         		System.out.println(" ==> Fichier correct.");
         	}
-        	catch (IOException e) {
+        	catch (Exception e) {
         		System.out.println(" ==> Fichier incorrect. Cause: [" + e.getMessage() + "]");
-        	} catch (ExecutionException e) {
-				e.printStackTrace();
-			}
+        	}
 		}
         System.out.println();
     }
