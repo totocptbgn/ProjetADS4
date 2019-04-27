@@ -310,31 +310,34 @@ class Block implements Instr {
 		indent = indent-1;
 		return ens;
 	}
-	class Def implements Instr {
-		private ArrayList<String> arguments;
-		private Program body;
-		
-		public Def(ArrayList<String> arguments, Program body) {
-			this.arguments=arguments;
-			this.body=body;
-		}
-		
-		@Override
-		public void eval(ValueEnvironnement hm) throws IOException, ExecutionException {
-			// TODO Auto-generated method stub
-			
-		}
+}
 
-		@Override
-		public void debug(ValueEnvironnement hm) throws IOException, ExecutionException {
-			// TODO Auto-generated method stub
-			
-		}
+class Fonction implements Instr {
+	private String nom;
+	private ArrayList<String> arguments;
+	private Program body;
+	
+	public Fonction(String nom,ArrayList<String> arguments, Program body) {
+		this.nom=nom;
+		this.arguments=arguments;
+		this.body=body;
+	}
+	
+	@Override
+	public void eval(ValueEnvironnement hm) throws IOException, ExecutionException {
+		// TODO Auto-generated method stub
+		
+	}
 
-		@Override
-		public void setType(ValueEnvironnement hm) throws IOException {
-			// TODO Auto-generated method stub
-			
-		}
+	@Override
+	public void debug(ValueEnvironnement hm) throws IOException, ExecutionException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setType(ValueEnvironnement hm) throws IOException {
+		// TODO Auto-generated method stub
+		
 	}
 }

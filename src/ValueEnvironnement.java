@@ -2,14 +2,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+
+
 public class ValueEnvironnement {
 
 	private ArrayList<Map<String, Integer>> integers;
 	private ArrayList<Map<String,Boolean>> booleans;
-	
+	private ArrayList<ArrayList<Fonction>> fonctions;
 	public ValueEnvironnement () {
 		integers = new ArrayList<>();
 		booleans = new ArrayList<>();
+		fonctions = new ArrayList<>();
 		this.open();
 	}
 	
@@ -81,15 +84,14 @@ public class ValueEnvironnement {
 	public void open() {
 		integers.add(0, new HashMap<>());
 		booleans.add(0, new HashMap<>());
+		fonctions.add(0,new ArrayList<>());
 	}
 	
 	public void close() {
 		integers.remove(0);
 		booleans.remove(0);
+		fonctions.remove(0);
 	}
 }
 
-class Fonction {
-	private ArrayList<Map<String,Expr>> attributs;
-	
-}
+
