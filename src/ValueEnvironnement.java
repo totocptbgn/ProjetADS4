@@ -18,21 +18,14 @@ public class ValueEnvironnement {
 	}
 
 	public void addInteger(String nom, int value) {
-		/*for (Map<String, Integer> integersblock : integers) {
+		for (Map<String, Integer> integersblock : integers) {
 			if (integersblock.get(nom) != null) {
 				integersblock.put(nom,value);
 				return;
 			}
 		}
 		integers.get(0).put(nom,value);
-		*/
-		for (int i=0;i<integers.size();i++) {
-			if (integers.get(i).get(nom) != null) {
-				integers.get(i).put(nom,value);
-				return;
-			}
-		}
-		integers.get(0).put(nom,value);
+		
 	}
 	
 	public void newBoolean(String nom, boolean value) {
@@ -40,21 +33,14 @@ public class ValueEnvironnement {
 	}
 	
 	public void addBoolean(String nom, boolean value) {
-		/*for (Map<String, Boolean> booleansblock : booleans) {
+		for (Map<String, Boolean> booleansblock : booleans) {
 			if (booleansblock.get(nom) != null) {
 				booleansblock.put(nom,value);
 				return;
 			}
 		}
 		booleans.get(0).put(nom,value);
-		*/
-		for (int i=0;i<booleans.size();i++) {
-			if (booleans.get(i).get(nom) != null) {
-				booleans.get(i).put(nom,value);
-				return;
-			}
-		}
-		booleans.get(0).put(nom,value);
+		
 	}
 
 
