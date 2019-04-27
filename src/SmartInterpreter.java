@@ -1,15 +1,16 @@
 import java.io.IOException;
 
+
 public class SmartInterpreter implements Interpreter {
 
 	private static Grid grid;
 	private static String console = "";
 
-	public static void avancer(int dist) throws NotAllowedMoveException {
+	public static void avancer(int dist) throws ExecutionException {
 		for (int i = 0; i < dist; i++) {
 			grid.avancer(1);
 			if (grid.getCurrentStringValue().equals("#")){
-				throw new NotAllowedMoveException("Vous ne pouvez pas aller dans un obstacle. Obstacle = [x:" + grid.getPosX() + ", y:" + grid.getPosY() + "] (line: " + SmartParser.getLine() + ").");
+				throw new ExecutionException("Vous ne pouvez pas aller dans un obstacle. Obstacle = [x:" + grid.getPosX() + ", y:" + grid.getPosY() + "] (line: " + SmartParser.getLine() + ").");
 			}
 		}
 		writeConsole("> Le Robot avance de " + dist + " case(s) " + getDirectionMessage(grid.getDir()) + ".");
@@ -43,8 +44,8 @@ public class SmartInterpreter implements Interpreter {
 			prog.eval();
 		} catch (IOException e) {
 			e.printStackTrace();
-		} catch (NotAllowedMoveException e){
-			writeConsole("> Exception in thread NotAllowedMoveException: " + e.getMessage());
+		} catch (ExecutionException e){
+			writeConsole("> Exception in thread ExecutionException: " + e.getMessage());
 		}
 		writeConsole("> Fin de l'execution.");
 	}

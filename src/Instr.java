@@ -2,8 +2,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public interface Instr {
-	void eval(ValueEnvironnement hm) throws IOException, NotAllowedMoveException;
-	void debug(ValueEnvironnement hm) throws IOException;
+	void eval(ValueEnvironnement hm) throws IOException, ExecutionException;
+	void debug(ValueEnvironnement hm) throws IOException, ExecutionException;
 	void setType(ValueEnvironnement hm) throws IOException;
 }
 
@@ -21,7 +21,7 @@ class Commande implements Instr {
 		expression.setType(hm);
 	}
 
-	public void eval(ValueEnvironnement hm) throws IOException, NotAllowedMoveException {
+	public void eval(ValueEnvironnement hm) throws IOException, ExecutionException {
 		switch (commande) {
 			case "Avancer":
 				SmartInterpreter.avancer(expression.evalInt(hm));
@@ -33,7 +33,7 @@ class Commande implements Instr {
 				SmartInterpreter.ecrire(expression.evalInt(hm));
 				break;
 			default:
-				throw new IOException("Commande " + commande + " introuvable.");
+				throw new ExecutionException("Commande " + commande + " introuvable.");
 		}
 	}
 
@@ -74,7 +74,7 @@ class If implements Instr {
 		}
 	}
 
-	public void eval(ValueEnvironnement hm) throws IOException, NotAllowedMoveException {
+	public void eval(ValueEnvironnement hm) throws IOException, ExecutionException {
 		if (condition.evalBool(hm)) {
 			body.eval(hm);
 		} else {
@@ -84,7 +84,7 @@ class If implements Instr {
 		}
 	}
 
-	public void debug(ValueEnvironnement hm) throws IOException {
+	public void debug(ValueEnvironnement hm) throws IOException, ExecutionException {
 		System.out.print("If (");
 		condition.debug(hm);
 		System.out.println(")[");
@@ -113,7 +113,7 @@ class New extends Assign {
 	}
 
 	@Override
-	public void eval(ValueEnvironnement hm) throws IOException {
+	public void eval(ValueEnvironnement hm) throws IOException, ExecutionException {
 		Type type=value.getType();
 		//System.out.println(name+" de type "+type);
 		if(hm.defined(name)==null) {
@@ -125,32 +125,28 @@ class New extends Assign {
 			}
 		}
 		else {
-			throw new IOException("La variable "+name+" existe déjà dans le bloc.");
+			throw new ExecutionException("La variable " + name + " existe déjà dans le bloc.");
 		}
-
 	}
 
 	@Override
-	public void debug(ValueEnvironnement hm) throws IOException {
-		if(hm.defined(name)==null) {
+	public void debug(ValueEnvironnement hm) throws IOException, ExecutionException {
+		if (hm.defined(name) == null) {
 			System.out.print("New ");
-			System.out.print(name+"=");
+			System.out.print(name + "=");
 			value.debug(hm);
-			if(value.getType()==Type.BOOL) {
+			if (value.getType() == Type.BOOL) {
 				hm.newBoolean(name, value.evalBool(hm));
 				System.out.println("["+value.evalBool(hm)+"]");
 			}
-			else if(value.getType()==Type.INT) {
+			else if (value.getType() == Type.INT) {
 				hm.newInteger(name, value.evalInt(hm));
-				System.out.println("["+value.evalInt(hm)+"]");
+				System.out.println("[" + value.evalInt(hm) + "]");
 			}
-
-
 		}
 		else {
-			throw new IOException("La variable "+name+" existe déjà dans le bloc.");
+			throw new ExecutionException("La variable " + name + " existe déjà dans le bloc.");
 		}
-
 	}
 
 }
@@ -172,26 +168,24 @@ class Assign implements Instr {
 	}
 
 	@Override
-	public void eval(ValueEnvironnement hm) throws IOException {
-		Type type=value.getType();
-		//System.out.println(name+" de type "+type);
-		if(hm.defined(name)==null) {
-			if(type==Type.BOOL) {
+	public void eval(ValueEnvironnement hm) throws IOException, ExecutionException {
+		Type type = value.getType();
+		if (hm.defined(name) == null) {
+			if (type==Type.BOOL) {
 				hm.newBoolean(name, value.evalBool(hm));
 			}
-			else if(type==Type.INT) {
+			else if (type==Type.INT) {
 				hm.newInteger(name, value.evalInt(hm));
 			}
 		}
 		else {
-			throw new IOException("La variable "+name+" existe déjà dans le bloc.");
+			throw new ExecutionException("La variable " + name + " existe déjà dans le bloc.");
 		}
-
 	}
 
 	@Override
-	public void debug(ValueEnvironnement hm) throws IOException {
-		Type type=value.getType();
+	public void debug(ValueEnvironnement hm) throws IOException, ExecutionException {
+		Type type = value.getType();
 		if(hm.defined(name)==null || type==hm.defined(name)) {
 			if(hm.exists(name)==null) {
 				System.out.print("Assign ");
@@ -206,33 +200,9 @@ class Assign implements Instr {
 				hm.newInteger(name, value.evalInt(hm));
 				System.out.println("["+value.evalInt(hm)+"]");
 			}
-
-
 		}
 		else {
-			throw new IOException("Type non compatible "+name+" de type "+hm.exists(name)+" n'est pas de type "+type);
-		}
-	}
-
-	@Override
-	public void debug(ValueEnvironnement hm) throws IOException {
-		Type type = value.getType();
-		if (hm.defined(name) == null || type == hm.defined(name)) {
-			if (hm.defined(name) == null) {
-				System.out.print("Assign ");
-			}
-			System.out.print(name + "=");
-			value.debug(hm);
-			if (value.getType() == Type.BOOL) {
-				hm.addBoolean(name, value.evalBool(hm));
-				System.out.println("[" + value.evalBool(hm) + "]");
-			}
-			else if (value.getType() == Type.INT) {
-				hm.addInteger(name, value.evalInt(hm));
-				System.out.println("[" + value.evalInt(hm) + "]");
-			}
-		} else {
-			throw new IOException("Type non compatible " + name + " de type " + name + " de type " + hm.exists(name) + " n'est pas de type " + type);
+			throw new ExecutionException("Type non compatible "+name+" de type "+hm.exists(name)+" n'est pas de type "+type);
 		}
 	}
 
@@ -256,13 +226,13 @@ class While implements Instr {
 		body.setType(hm);
 	}
 
-	public void eval(ValueEnvironnement hm) throws IOException, NotAllowedMoveException {
+	public void eval(ValueEnvironnement hm) throws IOException, ExecutionException {
 		while (condition.evalBool(hm)) {
 			body.eval(hm);
 		}
 	}
 
-	public void debug(ValueEnvironnement hm) throws IOException {
+	public void debug(ValueEnvironnement hm) throws IOException, ExecutionException {
 		System.out.print("While(");
 		condition.debug(hm);
 		System.out.println(")[");
@@ -284,7 +254,7 @@ class Block implements Instr {
 		this.list = new ArrayList<>();
 	}
 
-	public void eval(ValueEnvironnement hm) throws IOException, NotAllowedMoveException {
+	public void eval(ValueEnvironnement hm) throws IOException, ExecutionException {
 		hm.open();
 		for (Instr instr : list) {
 			instr.eval(hm);
@@ -308,13 +278,12 @@ class Block implements Instr {
 		return ens;
 	}
 
-	public void debug(ValueEnvironnement hm) throws IOException {
-		indent=indent+1;
+	public void debug(ValueEnvironnement hm) throws IOException, ExecutionException {
+		indent = indent+1;
 		hm.open();
 		for (Instr instr : list) {
 			System.out.print(getIndent());
 			instr.debug(hm);
-
 		}
 		hm.close();
 		indent = indent-1;

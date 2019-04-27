@@ -6,7 +6,7 @@ public class Main {
         runTests();
     }
 
-    private static void runMain(String[] args) throws IOException {
+    private static void runMain(String[] args) throws IOException, ExecutionException {
         // Mise en place du programme
         String exeName = "Main";
         IOEnv ioEnv = IOEnv.parseArgs(exeName, args);
@@ -103,7 +103,7 @@ public class Main {
         	}
         	catch (IOException e) {
         		System.out.println(" ==> Fichier incorrect. Cause: [" + e.getMessage() + "]");
-        	} catch (NotAllowedMoveException e) {
+        	} catch (ExecutionException e) {
 				e.printStackTrace();
 			}
 		}
