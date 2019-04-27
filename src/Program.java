@@ -8,7 +8,7 @@ public class Program {
 		this.list = new ArrayList<>();
 	}
 
-	public void eval() throws IOException, NotAllowedMoveException {
+	public void eval() throws IOException, ExecutionException {
 		ValueEnvironnement hm = new ValueEnvironnement();
 		this.initVariables(hm);
 		this.setType(hm);
@@ -25,7 +25,7 @@ public class Program {
 		hm.addInteger("Height", SmartInterpreter.getHeight());
 	}
 	
-	public void eval(ValueEnvironnement hm) throws IOException, NotAllowedMoveException {
+	public void eval(ValueEnvironnement hm) throws IOException, ExecutionException {
 		for (Instr instr : list) {
 			instr.eval(hm);
 		}
@@ -37,20 +37,19 @@ public class Program {
 		}
 	}
 
-	public void debug() throws IOException {
+	public void debug() throws IOException, ExecutionException {
 		ValueEnvironnement hm = new ValueEnvironnement();
 		this.initVariables(hm);
 		this.setType(hm);
 		hm = new ValueEnvironnement();
 		this.initVariables(hm);
 		for (Instr instr : list) {
-			
 			instr.debug(hm);
 		}
 		hm.close();
 	}
 	
-	public void debug(ValueEnvironnement hm) throws IOException {
+	public void debug(ValueEnvironnement hm) throws IOException, ExecutionException {
 		for (Instr instr : list) {
 			if(!(instr instanceof Block))
 				System.out.print(Block.getIndent());
