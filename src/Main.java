@@ -103,7 +103,9 @@ public class Main {
         	}
         	catch (IOException e) {
         		System.out.println(" ==> Fichier incorrect. Cause: [" + e.getMessage() + "]");
-        	} catch (NotAllowedMoveException e) {
+        	}
+      
+        	catch (NotAllowedMoveException e) {
 				e.printStackTrace();
 			}
 		}
