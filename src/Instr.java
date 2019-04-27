@@ -107,22 +107,69 @@ class If implements Instr {
 		return s;
 	}
 }
+class New extends Assign {
 
+	public New(String nom, Expr val) {
+		super(nom, val);
+	}
+	
+	@Override
+	public void eval(ValueEnvironnement hm) throws IOException {
+		Type type=value.getType();
+		//System.out.println(name+" de type "+type);
+		if(hm.defined(name)==null) {
+			if(type==Type.BOOL) {
+				hm.newBoolean(name, value.evalBool(hm));
+			}
+			else if(type==Type.INT) {
+				hm.newInteger(name, value.evalInt(hm));
+			}
+		}
+		else {
+			throw new IOException("La variable "+name+" existe déjà dans le bloc.");
+		}
+		
+	}
+	
+	@Override
+	public void debug(ValueEnvironnement hm) throws IOException {
+		if(hm.defined(name)==null) {
+			System.out.print("New ");
+			System.out.print(name+"=");
+			value.debug(hm);
+			if(value.getType()==Type.BOOL) {
+				hm.newBoolean(name, value.evalBool(hm));
+				System.out.println("["+value.evalBool(hm)+"]");
+			}
+			else if(value.getType()==Type.INT) {
+				hm.newInteger(name, value.evalInt(hm));
+				System.out.println("["+value.evalInt(hm)+"]");
+			}
+
+
+		}
+		else {
+			throw new IOException("La variable "+name+" existe déjà dans le bloc.");
+		}
+		
+	}
+	
+}
 class Assign implements Instr {
-	private String name;
-	private Expr value;
-
+	protected String name;
+	protected Expr value;
+	
 	public Assign(String nom,Expr val) {
 		this.name = nom;
 		this.value = val;
 	}
 
-	public void setType(ValueEnvironnement hm) throws IOException {
+	public void setType(ValueEnvironnement hm) throws IOException {	
 		value.setType(hm);
 		if (value.getType()==Type.BOOL)
-			hm.addBoolean(name,true);
+			hm.newBoolean(name,true);
 		else if (value.getType()==Type.INT)
-			hm.addInteger(name,0);
+			hm.newInteger(name,0);
 	}
 
 	@Override
@@ -147,7 +194,7 @@ class Assign implements Instr {
 	public void debug(ValueEnvironnement hm) throws IOException {
 		Type type=value.getType();
 		if(hm.defined(name)==null || type==hm.defined(name)) {
-			if(hm.defined(name)==null) {
+			if(hm.exists(name)==null) {
 				System.out.print("Assign ");
 			}
 			System.out.print(name+"=");
@@ -164,7 +211,7 @@ class Assign implements Instr {
 
 		}
 		else {
-			throw new IOException("Type non compatible "+name+" de type "+name+" de type "+hm.exists(name)+" n'est pas de type "+type);
+			throw new IOException("Type non compatible "+name+" de type "+hm.exists(name)+" n'est pas de type "+type);
 		}
 
 	}

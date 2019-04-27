@@ -31,7 +31,7 @@ public class SmartInterpreter implements Interpreter {
 	public void run(Program prog, Grid initGrid) {
 		grille = initGrid;
 		try {
-			prog.debug();
+			prog.eval();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

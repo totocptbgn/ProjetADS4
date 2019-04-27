@@ -24,7 +24,8 @@ instruction   → Avancer( expression ); |
                 Si expression Alors InProgramme else |
                 TantQue expression Alors InProgramme |
                 var = expression; |
-	        OPEN Block
+				OPEN Block |
+				new var = expression;
 
 expression    → Lire |
                 nombre |
@@ -61,7 +62,8 @@ else          → Sinon Alors InProgramme | ε
 	           "Si" <Expr> "Alors" <InProgramme> <else> |
 	           "TantQue" <Expr> "Alors" <InProgramme> |
 	           <var> "=" <Expr> ";" |
-		   OPEN <Block>
+		   OPEN <Block> |
+				"new" <var> "=" <expression>;
 
 <Expr> 	       ::= "Lire" |
 		   <nombre> |

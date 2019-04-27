@@ -1,0 +1,8 @@
+total=0;
+Y=0;
+While (Y < Height) {
+	new Height=(Height/2);
+	total=(total+Height);
+	Y=(Height+Y);
+}
+Ecrire((Height+5));
