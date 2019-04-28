@@ -100,7 +100,6 @@ else          → Sinon Alors InProgramme | ε
 
 ## Idées à ajouter :
 
-- les portées de blocs,
 - le try catch et les blocs,
 - les procedures,
 - et une interface graphique.
