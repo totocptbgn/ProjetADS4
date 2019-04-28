@@ -1,4 +1,5 @@
 
+
 # Projet d'ADS4
 
 > Projet d'analyse des données structurées pour le semestre 4 de la license d'infomatique à Paris Diderot. Le but est de créer un analyseur lexical et un interpreteur pour executer du code permettant de donner des instructions à un robot sur une grille de chiffres.
@@ -24,8 +25,9 @@ instruction   → Avancer( expression ); |
                 Si expression Alors InProgramme else |
                 TantQue expression Alors InProgramme |
                 var = expression; |
-				OPEN Block |
-				new var = expression;
+                OPEN Block |
+                new var = expression; |
+                Try Alors InProgramme Catch InProgramme
 
 expression    → Lire |
                 nombre |
@@ -57,19 +59,20 @@ else          → Sinon Alors InProgramme | ε
 
 
 <Instr>        ::= "Avancer(" <Expr> ");" |
-		   "Tourner(" <Expr> ");" |
-		   "Ecrire(" <Expr> ");" |
-	           "Si" <Expr> "Alors" <InProgramme> <else> |
-	           "TantQue" <Expr> "Alors" <InProgramme> |
-	           <var> "=" <Expr> ";" |
-		   OPEN <Block> |
-				"new" <var> "=" <expression>;
+                   "Tourner(" <Expr> ");" |
+                   "Ecrire(" <Expr> ");" |
+                   "Si" <Expr> "Alors" <InProgramme> <else> |
+                   "TantQue" <Expr> "Alors" <InProgramme> |
+                   <var> "=" <Expr> ";" |
+                   OPEN <Block> |
+                   "new" <var> "=" <expression>; |
+                   "Try" "Alors" <InProgramme> "Catch" <InProgramme>
 
 <Expr> 	       ::= "Lire" |
-		   <nombre> |
-		   "(" <Expr> <binOp> <Expr> ")" |
-		   "-" <Expr> |
-		   <bool>
+                   <nombre> |
+                   "(" <Expr> <binOp> <Expr> ")" |
+                   "-" <Expr> |
+                   <bool>
 
 <binOp>        ::= "+" | "-" | "*" | "/" | "Et" | "Ou" | "<" | ">" | "="
 
