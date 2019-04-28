@@ -15,10 +15,6 @@ public class SmartParser implements Parser {
 		return " Column: " + lexer.getColumn() + " Line: " + lexer.getLine() + " Char: " + lexer.getChar();
 	}
 
-	public static int getLine() {
-		return lexer.getLine();
-	}
-
 	public boolean check(TokenKind tokenTest){
 		return tokenTest == this.token.kind;
 	}
@@ -40,7 +36,7 @@ public class SmartParser implements Parser {
 	public Program parseProgram(String exeName, Reader reader) throws IOException {
 		if (check(TokenKind.EOF)){
 			return new Program();
-		} else if(check(TokenKind.COM) || check(TokenKind.IF) || check(TokenKind.WHILE) || check(TokenKind.VAR) || check(TokenKind.OPEN)) {
+		} else if(check(TokenKind.COM) || check(TokenKind.IF) || check(TokenKind.WHILE) || check(TokenKind.VAR) || check(TokenKind.OPEN) || check(TokenKind.TRY)) {
 			Instr instr = parseInstruction();
 			Program p = parseProgram(exeName, reader);
 			p.add(instr);
@@ -58,7 +54,7 @@ public class SmartParser implements Parser {
 		} else if (check(TokenKind.EOF)) {
 			eat(TokenKind.EOF);
 			return new Block();
-		} else if (check(TokenKind.NEW) || check(TokenKind.COM) || check(TokenKind.IF) || check(TokenKind.WHILE) || check(TokenKind.VAR) || check(TokenKind.OPEN)) {
+		} else if (check(TokenKind.NEW) || check(TokenKind.COM) || check(TokenKind.IF) || check(TokenKind.WHILE) || check(TokenKind.VAR) || check(TokenKind.OPEN) || check(TokenKind.TRY)) {
 			Instr instr = parseInstruction();
 			Block b = parseBlock();
 			b.add(instr);
@@ -122,12 +118,18 @@ public class SmartParser implements Parser {
 			Expr expr = parseExpression();
 			eat(TokenKind.SEMICOLON);
 			return new New(name, expr);
-		}
-		else if (check(TokenKind.OPEN)){
+		} else if (check(TokenKind.OPEN)){
 			eat(TokenKind.OPEN);
 			return parseBlock();
-		}
-		else {
+		} else if (check(TokenKind.TRY)){
+			eat(TokenKind.TRY);
+			eat(TokenKind.THEN);
+			Program tryProg = parseInProgram();
+			eat(TokenKind.CATCH);
+			eat(TokenKind.THEN);
+			Program catchProg = parseInProgram();
+			return new TryCatch(tryProg, catchProg);
+		} else {
 			throw new IOException("Instruction attendue. Trouvé:(" + token.kind + ")" + lexerPos());
 		}
 	}

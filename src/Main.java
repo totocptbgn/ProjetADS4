@@ -3,7 +3,7 @@ import java.io.*;
 public class Main {
     public static void main(String[] args) throws Exception {
         runMain(args);
-        runTests();
+        // runTests();
     }
 
     private static void runMain(String[] args) throws IOException {
@@ -78,7 +78,7 @@ public class Main {
         }
 
       	// Mise en place de l'interpreter
-		Program prog = null;
+		Program prog;
         String[] args = {"src/tests/" + filename, "src/grille.txt"};
 
         IOEnv ioEnv = IOEnv.parseArgs(filename, args);
@@ -97,7 +97,7 @@ public class Main {
 			return;
         }
 
-        // Execution
+        // Exécution
         if (prog != null) {
         	System.out.println("  - Execution :\n");
         	try {

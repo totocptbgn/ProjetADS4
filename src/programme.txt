@@ -1,8 +1,9 @@
-total = 0;
-Y = 0;
-While (Y < Height) {
-	new Height = (Height / 2);
-	total = (total + Height);
-	Y = (Height + Y);
+Try {
+	Avancer(5);
+} Catch {
+	Tourner(1);
+    Avancer(1);
+    Tourner(3);
+    Avancer(5);
 }
-Ecrire((Height + 5));
+Ecrire(7);

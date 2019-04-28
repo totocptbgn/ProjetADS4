@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.util.Arrays;
 
 public class SmartInterpreter implements Interpreter {
 
@@ -11,10 +12,16 @@ public class SmartInterpreter implements Interpreter {
 	}
 
 	public static void avancer(int dist) throws ExecutionException {
+		int savePosX = grid.getPosX();
+		int savePosY = grid.getPosY();
 		for (int i = 0; i < dist; i++) {
 			grid.avancer(1);
 			if (grid.getCurrentStringValue().equals("#")){
-				throw new ExecutionException("Vous ne pouvez pas aller dans un obstacle. Obstacle = [x:" + grid.getPosX() + ", y:" + grid.getPosY() + "] (line: " + SmartParser.getLine() + ").");
+				int posX = grid.getPosX();
+				int posY = grid.getPosY();
+				grid.setPosX(savePosX);
+				grid.setPosY(savePosY);
+				throw new ExecutionException("Vous ne pouvez pas aller dans un obstacle. Obstacle = [x:" + posX + ", y:" + posY + "].");
 			}
 		}
 		writeConsole("> Le Robot avance de " + dist + " case(s) " + getDirectionMessage(grid.getDir()) + ".");
@@ -49,7 +56,8 @@ public class SmartInterpreter implements Interpreter {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ExecutionException e){
-			writeConsole("> Exception in thread ExecutionException: " + e.getMessage() + " (line: " + SmartParser.getLine() + ").");
+			//writeConsole("> Exception in thread ExecutionException: " + e.getMessage());
+			e.printStackTrace();
 		}
 		writeConsole("> Fin de l'execution.");
 	}
@@ -66,7 +74,7 @@ public class SmartInterpreter implements Interpreter {
 		switch (dir){
 			case 0: return "vers la droite";
 			case 1: return "vers le haut";
-			case 2: return "vers le gauche";
+			case 2: return "vers la gauche";
 			case 3: return "vers le bas";
 			default: return "";
 		}

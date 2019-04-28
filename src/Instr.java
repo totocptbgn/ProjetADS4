@@ -106,6 +106,7 @@ class If implements Instr {
 		return s;
 	}
 }
+
 class New extends Assign {
 
 	public New(String nom, Expr val) {
@@ -198,17 +199,17 @@ class Assign implements Instr {
 
 	@Override
 	public void debug(ValueEnvironnement hm) throws IOException, ExecutionException {
-		Type type=value.getType();
-		if(hm.exists(name)==null) {
+		Type type = value.getType();
+		if (hm.exists(name)==null) {
 			System.out.print("Assign ");
 		}
 		System.out.print(name+"=");
 		value.debug(hm);
-		if(value.getType()==Type.BOOL) {
+		if (value.getType()==Type.BOOL) {
 			hm.addBoolean(name, value.evalBool(hm));
 			System.out.println("["+value.evalBool(hm)+"]");
 		}
-		else if(value.getType()==Type.INT) {
+		else if (value.getType()==Type.INT) {
 			hm.addInteger(name, value.evalInt(hm));
 			System.out.println("["+value.evalInt(hm)+"]");
 		}
@@ -216,9 +217,8 @@ class Assign implements Instr {
 	}
 
 	public String toString() {
-		return name+"="+value;
+		return name + "=" + value;
 	}
-
 }
 
 
@@ -296,13 +296,12 @@ class Block implements Instr {
 			instr.debug(hm);
 		}
 		hm.close();
-		indent = indent-1;
+		indent = indent - 1;
 	}
 
 	public void add(Instr instr) {
 		list.add(0, instr);
 	}
-
 
 	public String toString() {
 		indent = indent+1;
@@ -346,6 +345,47 @@ class Fonction implements Instr {
 	public void setType(ValueEnvironnement hm) throws IOException {
 		// TODO Auto-generated method stub
 
+	}
+}
 
+class TryCatch implements Instr {
+
+	private Program bodyTry;
+	private Program bodyCatch;
+
+	public void setType(ValueEnvironnement hm) throws IOException, ExecutionException {
+		bodyTry.setType(hm);
+		bodyCatch.setType(hm);
+	}
+
+	public TryCatch(Program bodyTry, Program bodyCatch) {
+		this.bodyTry = bodyTry;
+		this.bodyCatch = bodyCatch;
+	}
+
+	public void eval(ValueEnvironnement hm) throws IOException, ExecutionException {
+		try {
+			bodyTry.eval(hm);
+		} catch (ExecutionException e){
+			bodyCatch.eval(hm);
+		}
+	}
+
+	public void debug(ValueEnvironnement hm) throws IOException, ExecutionException {
+		System.out.println("Try {");
+		bodyTry.debug(hm);
+		System.out.println("} Catch {");
+		bodyCatch.debug(hm);
+		System.out.println("}");
+	}
+
+	@Override
+	public String toString() {
+		String s = "Try {";
+		s += bodyTry.toString();
+		s += "} Catch {";
+		s += bodyCatch.toString();
+		s += "}";
+		return s;
 	}
 }
