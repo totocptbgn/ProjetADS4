@@ -4,6 +4,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         runMain(args);
         runTests();
+        // UserInterface.runUI();
     }
 
     private static void runMain(String[] args) throws IOException {
