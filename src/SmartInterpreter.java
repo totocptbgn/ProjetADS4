@@ -1,6 +1,5 @@
 import java.io.IOException;
 
-
 public class SmartInterpreter implements Interpreter {
 
 	private static Grid grid;
@@ -53,10 +52,6 @@ public class SmartInterpreter implements Interpreter {
 			writeConsole("> Exception in thread ExecutionException: " + e.getMessage() + " (line: " + SmartParser.getLine() + ").");
 		}
 		writeConsole("> Fin de l'execution.");
-	}
-	
-	public void setGrille(Grid initGrid) {
-		grid = initGrid;
 	}
 
 	private static void writeConsole(String s){

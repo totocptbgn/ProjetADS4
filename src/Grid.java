@@ -159,11 +159,12 @@ public class Grid {
 
     public void print() {
         StringBuilder builder = new StringBuilder();
-        builder.append("Position du robot : ");
+        builder.append("    Position du robot : ");
         builder.append("[x:").append(posX).append(", ");
         builder.append("y:").append(posY).append("]\n");
         int[] lengths = colLengths();
         for (int y = sizeY - 1; y >= 0; y --) {
+            builder.append("    ");
             for (int x = 0; x < sizeX; x ++) {
                 builder.append(String.format("%" + lengths[x] + "s", grid[x][y]));
                 if (x < sizeX - 1)

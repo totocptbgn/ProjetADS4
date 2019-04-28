@@ -47,7 +47,7 @@ public class SmartParser implements Parser {
 			return p;
 		}
 		else {
-			throw new IOException("404 error");
+			throw new IOException("Nouvelle instruction attendue.");
 		}
 	}
 	
