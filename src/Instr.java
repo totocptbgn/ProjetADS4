@@ -116,32 +116,39 @@ class New extends Assign {
 	public void eval(ValueEnvironnement hm) throws IOException, ExecutionException {
 		Type type=value.getType();
 		//System.out.println(name+" de type "+type);
-		if(hm.defined(name)==null) {
-			if(type==Type.BOOL) {
-				hm.newBoolean(name, value.evalBool(hm));
-			}
-			else if(type==Type.INT) {
-				hm.newInteger(name, value.evalInt(hm));
-			}
+		if(type==Type.BOOL) {
+			hm.newBoolean(name, value.evalBool(hm));
 		}
-		else {
-			throw new ExecutionException("La variable " + name + " existe déjà dans le bloc.");
+		else if(type==Type.INT) {
+			hm.newInteger(name, value.evalInt(hm));
 		}
 	}
 
 	@Override
 	public void debug(ValueEnvironnement hm) throws IOException, ExecutionException {
-		if (hm.defined(name) == null) {
-			System.out.print("New ");
-			System.out.print(name + "=");
-			value.debug(hm);
-			if (value.getType() == Type.BOOL) {
-				hm.newBoolean(name, value.evalBool(hm));
-				System.out.println("["+value.evalBool(hm)+"]");
+		System.out.print("New ");
+		System.out.print(name + "=");
+		value.debug(hm);
+		if (value.getType() == Type.BOOL) {
+			hm.newBoolean(name, value.evalBool(hm));
+			System.out.println("["+value.evalBool(hm)+"]");
+		}
+		else if (value.getType() == Type.INT) {
+			hm.newInteger(name, value.evalInt(hm));
+			System.out.println("[" + value.evalInt(hm) + "]");
+		}
+	}
+	
+	public void setType(ValueEnvironnement hm) throws IOException, ExecutionException {
+		value.setType(hm);
+		Type type=value.getType();
+		//System.out.println(name+" de type "+type);
+		if(hm.defined(name)==null) {
+			if(type==Type.BOOL) {
+				hm.newBoolean(name, false);
 			}
-			else if (value.getType() == Type.INT) {
-				hm.newInteger(name, value.evalInt(hm));
-				System.out.println("[" + value.evalInt(hm) + "]");
+			else if(type==Type.INT) {
+				hm.newInteger(name, 0);
 			}
 		}
 		else {
@@ -162,26 +169,29 @@ class Assign implements Instr {
 
 	public void setType(ValueEnvironnement hm) throws IOException, ExecutionException {
 		value.setType(hm);
-		if (value.getType()==Type.BOOL)
-			hm.newBoolean(name,true);
-		else if (value.getType()==Type.INT)
-			hm.newInteger(name,0);
+		Type type=value.getType();
+		//System.out.println(name+" de type "+type);
+		if(hm.defined(name)==null || type==hm.defined(name)) {
+			if(type==Type.BOOL) {
+				hm.addBoolean(name, false);
+			}
+			else if(type==Type.INT) {
+				hm.addInteger(name, 0);
+			}
+		}
+		else {
+			throw new IOException("Type non compatible "+name+" de type "+hm.exists(name)+" n'est pas de type "+type);
+		}
 	}
 
 	@Override
 	public void eval(ValueEnvironnement hm) throws IOException, ExecutionException {
 		Type type=value.getType();
-		//System.out.println(name+" de type "+type);
-		if(hm.defined(name)==null || type==hm.defined(name)) {
-			if(type==Type.BOOL) {
-				hm.addBoolean(name, value.evalBool(hm));
-			}
-			else if(type==Type.INT) {
-				hm.addInteger(name, value.evalInt(hm));
-			}
+		if(type==Type.BOOL) {
+			hm.addBoolean(name, value.evalBool(hm));
 		}
-		else {
-			throw new IOException("Type non compatible "+name+" de type "+name+" de type "+hm.exists(name)+" n'est pas de type "+type);
+		else if(type==Type.INT) {
+			hm.addInteger(name, value.evalInt(hm));
 		}
 
 	}
@@ -189,25 +199,18 @@ class Assign implements Instr {
 	@Override
 	public void debug(ValueEnvironnement hm) throws IOException, ExecutionException {
 		Type type=value.getType();
-		if(hm.defined(name)==null || type==hm.defined(name)) {
-			if(hm.exists(name)==null) {
-				System.out.print("Assign ");
-			}
-			System.out.print(name+"=");
-			value.debug(hm);
-			if(value.getType()==Type.BOOL) {
-				hm.addBoolean(name, value.evalBool(hm));
-				System.out.println("["+value.evalBool(hm)+"]");
-			}
-			else if(value.getType()==Type.INT) {
-				hm.addInteger(name, value.evalInt(hm));
-				System.out.println("["+value.evalInt(hm)+"]");
-			}
-
-
+		if(hm.exists(name)==null) {
+			System.out.print("Assign ");
 		}
-		else {
-			throw new IOException("Type non compatible "+name+" de type "+hm.exists(name)+" n'est pas de type "+type);
+		System.out.print(name+"=");
+		value.debug(hm);
+		if(value.getType()==Type.BOOL) {
+			hm.addBoolean(name, value.evalBool(hm));
+			System.out.println("["+value.evalBool(hm)+"]");
+		}
+		else if(value.getType()==Type.INT) {
+			hm.addInteger(name, value.evalInt(hm));
+			System.out.println("["+value.evalInt(hm)+"]");
 		}
 
 	}
