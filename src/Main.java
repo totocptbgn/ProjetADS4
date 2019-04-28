@@ -94,7 +94,7 @@ public class Main {
             System.out.println("  - Compilation : Ok.");
         } catch (IOException e) {
             System.out.println("  - Compilation : Fichier incorrect. Cause: [" + e.getMessage() + "]");
-			System.out.println("  - Execution : Pas d'execution possible.");
+			System.out.println("  - Execution : Pas d'execution possible.\n");
 			return;
         }
 
@@ -105,16 +105,25 @@ public class Main {
         		System.out.println("Grille avant éxécution :");
         		grid.print();
         		interp.run(prog, grid);
-        		System.out.println("Console: ");
-        		System.out.print(interp.getConsole());
+
+				System.out.println("Console: ");
+				System.out.print(interp.getConsole());
         		System.out.println("Grille après execution :");
         		grid.print();
-        		System.out.println(" ==> Fichier correct.");
         	}
         	catch (Exception e) {
         		System.out.println(" ==> Fichier incorrect. Cause: [" + e.getMessage() + "]");
         	}
 		}
-        System.out.println();
+
+		System.out.print("Débug: ");
+		try {
+			System.out.println();
+			prog.debug();
+			System.out.println();
+		} catch (Exception e) {
+			System.out.println("Pas de débug possible.");
+		}
+		System.out.println();
     }
 }

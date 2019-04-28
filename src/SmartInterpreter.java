@@ -53,11 +53,8 @@ public class SmartInterpreter implements Interpreter {
 		grid = initGrid;
 		try {
 			prog.eval();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ExecutionException e){
-			//writeConsole("> Exception in thread ExecutionException: " + e.getMessage());
-			e.printStackTrace();
+		} catch (Exception e){
+			writeConsole("> Exception in thread, ExecutionException: " + e.getMessage());
 		}
 		writeConsole("> Fin de l'execution.");
 	}
