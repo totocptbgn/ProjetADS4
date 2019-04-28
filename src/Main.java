@@ -3,7 +3,7 @@ import java.io.*;
 public class Main {
     public static void main(String[] args) throws Exception {
         runMain(args);
-        // runTests();
+        runTests();
     }
 
     private static void runMain(String[] args) throws IOException {
@@ -55,6 +55,7 @@ public class Main {
         testFile("good3");
         testFile("good4");
         testFile("good5");
+		testFile("good6");
         testFile("bad0");
         testFile("bad1");
         testFile("bad2");

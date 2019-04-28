@@ -1,5 +1,3 @@
-
-
 # Projet d'ADS4
 
 > Projet d'analyse des données structurées pour le semestre 4 de la license d'infomatique à Paris Diderot. Le but est de créer un analyseur lexical et un interpreteur pour executer du code permettant de donner des instructions à un robot sur une grille de chiffres.
@@ -98,11 +96,13 @@ else          → Sinon Alors InProgramme | ε
 - l'opération non-égal `!=`
 - la négation `!`,
 - la possibilité de mettre un `Else` après le `If`,
-- et les variables typées (booleen et entier), `var = Expr`.
+- les variables typées (booleen et entier), `var = Expr`,
+- les blocs (avec indentation),
+- des obstacles (`#` dans la grille),
+- et le try / catch (et les `ExecutionException`).
 
 
 ## Idées à ajouter :
 
-- le try catch et les blocs,
-- les procedures,
+- les fonctions,
 - et une interface graphique.
