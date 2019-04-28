@@ -107,7 +107,7 @@ public class Main {
         		//p.eval();
         		interp.run(p, grid);
         		System.out.println("Console: ");
-        		System.out.println(interp.getConsole());
+        		System.out.print(interp.getConsole());
         		System.out.println("Grille après execution :");
         		grid.print();
         		System.out.println(" ==> Fichier correct.");

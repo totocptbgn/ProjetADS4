@@ -6,6 +6,11 @@ public class SmartInterpreter implements Interpreter {
 	private static Grid grid;
 	private static String console = "";
 
+	public SmartInterpreter() {
+		grid = null;
+		console = "";
+	}
+
 	public static void avancer(int dist) throws ExecutionException {
 		for (int i = 0; i < dist; i++) {
 			grid.avancer(1);
