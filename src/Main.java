@@ -2,7 +2,7 @@ import java.io.*;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        //runMain(args);
+        runMain(args);
         runTests();
     }
 
@@ -78,7 +78,7 @@ public class Main {
         }
 
       	// Mise en place de l'interpreter
-		Program p = null;
+		Program prog = null;
         String[] args = {"src/tests/" + filename, "src/grille.txt"};
 
         IOEnv ioEnv = IOEnv.parseArgs(filename, args);
@@ -86,11 +86,10 @@ public class Main {
 
         Parser parser = new SmartParser(ioEnv.inProgram);
         SmartInterpreter interp = new SmartInterpreter();
-        //interp.setGrille(grid);
 
         // Parsing et compilation
         try {
-            p = parser.parseProgram("Tests", reader);
+            prog = parser.parseProgram("Tests", reader);
             System.out.println("  - Compilation : Ok.");
         } catch (IOException e) {
             System.out.println("  - Compilation : Fichier incorrect. Cause: [" + e.getMessage() + "]");
@@ -99,13 +98,12 @@ public class Main {
         }
 
         // Execution
-        if (p != null) {
+        if (prog != null) {
         	System.out.println("  - Execution :\n");
         	try {
         		System.out.println("Grille avant éxécution :");
         		grid.print();
-        		//p.eval();
-        		interp.run(p, grid);
+        		interp.run(prog, grid);
         		System.out.println("Console: ");
         		System.out.print(interp.getConsole());
         		System.out.println("Grille après execution :");
