@@ -2,7 +2,7 @@ import java.io.*;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        runMain(args);
+        //runMain(args);
         runTests();
     }
 
@@ -39,8 +39,10 @@ public class Main {
 		try {
 			prog.debug();
 		} catch (ExecutionException e){
-			e.printStackTrace();
+			System.out.print("Exception in thread, ExecutionException: ");
+			System.out.println(e.getLocalizedMessage());
 		}
+		System.out.println(" [Fin du débug.]");
 		System.out.print("\n");
     }
 
@@ -77,13 +79,14 @@ public class Main {
 
       	// Mise en place de l'interpreter
 		Program p = null;
-        String exeName = filename;
         String[] args = {"src/tests/" + filename, "src/grille.txt"};
-        IOEnv ioEnv = IOEnv.parseArgs(exeName, args);
-        Grid grid = Grid.parseGrid(exeName, ioEnv.inGrid);
+
+        IOEnv ioEnv = IOEnv.parseArgs(filename, args);
+        Grid grid = Grid.parseGrid(filename, ioEnv.inGrid);
+
         Parser parser = new SmartParser(ioEnv.inProgram);
         SmartInterpreter interp = new SmartInterpreter();
-        interp.setGrille(grid);
+        //interp.setGrille(grid);
 
         // Parsing et compilation
         try {
@@ -92,6 +95,7 @@ public class Main {
         } catch (IOException e) {
             System.out.println("  - Compilation : Fichier incorrect. Cause: [" + e.getMessage() + "]");
 			System.out.println("  - Execution : Pas d'execution possible.");
+			return;
         }
 
         // Execution
@@ -100,7 +104,10 @@ public class Main {
         	try {
         		System.out.println("Grille avant éxécution :");
         		grid.print();
-        		p.eval();
+        		//p.eval();
+        		interp.run(p, grid);
+        		System.out.println("Console: ");
+        		System.out.println(interp.getConsole());
         		System.out.println("Grille après execution :");
         		grid.print();
         		System.out.println(" ==> Fichier correct.");
