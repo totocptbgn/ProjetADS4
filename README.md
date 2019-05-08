@@ -105,4 +105,4 @@ else          → Sinon Alors InProgramme | ε
 ## Idées à ajouter :
 
 - les fonctions,
-- et une interface graphique.
+- et le bloc "glace".
