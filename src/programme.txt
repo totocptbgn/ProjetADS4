@@ -1,9 +1,10 @@
-Try {
-	Avancer(5);
-} Catch {
-	Tourner(1);
-    Avancer(1);
-    Tourner(3);
-    Avancer(5);
-}
-Ecrire(7);
+// Initialisation test
+Avancer(2);
+Tourner(1);
+Avancer(2);
+Tourner(3);
+
+Avancer(1);
+
+// Marquage Arrivée
+Ecrire(1);

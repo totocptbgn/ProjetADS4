@@ -90,9 +90,9 @@ public class Grid {
                 for (int i = 0; i < sizeX; i ++) {
                     String s = scanner.next();
                     try {
-                        int test = Integer.valueOf(s);
+                        Integer.valueOf(s);
                     } catch (NumberFormatException e){
-                        if (!s.equals("#")) {
+                        if (!s.equals("#") && !s.equals("*")) {
                             String message = "Symbole non autorisé dans la grille \"" + e.getMessage().charAt(19) + "\", coordonées : [x:" + j + ",y:" + i + "].";
                             System.err.println(message);
                             System.exit(1);

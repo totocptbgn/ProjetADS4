@@ -9,6 +9,8 @@ public class SmartInterpreter implements Interpreter {
 	}
 
 	public static void avancer(int dist) throws ExecutionException {
+		int distFinal = dist;
+		boolean slip = false;
 		int savePosX = grid.getPosX();
 		int savePosY = grid.getPosY();
 		for (int i = 0; i < dist; i++) {
@@ -19,9 +21,23 @@ public class SmartInterpreter implements Interpreter {
 				grid.setPosX(savePosX);
 				grid.setPosY(savePosY);
 				throw new ExecutionException("Vous ne pouvez pas aller dans un obstacle. Obstacle = [x:" + posX + ", y:" + posY + "].");
+			} else if (grid.getCurrentStringValue().equals("*")){
+				slip = true;
+				while (grid.getCurrentStringValue().equals("*")){
+					grid.avancer(1);
+					distFinal++;
+				}
+				if (grid.getCurrentStringValue().equals("#")) {
+					int posX = grid.getPosX();
+					int posY = grid.getPosY();
+					grid.setPosX(savePosX);
+					grid.setPosY(savePosY);
+					throw new ExecutionException("Vous avez glissé dans un obstacle. Obstacle = [x:" + posX + ", y:" + posY + "].");
+				}
 			}
 		}
-		writeConsole("> Le Robot avance de " + dist + " case(s) " + getDirectionMessage(grid.getDir()) + ".");
+		if (!slip) writeConsole("> Le Robot avance de " + dist + " case(s) " + getDirectionMessage(grid.getDir()) + ".");
+		else writeConsole("> Le Robot avance de " + dist + " case(s) mais glisse et avance finalement de " + distFinal + " case(s) " + getDirectionMessage(grid.getDir()) + ".");
 	}
 
 	public static void tourner(int rot) {
