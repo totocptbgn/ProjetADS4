@@ -15,7 +15,7 @@ public class Main {
         Parser parser = new SmartParser(ioEnv.inProgram);
 
         // Construction du Program en lisant le ficher grâce au Parser
-		Program prog = new Program();
+		Program prog;
 		try {
 			System.out.println("======================= Parsing de programme.txt =======================\n");
 			prog = parser.parseProgram(exeName, ioEnv.inProgram);

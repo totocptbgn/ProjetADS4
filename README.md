@@ -112,30 +112,30 @@ Avancer((4 / 2));
 ```
 - l'opération non-égal `!=`
 ```java
-If ((3 > 4) != (6 != 4)) {  
-   Avancer(5);  
+If ((3 > 4) != (6 != 4)) {
+   Avancer(5);
 }
 ```
 - la négation `!`,
 ```java
-If !(3 > 4) {  
-   Avancer(5);  
+If !(3 > 4) {
+   Avancer(5);
 }
 ```
 - la possibilité de mettre un `Else` après le `If`,
 ```java
-If (3 > 4) {  
-   Avancer(5);  
-} Else {  
-   Tourner(1);  
-   Avancer(5);  
+If (3 > 4) {
+   Avancer(5);
+} Else {
+   Tourner(1);
+   Avancer(5);
 }
 ```
 - les variables typées (booleen et entier), `var = Expr`,
 ```java
-b = (3 < 4);  
-n = 5;  
-If b {  
+b = (3 < 4);
+n = 5;
+If b {
    Avancer(n);
 }
 ```
@@ -143,28 +143,27 @@ If b {
 ```java
 // À FAIRE
 ```
-- des obstacles (`#` dans la grille),
+- des obstacles et des "blocs de glace" (`#` et `*`dans la grille),
 ```
  0 0 0 0 0 0 0 0 0 0
- 0 0 0 0 # 0 0 0 0 0
+ 0 0 0 0 # 0 0 * 0 0
  0 2 0 0 0 4 0 0 0 0
- 0 0 0 0 0 0 0 0 # 0
+ 0 0 0 * * * # 0 # 0
  5 4 0 # 0 5 0 0 0 0
 ```
 - et le try / catch (et les `ExecutionException`).
 ```java
-Try {  
-   Avancer(5);  
-} Catch {  
-   Tourner(1);  
-    Avancer(1);  
-    Tourner(3);  
-    Avancer(5);  
-}  
+Try {
+   Avancer(5);
+} Catch {
+   Tourner(1);
+   Avancer(1);
+   Tourner(3);
+   Avancer(5);
+}
 Ecrire(7);
 ```
 
 ## Idées à ajouter
 
-- les fonctions,
-- et le bloc "glace".
+- les fonctions !
