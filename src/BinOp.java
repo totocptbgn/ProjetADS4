@@ -102,6 +102,5 @@ public enum BinOp {
 
     public abstract void debug();
     
-    
 	public abstract Type getType();
 }

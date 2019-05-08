@@ -54,7 +54,7 @@ class If implements Instr {
 	private Expr condition;
 	private Program body;
 
-	private boolean hasElse=false;
+	private boolean hasElse;
 	private Program elseBody;
 
 	public void setType(ValueEnvironnement hm) throws IOException, ExecutionException {
@@ -68,9 +68,11 @@ class If implements Instr {
 	public If(Expr ie,Program body,Program elseBody) {
 		this.condition = ie;
 		this.body = body;
-		if(elseBody!=null) {
+		if (elseBody != null) {
 			this.hasElse = true;
-			this.elseBody=elseBody;
+			this.elseBody = elseBody;
+		} else {
+			this.hasElse = false;
 		}
 	}
 
@@ -115,12 +117,11 @@ class New extends Assign {
 
 	@Override
 	public void eval(ValueEnvironnement hm) throws IOException, ExecutionException {
-		Type type=value.getType();
-		//System.out.println(name+" de type "+type);
-		if(type==Type.BOOL) {
+		Type type = value.getType();
+		if (type == Type.BOOL) {
 			hm.newBoolean(name, value.evalBool(hm));
 		}
-		else if(type==Type.INT) {
+		else if (type == Type.INT) {
 			hm.newInteger(name, value.evalInt(hm));
 		}
 	}
@@ -132,7 +133,7 @@ class New extends Assign {
 		value.debug(hm);
 		if (value.getType() == Type.BOOL) {
 			hm.newBoolean(name, value.evalBool(hm));
-			System.out.println("["+value.evalBool(hm)+"]");
+			System.out.println("[" + value.evalBool(hm)+"]");
 		}
 		else if (value.getType() == Type.INT) {
 			hm.newInteger(name, value.evalInt(hm));
@@ -142,10 +143,9 @@ class New extends Assign {
 	
 	public void setType(ValueEnvironnement hm) throws IOException, ExecutionException {
 		value.setType(hm);
-		Type type=value.getType();
-		//System.out.println(name+" de type "+type);
-		if(hm.defined(name)==null) {
-			if(type==Type.BOOL) {
+		Type type = value.getType();
+		if (hm.defined(name) == null) {
+			if (type == Type.BOOL) {
 				hm.newBoolean(name, false);
 			}
 			else if(type==Type.INT) {
@@ -170,50 +170,47 @@ class Assign implements Instr {
 
 	public void setType(ValueEnvironnement hm) throws IOException, ExecutionException {
 		value.setType(hm);
-		Type type=value.getType();
-		//System.out.println(name+" de type "+type);
-		if(hm.defined(name)==null || type==hm.defined(name)) {
-			if(type==Type.BOOL) {
+		Type type = value.getType();
+		if (hm.defined(name) == null || type == hm.defined(name)) {
+			if (type == Type.BOOL) {
 				hm.addBoolean(name, false);
 			}
-			else if(type==Type.INT) {
+			else if(type == Type.INT) {
 				hm.addInteger(name, 0);
 			}
 		}
 		else {
-			throw new IOException("Type non compatible "+name+" de type "+hm.exists(name)+" n'est pas de type "+type);
+			throw new IOException("Type non compatible " + name + " de type " + hm.exists(name) + " n'est pas de type " + type);
 		}
 	}
 
 	@Override
 	public void eval(ValueEnvironnement hm) throws IOException, ExecutionException {
-		Type type=value.getType();
-		if(type==Type.BOOL) {
+		Type type = value.getType();
+		if (type == Type.BOOL) {
 			hm.addBoolean(name, value.evalBool(hm));
 		}
-		else if(type==Type.INT) {
+		else if (type == Type.INT) {
 			hm.addInteger(name, value.evalInt(hm));
 		}
-
 	}
 
 	@Override
 	public void debug(ValueEnvironnement hm) throws IOException, ExecutionException {
 		Type type = value.getType();
-		if (hm.exists(name)==null) {
+		if (hm.exists(name) == null) {
 			System.out.print("Assign ");
 		}
-		System.out.print(name+"=");
+		System.out.print(name + "=");
 		value.debug(hm);
-		if (value.getType()==Type.BOOL) {
+		if (type == Type.BOOL) {
 			hm.addBoolean(name, value.evalBool(hm));
-			System.out.println("["+value.evalBool(hm)+"]");
+			System.out.println("[" + value.evalBool(hm) + "]");
 		}
-		else if (value.getType()==Type.INT) {
+		else if (type == Type.INT) {
 			hm.addInteger(name, value.evalInt(hm));
-			System.out.println("["+value.evalInt(hm)+"]");
+			System.out.println("[" + value.evalInt(hm) + "]");
 		}
-
 	}
 
 	public String toString() {
@@ -247,7 +244,7 @@ class While implements Instr {
 		condition.debug(hm);
 		System.out.println(")[");
 		body.debug(hm);
-		System.out.println(Block.getIndent()+"]");
+		System.out.println(Block.getIndent() + "]");
 	}
 
 	@Override
@@ -332,19 +329,16 @@ class Fonction implements Instr {
 	@Override
 	public void eval(ValueEnvironnement hm) throws IOException, ExecutionException {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void debug(ValueEnvironnement hm) throws IOException, ExecutionException {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void setType(ValueEnvironnement hm) throws IOException {
 		// TODO Auto-generated method stub
-
 	}
 }
 

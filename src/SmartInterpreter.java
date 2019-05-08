@@ -1,6 +1,3 @@
-import java.io.IOException;
-import java.util.Arrays;
-
 public class SmartInterpreter implements Interpreter {
 
 	private static Grid grid;

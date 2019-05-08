@@ -4,7 +4,6 @@ public class Main {
     public static void main(String[] args) throws Exception {
         runMain(args);
         runTests();
-        // UserInterface.runUI();
     }
 
     private static void runMain(String[] args) throws IOException {
@@ -16,7 +15,18 @@ public class Main {
         Parser parser = new SmartParser(ioEnv.inProgram);
 
         // Construction du Program en lisant le ficher grâce au Parser
-        Program prog = parser.parseProgram(exeName, ioEnv.inProgram);
+		Program prog = new Program();
+		try {
+			System.out.println("======================= Parsing de programme.txt =======================\n");
+			prog = parser.parseProgram(exeName, ioEnv.inProgram);
+			System.out.println("===> Correct !");
+			System.out.println();
+		} catch (IOException e) {
+			System.out.println("===> Incorrect...");
+			System.out.println("     Cause : " + e.getMessage());
+			System.out.println();
+			return;
+		}
 
 		// Construction de la grille en lisant le fichier
 		Grid grid = Grid.parseGrid(exeName, ioEnv.inGrid);
@@ -64,6 +74,7 @@ public class Main {
         testFile("bad4");
         testFile("bad5");
         testFile("bad6");
+		testFile("bad7");
 		System.out.println("---------------------------- Fin des tests. ----------------------------\n");
     }
 
@@ -106,7 +117,6 @@ public class Main {
         		System.out.println("Grille avant éxécution :");
         		grid.print();
         		interp.run(prog, grid);
-
 				System.out.println("Console: ");
 				System.out.print(interp.getConsole());
         		System.out.println("Grille après execution :");
