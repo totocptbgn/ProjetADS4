@@ -201,36 +201,35 @@ public class SmartParser implements Parser {
 	}
 
 	private BinOp parseBinOp() throws IOException {
-		if (check(TokenKind.PLUS)){
-			eat(TokenKind.PLUS);
-			return BinOp.PLUS;
-		} else if (check(TokenKind.MINUS)){
-			eat(TokenKind.MINUS);
-			return BinOp.MINUS;
-		} else if (check(TokenKind.AND)){
-			eat(TokenKind.AND);
-			return BinOp.AND;
-		} else if (check(TokenKind.OR)){
-			eat(TokenKind.OR);
-			return BinOp.OR;
-		} else if (check(TokenKind.INF)){
-			eat(TokenKind.INF);
-			return BinOp.INF;
-		} else if (check(TokenKind.SUP)){
-			eat(TokenKind.SUP);
-			return BinOp.SUP;
+		if(check(TokenKind.OP)) {
+			String val=token.getStringValue();
+			eat(TokenKind.OP);
+			switch(val) {
+				case "PLUS":
+					return BinOp.PLUS;
+				case "AND":
+					return BinOp.AND;
+				case "OR":
+					return BinOp.OR;
+				case "INF":
+					return BinOp.INF;
+				case "SUP":
+					return BinOp.SUP;
+				case "NOTEQ":
+					return BinOp.NOTEQ;
+				case "TIMES":
+					return BinOp.TIMES;
+				case "DIVIDE":
+					return BinOp.DIVIDE;
+				default :
+					throw new IOException("Operation "+val+" inconnu");
+			}
 		} else if (check(TokenKind.EQ)){
 			eat(TokenKind.EQ);
 			return BinOp.EQ;
-		} else if (check(TokenKind.NOTEQ)) {
-			eat(TokenKind.NOTEQ);
-			return BinOp.NOTEQ;
-		} else if (check(TokenKind.TIMES)){
-			eat(TokenKind.TIMES);
-			return BinOp.TIMES;
-		} else if (check(TokenKind.DIVIDE)){
-			eat(TokenKind.DIVIDE);
-			return BinOp.DIVIDE;
+		} else if (check(TokenKind.MINUS)){
+			eat(TokenKind.MINUS);
+			return BinOp.MINUS;
 		} else {
 			throw new IOException("Attendu: BinOP Trouvé: (" + token.kind + ")" + lexerPos());
 		}
@@ -256,7 +255,7 @@ public class SmartParser implements Parser {
 			return exprs;
 		}
 		//follow isFonction
-		else if(check(TokenKind.RPAR) || check(TokenKind.SEMICOLON) || check(TokenKind.PLUS) || check(TokenKind.MINUS) || check(TokenKind.AND) ||  check(TokenKind.OR) || check(TokenKind.INF) || check(TokenKind.SUP) || check(TokenKind.EQ) || check(TokenKind.NOTEQ) || check(TokenKind.TIMES) || check(TokenKind.DIVIDE) || check(TokenKind.THEN) || check(TokenKind.VIR)) {
+		else if(check(TokenKind.RPAR) || check(TokenKind.SEMICOLON) || check(TokenKind.OP) || check(TokenKind.MINUS) || check(TokenKind.EQ) || check(TokenKind.THEN) || check(TokenKind.VIR)) {
 			return null;
 		}
 		else {

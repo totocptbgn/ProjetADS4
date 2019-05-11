@@ -91,10 +91,10 @@ else          → Sinon Alors InProgramme | ε
                    "TantQue" <Expr> "Alors" <InProgramme> |
                    <var> <varbis> ";" |
                    OPEN <Block> |
-                   "new" <var> "=" <expression>; |
-                   "Try" "Alors" <InProgramme> "Catch" <InProgramme> |
+                   "new" <var> "=" <expression> ";" |
+                   "Try Alors" <InProgramme> "Catch" <InProgramme> |
 				   "def(" <attributs> "):" <Block> |
-				   "return" <expression> ";"
+				   "return" <Expr> ";"
 
 <varbis>      ::= "=" <expression> ";" | "(" <arguments> ")"
 
@@ -133,9 +133,9 @@ else          → Sinon Alors InProgramme | ε
 
 <bool> 	       ::= "True" | "False"
 
-<var>          ::= [a-zA-Z] <var> | [a-zA-Z]
+<var>          ::= [a-zA-Z] <var> | ε
 
-<else>         ::= "Sinon" "Alors" <InProgramme> | ε
+<else>         ::= "Sinon Alors" <InProgramme> | ε
 ```
 
 ## Fonctionnalités ajoutées pour la Partie 3
