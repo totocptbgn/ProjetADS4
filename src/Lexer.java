@@ -60,12 +60,12 @@ public class Lexer {
     "\3\4\1\23\1\4\1\24\1\4\1\3\3\25\1\0"+
     "\1\26\1\3\1\27\1\30\3\4\1\30\5\4\1\31"+
     "\10\4\2\32\2\4\1\33\1\34\1\0\1\24\4\4"+
-    "\1\35\1\36\12\4\1\37\4\4\1\40\1\4\1\23"+
-    "\5\4\1\41\4\4\1\42\1\43\1\44\1\45\1\4"+
-    "\1\46";
+    "\1\35\1\36\2\4\1\37\10\4\1\40\4\4\1\41"+
+    "\1\4\1\23\5\4\1\42\4\4\1\43\1\44\1\45"+
+    "\1\46\1\4\1\47";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[113];
+    int [] result = new int[114];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -100,14 +100,14 @@ public class Lexer {
     "\0\344\0\u0804\0\u083d\0\u0876\0\u08af\0\u08e8\0\u0921\0\u095a"+
     "\0\u0993\0\u09cc\0\344\0\u0a05\0\u0a3e\0\162\0\162\0\u0a77"+
     "\0\344\0\u0ab0\0\u0ae9\0\u0b22\0\u0b5b\0\344\0\344\0\u0b94"+
-    "\0\u0bcd\0\u0c06\0\u0c3f\0\u0c78\0\u0cb1\0\u0cea\0\u0d23\0\u0d5c"+
-    "\0\u0d95\0\344\0\u0dce\0\u0e07\0\u0e40\0\u0e79\0\344\0\u0eb2"+
-    "\0\344\0\u0eeb\0\u0f24\0\u0f5d\0\u0f96\0\u0fcf\0\344\0\u1008"+
-    "\0\u1041\0\u107a\0\u10b3\0\344\0\344\0\344\0\344\0\u10ec"+
-    "\0\344";
+    "\0\u0bcd\0\344\0\u0c06\0\u0c3f\0\u0c78\0\u0cb1\0\u0cea\0\u0d23"+
+    "\0\u0d5c\0\u0d95\0\344\0\u0dce\0\u0e07\0\u0e40\0\u0e79\0\344"+
+    "\0\u0eb2\0\344\0\u0eeb\0\u0f24\0\u0f5d\0\u0f96\0\u0fcf\0\344"+
+    "\0\u1008\0\u1041\0\u107a\0\u10b3\0\344\0\344\0\344\0\344"+
+    "\0\u10ec\0\344";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[113];
+    int [] result = new int[114];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -197,90 +197,90 @@ public class Lexer {
     "\3\0\1\6\14\0\1\6\1\120\1\0\5\6\3\0"+
     "\6\6\1\0\15\6\1\0\2\6\1\0\2\6\3\0"+
     "\1\6\3\0\1\121\14\0\2\6\1\0\5\6\3\0"+
-    "\6\6\1\0\5\6\1\117\7\6\1\0\2\6\1\0"+
+    "\6\6\1\0\5\6\1\122\7\6\1\0\2\6\1\0"+
     "\2\6\3\0\1\6\3\0\1\6\14\0\2\6\1\0"+
-    "\1\6\1\122\3\6\3\0\6\6\1\0\15\6\1\0"+
+    "\1\6\1\123\3\6\3\0\6\6\1\0\15\6\1\0"+
     "\2\6\1\0\2\6\3\0\1\6\3\0\1\6\14\0"+
-    "\2\6\1\0\5\6\3\0\1\6\1\123\4\6\1\0"+
+    "\2\6\1\0\5\6\3\0\1\6\1\124\4\6\1\0"+
     "\15\6\1\0\2\6\1\0\2\6\3\0\1\6\3\0"+
-    "\1\124\14\0\2\6\1\0\5\6\3\0\6\6\1\0"+
+    "\1\125\14\0\2\6\1\0\5\6\3\0\6\6\1\0"+
     "\15\6\1\0\2\6\1\0\2\6\3\0\1\6\3\0"+
-    "\1\6\14\0\2\6\1\0\5\6\3\0\4\6\1\125"+
+    "\1\6\14\0\2\6\1\0\5\6\3\0\4\6\1\126"+
     "\1\6\1\0\15\6\1\0\2\6\1\0\2\6\3\0"+
     "\1\6\3\0\1\6\14\0\2\6\1\0\1\6\1\111"+
     "\3\6\3\0\6\6\1\0\15\6\1\0\2\6\1\0"+
-    "\2\6\3\0\1\6\3\0\1\6\14\0\1\6\1\126"+
+    "\2\6\3\0\1\6\3\0\1\6\14\0\1\6\1\127"+
     "\1\0\5\6\3\0\6\6\1\0\15\6\1\0\2\6"+
     "\1\0\2\6\3\0\1\6\3\0\1\6\14\0\2\6"+
-    "\1\0\1\6\1\127\3\6\3\0\6\6\1\0\15\6"+
+    "\1\0\1\6\1\130\3\6\3\0\6\6\1\0\15\6"+
     "\1\0\2\6\1\0\2\6\3\0\1\6\3\0\1\6"+
     "\14\0\2\6\1\0\5\6\3\0\6\6\1\0\12\6"+
-    "\1\130\2\6\1\0\2\6\1\0\2\6\3\0\1\6"+
-    "\3\0\1\6\14\0\2\6\1\0\4\6\1\131\3\0"+
+    "\1\131\2\6\1\0\2\6\1\0\2\6\3\0\1\6"+
+    "\3\0\1\6\14\0\2\6\1\0\4\6\1\132\3\0"+
     "\6\6\1\0\15\6\1\0\2\6\1\0\2\6\11\0"+
     "\1\10\62\0\1\6\3\0\1\6\14\0\2\6\1\0"+
-    "\5\6\3\0\1\6\1\132\4\6\1\0\15\6\1\0"+
+    "\5\6\3\0\1\6\1\133\4\6\1\0\15\6\1\0"+
     "\2\6\1\0\2\6\3\0\1\6\3\0\1\6\14\0"+
-    "\2\6\1\0\5\6\3\0\6\6\1\0\12\6\1\133"+
+    "\2\6\1\0\5\6\3\0\6\6\1\0\12\6\1\134"+
     "\2\6\1\0\2\6\1\0\2\6\3\0\1\6\3\0"+
-    "\1\6\14\0\2\6\1\0\4\6\1\134\3\0\6\6"+
+    "\1\6\14\0\2\6\1\0\4\6\1\135\3\0\6\6"+
     "\1\0\15\6\1\0\2\6\1\0\2\6\3\0\1\6"+
-    "\3\0\1\6\14\0\2\6\1\0\1\6\1\135\3\6"+
+    "\3\0\1\6\14\0\2\6\1\0\1\6\1\136\3\6"+
     "\3\0\6\6\1\0\15\6\1\0\2\6\1\0\2\6"+
-    "\3\0\1\6\3\0\1\136\14\0\2\6\1\0\5\6"+
+    "\3\0\1\6\3\0\1\137\14\0\2\6\1\0\5\6"+
     "\3\0\6\6\1\0\15\6\1\0\2\6\1\0\2\6"+
     "\3\0\1\6\3\0\1\6\14\0\2\6\1\0\5\6"+
-    "\3\0\1\6\1\137\4\6\1\0\15\6\1\0\2\6"+
+    "\3\0\1\6\1\140\4\6\1\0\15\6\1\0\2\6"+
     "\1\0\2\6\3\0\1\6\3\0\1\6\14\0\1\6"+
-    "\1\140\1\0\5\6\3\0\6\6\1\0\15\6\1\0"+
+    "\1\141\1\0\5\6\3\0\6\6\1\0\15\6\1\0"+
     "\2\6\1\0\2\6\3\0\1\6\3\0\1\6\14\0"+
-    "\2\6\1\0\1\6\1\141\3\6\3\0\6\6\1\0"+
+    "\2\6\1\0\1\6\1\142\3\6\3\0\6\6\1\0"+
     "\15\6\1\0\2\6\1\0\2\6\3\0\1\6\3\0"+
-    "\1\6\14\0\2\6\1\0\4\6\1\142\3\0\6\6"+
+    "\1\6\14\0\2\6\1\0\4\6\1\143\3\0\6\6"+
     "\1\0\15\6\1\0\2\6\1\0\2\6\3\0\1\6"+
     "\3\0\1\6\14\0\2\6\1\0\5\6\3\0\5\6"+
-    "\1\143\1\0\15\6\1\0\2\6\1\0\2\6\3\0"+
+    "\1\144\1\0\15\6\1\0\2\6\1\0\2\6\3\0"+
     "\1\6\3\0\1\6\14\0\2\6\1\0\5\6\3\0"+
-    "\6\6\1\0\7\6\1\144\5\6\1\0\2\6\1\0"+
+    "\6\6\1\0\7\6\1\145\5\6\1\0\2\6\1\0"+
     "\2\6\3\0\1\6\3\0\1\6\14\0\2\6\1\0"+
-    "\5\6\3\0\6\6\1\0\14\6\1\145\1\0\2\6"+
+    "\5\6\3\0\6\6\1\0\14\6\1\146\1\0\2\6"+
     "\1\0\2\6\3\0\1\6\3\0\1\6\14\0\2\6"+
-    "\1\0\5\6\3\0\4\6\1\146\1\6\1\0\15\6"+
+    "\1\0\5\6\3\0\4\6\1\147\1\6\1\0\15\6"+
     "\1\0\2\6\1\0\2\6\3\0\1\6\3\0\1\6"+
-    "\14\0\2\6\1\0\5\6\3\0\1\6\1\147\4\6"+
+    "\14\0\2\6\1\0\5\6\3\0\1\6\1\150\4\6"+
     "\1\0\15\6\1\0\2\6\1\0\2\6\3\0\1\6"+
-    "\3\0\1\6\14\0\2\6\1\0\4\6\1\150\3\0"+
+    "\3\0\1\6\14\0\2\6\1\0\4\6\1\151\3\0"+
     "\6\6\1\0\15\6\1\0\2\6\1\0\2\6\3\0"+
     "\1\6\3\0\1\6\14\0\2\6\1\0\5\6\3\0"+
-    "\5\6\1\141\1\0\15\6\1\0\2\6\1\0\2\6"+
+    "\5\6\1\142\1\0\15\6\1\0\2\6\1\0\2\6"+
     "\3\0\1\6\3\0\1\6\14\0\2\6\1\0\5\6"+
-    "\3\0\6\6\1\0\7\6\1\151\5\6\1\0\2\6"+
+    "\3\0\6\6\1\0\7\6\1\152\5\6\1\0\2\6"+
     "\1\0\2\6\3\0\1\6\3\0\1\6\14\0\2\6"+
-    "\1\0\4\6\1\152\3\0\6\6\1\0\15\6\1\0"+
+    "\1\0\4\6\1\153\3\0\6\6\1\0\15\6\1\0"+
     "\2\6\1\0\2\6\3\0\1\6\3\0\1\6\14\0"+
     "\2\6\1\0\5\6\3\0\6\6\1\0\15\6\1\0"+
-    "\1\153\1\6\1\0\2\6\3\0\1\6\3\0\1\6"+
-    "\14\0\2\6\1\0\1\6\1\151\3\6\3\0\6\6"+
+    "\1\154\1\6\1\0\2\6\3\0\1\6\3\0\1\6"+
+    "\14\0\2\6\1\0\1\6\1\152\3\6\3\0\6\6"+
     "\1\0\15\6\1\0\2\6\1\0\2\6\3\0\1\6"+
     "\3\0\1\6\14\0\2\6\1\0\5\6\3\0\1\6"+
-    "\1\154\4\6\1\0\15\6\1\0\2\6\1\0\2\6"+
+    "\1\155\4\6\1\0\15\6\1\0\2\6\1\0\2\6"+
     "\3\0\1\6\3\0\1\6\14\0\2\6\1\0\5\6"+
-    "\3\0\6\6\1\0\10\6\1\155\4\6\1\0\2\6"+
+    "\3\0\6\6\1\0\10\6\1\156\4\6\1\0\2\6"+
     "\1\0\2\6\3\0\1\6\3\0\1\6\14\0\2\6"+
-    "\1\0\1\6\1\132\3\6\3\0\6\6\1\0\15\6"+
+    "\1\0\1\6\1\133\3\6\3\0\6\6\1\0\15\6"+
     "\1\0\2\6\1\0\2\6\3\0\1\6\3\0\1\6"+
-    "\14\0\2\6\1\0\5\6\3\0\1\6\1\156\4\6"+
+    "\14\0\2\6\1\0\5\6\3\0\1\6\1\157\4\6"+
     "\1\0\15\6\1\0\2\6\1\0\2\6\3\0\1\6"+
     "\3\0\1\6\14\0\2\6\1\0\5\6\3\0\1\6"+
-    "\1\157\4\6\1\0\15\6\1\0\2\6\1\0\2\6"+
+    "\1\160\4\6\1\0\15\6\1\0\2\6\1\0\2\6"+
     "\3\0\1\6\3\0\1\6\14\0\2\6\1\0\5\6"+
-    "\3\0\1\6\1\160\4\6\1\0\15\6\1\0\2\6"+
+    "\3\0\1\6\1\161\4\6\1\0\15\6\1\0\2\6"+
     "\1\0\2\6\3\0\1\6\3\0\1\6\14\0\2\6"+
-    "\1\0\1\6\1\161\3\6\3\0\6\6\1\0\15\6"+
-    "\1\0\2\6\1\0\2\6\3\0\1\6\3\0\1\146"+
+    "\1\0\1\6\1\162\3\6\3\0\6\6\1\0\15\6"+
+    "\1\0\2\6\1\0\2\6\3\0\1\6\3\0\1\147"+
     "\14\0\2\6\1\0\5\6\3\0\6\6\1\0\15\6"+
     "\1\0\2\6\1\0\2\6\3\0\1\6\3\0\1\6"+
-    "\14\0\2\6\1\0\4\6\1\157\3\0\6\6\1\0"+
+    "\14\0\2\6\1\0\4\6\1\160\3\0\6\6\1\0"+
     "\15\6\1\0\2\6\1\0\2\6";
 
   private static int [] zzUnpackTrans() {
@@ -325,10 +325,10 @@ public class Lexer {
     "\2\0\1\11\1\1\1\11\4\1\7\11\11\1\3\11"+
     "\2\1\1\11\3\1\1\11\1\1\1\11\4\1\1\11"+
     "\1\0\1\11\1\1\1\11\4\1\1\11\22\1\2\11"+
-    "\1\0\51\1";
+    "\1\0\52\1";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[113];
+    int [] result = new int[114];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -789,7 +789,7 @@ public class Lexer {
 																}
 																return new Token(TokenKind.EOF, nbspace + 1);
             }  // fall though
-            case 114: break;
+            case 115: break;
             case INCOMMENT: {
               int nbspace = 0;
 																while (!stackSpace.empty()) {
@@ -798,7 +798,7 @@ public class Lexer {
 																}
 																return new Token(TokenKind.EOF, nbspace + 1);
             }  // fall though
-            case 115: break;
+            case 116: break;
             default:
         return null;
         }
@@ -809,22 +809,22 @@ public class Lexer {
             { throw new java.io.IOException("Symbole non reconnu (" + yytext() + ") Line " + getLine() + " Column " + getColumn() + " Char " + getChar());
             } 
             // fall through
-          case 39: break;
+          case 40: break;
           case 2: 
             { isNewLine = false; return new IntToken(TokenKind.INT, Integer.parseInt(yytext()));
             } 
             // fall through
-          case 40: break;
+          case 41: break;
           case 3: 
             { 
             } 
             // fall through
-          case 41: break;
+          case 42: break;
           case 4: 
             { isNewLine = false; return new StringToken(TokenKind.VAR, yytext());
             } 
             // fall through
-          case 42: break;
+          case 43: break;
           case 5: 
             { if (isNewLine) {
 																	int nbspace = 0;
@@ -851,82 +851,82 @@ public class Lexer {
 																}
             } 
             // fall through
-          case 43: break;
+          case 44: break;
           case 6: 
             { isNewLine = true; return new Token(TokenKind.SEMICOLON);
             } 
             // fall through
-          case 44: break;
+          case 45: break;
           case 7: 
             { isNewLine = true; return new Token(TokenKind.VIR);
             } 
             // fall through
-          case 45: break;
+          case 46: break;
           case 8: 
             { isNewLine = false; return new Token(TokenKind.LPAR);
             } 
             // fall through
-          case 46: break;
+          case 47: break;
           case 9: 
             { isNewLine = false; return new Token(TokenKind.RPAR);
             } 
             // fall through
-          case 47: break;
+          case 48: break;
           case 10: 
             { isNewLine = false; return new Token(TokenKind.MINUS);
             } 
             // fall through
-          case 48: break;
+          case 49: break;
           case 11: 
             { isNewLine = false; return new Token(TokenKind.PLUS);
             } 
             // fall through
-          case 49: break;
+          case 50: break;
           case 12: 
             { isNewLine = false; return new Token(TokenKind.TIMES);
             } 
             // fall through
-          case 50: break;
+          case 51: break;
           case 13: 
             { isNewLine = false; return new Token(TokenKind.DIVIDE);
             } 
             // fall through
-          case 51: break;
+          case 52: break;
           case 14: 
             { isNewLine = false; return new Token(TokenKind.NOT);
             } 
             // fall through
-          case 52: break;
+          case 53: break;
           case 15: 
             { isNewLine = false; return new Token(TokenKind.SUP);
             } 
             // fall through
-          case 53: break;
+          case 54: break;
           case 16: 
             { isNewLine = false; return new Token(TokenKind.INF);
             } 
             // fall through
-          case 54: break;
+          case 55: break;
           case 17: 
             { isNewLine = false; return new Token(TokenKind.EQ);
             } 
             // fall through
-          case 55: break;
+          case 56: break;
           case 18: 
             { isNewLine = true; return new Token(TokenKind.DOUBLEPOINT);
             } 
             // fall through
-          case 56: break;
+          case 57: break;
           case 19: 
             { isNewLine = true; return new Token(TokenKind.THEN);
             } 
             // fall through
-          case 57: break;
+          case 58: break;
           case 20: 
             { isNewLine = true; return new Token(TokenKind.END);
             } 
             // fall through
-          case 58: break;
+          case 59: break;
           case 21: 
             // lookahead expression with fixed lookahead length
             zzMarkedPos = Character.offsetByCodePoints
@@ -934,37 +934,37 @@ public class Lexer {
             { 
             } 
             // fall through
-          case 59: break;
+          case 60: break;
           case 22: 
             { yybegin(INCOMMENT);
             } 
             // fall through
-          case 60: break;
+          case 61: break;
           case 23: 
             { isNewLine = false; return new Token(TokenKind.NOTEQ);
             } 
             // fall through
-          case 61: break;
+          case 62: break;
           case 24: 
             { isNewLine = false; return new Token(TokenKind.AND);
             } 
             // fall through
-          case 62: break;
+          case 63: break;
           case 25: 
             { isNewLine = false; return new Token(TokenKind.OR);
             } 
             // fall through
-          case 63: break;
+          case 64: break;
           case 26: 
             { isNewLine = false; return new Token(TokenKind.IF);
             } 
             // fall through
-          case 64: break;
+          case 65: break;
           case 27: 
             { isNewLine = false; yybegin(YYINITIAL);
             } 
             // fall through
-          case 65: break;
+          case 66: break;
           case 28: 
             // lookahead expression with fixed lookahead length
             zzMarkedPos = Character.offsetByCodePoints
@@ -972,57 +972,62 @@ public class Lexer {
             { 
             } 
             // fall through
-          case 66: break;
+          case 67: break;
           case 29: 
             { isNewLine = false; return new Token(TokenKind.NEW);
             } 
             // fall through
-          case 67: break;
+          case 68: break;
           case 30: 
             { isNewLine = false; return new Token(TokenKind.DEF);
             } 
             // fall through
-          case 68: break;
-          case 31: 
-            { isNewLine = false; return new Token(TokenKind.ELSE);
-            } 
-            // fall through
           case 69: break;
-          case 32: 
-            { isNewLine = false; return new Token(TokenKind.TRUE);
+          case 31: 
+            { isNewLine = false; return new Token(TokenKind.TRY);
             } 
             // fall through
           case 70: break;
-          case 33: 
-            { isNewLine = false; return new Token(TokenKind.LIRE);
+          case 32: 
+            { isNewLine = false; return new Token(TokenKind.ELSE);
             } 
             // fall through
           case 71: break;
-          case 34: 
-            { isNewLine = false; return new Token(TokenKind.FALSE);
+          case 33: 
+            { isNewLine = false; return new Token(TokenKind.TRUE);
             } 
             // fall through
           case 72: break;
-          case 35: 
-            { isNewLine = false; return new Token(TokenKind.CATCH);
+          case 34: 
+            { isNewLine = false; return new Token(TokenKind.LIRE);
             } 
             // fall through
           case 73: break;
-          case 36: 
-            { isNewLine = false; return new Token(TokenKind.WHILE);
+          case 35: 
+            { isNewLine = false; return new Token(TokenKind.FALSE);
             } 
             // fall through
           case 74: break;
-          case 37: 
-            { isNewLine = false; return new StringToken(TokenKind.COM, yytext());
+          case 36: 
+            { isNewLine = false; return new Token(TokenKind.CATCH);
             } 
             // fall through
           case 75: break;
-          case 38: 
-            { isNewLine = false; return new Token(TokenKind.RETURN);
+          case 37: 
+            { isNewLine = false; return new Token(TokenKind.WHILE);
             } 
             // fall through
           case 76: break;
+          case 38: 
+            { isNewLine = false; return new StringToken(TokenKind.COM, yytext());
+            } 
+            // fall through
+          case 77: break;
+          case 39: 
+            { isNewLine = false; return new Token(TokenKind.RETURN);
+            } 
+            // fall through
+          case 78: break;
           default:
             zzScanError(ZZ_NO_MATCH);
         }

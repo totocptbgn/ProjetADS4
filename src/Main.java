@@ -15,7 +15,18 @@ public class Main {
         Parser parser = new SmartParser(ioEnv.inProgram);
 
         // Construction du Program en lisant le ficher grâce au Parser
-        Program prog = parser.parseProgram(exeName, ioEnv.inProgram);
+		Program prog;
+		try {
+			System.out.println("======================= Parsing de programme.txt =======================\n");
+			prog = parser.parseProgram(exeName, ioEnv.inProgram);
+			System.out.println("===> Correct !");
+			System.out.println();
+		} catch (IOException e) {
+			System.out.println("===> Incorrect...");
+			System.out.println("     Cause : " + e.getMessage());
+			System.out.println();
+			return;
+		}
 
 		// Construction de la grille en lisant le fichier
 		Grid grid = Grid.parseGrid(exeName, ioEnv.inGrid);
@@ -59,6 +70,7 @@ public class Main {
         testFile("good4");
         testFile("good5");
         testFile("good6");
+        testFile("good7");
         testFile("bad0");
         testFile("bad1");
         testFile("bad2");
@@ -68,6 +80,8 @@ public class Main {
         testFile("bad6");
         testFile("bad7");
         testFile("bad8");
+        testFile("bad9");
+        
 		System.out.println("---------------------------- Fin des tests. ----------------------------\n");
     }
 
@@ -84,7 +98,7 @@ public class Main {
         }
 
       	// Mise en place de l'interpreter
-		Program prog = null;
+		Program prog;
         String[] args = {"src/tests/" + filename, "src/grille.txt"};
 
         IOEnv ioEnv = IOEnv.parseArgs(filename, args);
@@ -99,27 +113,35 @@ public class Main {
             System.out.println("  - Compilation : Ok.");
         } catch (IOException e) {
             System.out.println("  - Compilation : Fichier incorrect. Cause: [" + e.getMessage() + "]");
-			System.out.println("  - Execution : Pas d'execution possible.");
+			System.out.println("  - Execution : Pas d'execution possible.\n");
 			return;
         }
 
-        // Execution
+        // Exécution
         if (prog != null) {
         	System.out.println("  - Execution :\n");
         	try {
         		System.out.println("Grille avant éxécution :");
         		grid.print();
         		interp.run(prog, grid);
-        		System.out.println("Console: ");
-        		System.out.print(interp.getConsole());
+				System.out.println("Console: ");
+				System.out.print(interp.getConsole());
         		System.out.println("Grille après execution :");
         		grid.print();
-        		System.out.println(" ==> Fichier correct.");
         	}
         	catch (Exception e) {
         		System.out.println(" ==> Fichier incorrect. Cause: [" + e.getMessage() + "]");
         	}
 		}
-        System.out.println();
+
+		System.out.print("Débug: ");
+		try {
+			System.out.println();
+			prog.debug();
+			System.out.println();
+		} catch (Exception e) {
+			System.out.println("Pas de débug possible.");
+		}
+		System.out.println();
     }
 }

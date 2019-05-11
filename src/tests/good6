@@ -1,19 +1,9 @@
-def test(varA,varB):
-	Avancer(varA);
-	Ecrire(varB);
-	return varB;
-def a(a,b):
-	i=3;
-	Si a {
-		Ecrire(b);
-	}
-	
-def a(a):
-	Ecrire(a);
-
-a=test(1,2);
-i=a;
-test(1,2);
-a(True,(i+1));
-a(False,(i+2));
-a(a);
+Try {
+	Avancer(5);
+} Catch {
+	Tourner(1);
+    Avancer(1);
+    Tourner(3);
+    Avancer(5);
+}
+Ecrire(7);

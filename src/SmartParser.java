@@ -16,10 +16,6 @@ public class SmartParser implements Parser {
 		return " Column: " + lexer.getColumn() + " Line: " + lexer.getLine() + " Char: " + lexer.getChar();
 	}
 
-	public static int getLine() {
-		return lexer.getLine();
-	}
-
 	public boolean check(TokenKind tokenTest){
 		return tokenTest == this.token.kind;
 	}
@@ -42,7 +38,7 @@ public class SmartParser implements Parser {
 	public Program parseProgram(String exeName, Reader reader) throws IOException {
 		if (check(TokenKind.EOF)){
 			return new Program();
-		} else if(check(TokenKind.COM) || check(TokenKind.IF) || check(TokenKind.WHILE) || check(TokenKind.VAR) || check(TokenKind.OPEN) || check(TokenKind.DEF) || check(TokenKind.RETURN) || check(TokenKind.NEW)) {
+} else if(check(TokenKind.COM) || check(TokenKind.IF) || check(TokenKind.WHILE) || check(TokenKind.VAR) || check(TokenKind.OPEN) || check(TokenKind.DEF) || check(TokenKind.RETURN) || check(TokenKind.NEW) || check(TokenKind.TRY)) {
 			Instr instr = parseInstruction();
 			Program p = parseProgram(exeName, reader);
 			p.add(instr);
@@ -52,7 +48,7 @@ public class SmartParser implements Parser {
 			throw new IOException("Nouvelle instruction attendue.");
 		}
 	}
-	
+
 	private Block parseBlock() throws IOException {
 		if (check(TokenKind.CLOSE)) {
 			eat(TokenKind.CLOSE);
@@ -60,8 +56,7 @@ public class SmartParser implements Parser {
 		} else if (check(TokenKind.EOF)) {
 			eat(TokenKind.EOF);
 			return new Block();
-		} else if (check(TokenKind.NEW) || check(TokenKind.COM) || check(TokenKind.IF) || check(TokenKind.WHILE) || check(TokenKind.VAR) || check(TokenKind.OPEN) || check(TokenKind.DEF) || check(TokenKind.RETURN)) {
-			Instr instr = parseInstruction();
+} else if (check(TokenKind.NEW) || check(TokenKind.COM) || check(TokenKind.IF) || check(TokenKind.WHILE) || check(TokenKind.VAR) || check(TokenKind.OPEN) || check(TokenKind.DEF) || check(TokenKind.RETURN) || check(TokenKind.TRY)) {			Instr instr = parseInstruction();
 			Block b = parseBlock();
 			b.add(instr);
 			return b;
@@ -131,12 +126,11 @@ public class SmartParser implements Parser {
 			Expr expr = parseExpression();
 			eat(TokenKind.SEMICOLON);
 			return new New(name, expr);
-		}
-		else if (check(TokenKind.OPEN)){
+		} else if (check(TokenKind.OPEN)){
 			eat(TokenKind.OPEN);
 			return parseBlock();
 		}
-		else if(check(TokenKind.DEF)) { 
+		else if(check(TokenKind.DEF)) {
 			eat(TokenKind.DEF);
 			String name = token.getStringValue();
 			eat(TokenKind.VAR);
@@ -153,15 +147,22 @@ public class SmartParser implements Parser {
 			Return ret= new Return(parseExpression());
 			eat(TokenKind.SEMICOLON);
 			return ret;
-		}
-		else {
+		} else if (check(TokenKind.TRY)){
+			eat(TokenKind.TRY);
+			eat(TokenKind.THEN);
+			Program tryProg = parseInProgram();
+			eat(TokenKind.CATCH);
+			eat(TokenKind.THEN);
+			Program catchProg = parseInProgram();
+			return new TryCatch(tryProg, catchProg);
+		} else {
 			throw new IOException("Instruction attendue. Trouvé:(" + token.kind + ")" + lexerPos());
 		}
 	}
 
 	private Expr parseExpression() throws IOException {
 		Expr expr;
-		if (check(TokenKind.LIRE)){ 
+		if (check(TokenKind.LIRE)){
 			eat(TokenKind.LIRE);
 			expr = new Lire();
 		} else if (check(TokenKind.MINUS)){
@@ -198,7 +199,7 @@ public class SmartParser implements Parser {
 		}
 		return expr;
 	}
-	
+
 	private BinOp parseBinOp() throws IOException {
 		if (check(TokenKind.PLUS)){
 			eat(TokenKind.PLUS);
@@ -234,19 +235,19 @@ public class SmartParser implements Parser {
 			throw new IOException("Attendu: BinOP Trouvé: (" + token.kind + ")" + lexerPos());
 		}
 	}
-	
+
 	public Program parseElse() throws IOException {
 		if (check(TokenKind.ELSE)){
 			eat(TokenKind.ELSE);
 			eat(TokenKind.THEN);
 			return this.parseInProgram();
 		}
-		else if (check(TokenKind.COM) || check(TokenKind.IF) || check(TokenKind.WHILE) || check(TokenKind.VAR) || check(TokenKind.OPEN) || check(TokenKind.CLOSE) || check(TokenKind.EOF) || check(TokenKind.END) || check(TokenKind.NEW) || check(TokenKind.DEF) || check(TokenKind.RETURN))
+		else if (check(TokenKind.COM) || check(TokenKind.IF) || check(TokenKind.WHILE) || check(TokenKind.VAR) || check(TokenKind.OPEN) || check(TokenKind.CLOSE) || check(TokenKind.EOF) || check(TokenKind.END) || check(TokenKind.NEW) || check(TokenKind.DEF) || check(TokenKind.RETURN) || check(TokenKind.TRY))
 			return null;
 		else
 			throw new IOException("Attendu: Else ou Instruction Trouvé: (" + token.kind + ")" + lexerPos());
 	}
-	
+
 	public ArrayList<Expr> parseIsFonction() throws IOException {
 		if(check(TokenKind.LPAR)) {
 			eat(TokenKind.LPAR);
@@ -287,7 +288,7 @@ public class SmartParser implements Parser {
 			throw new IOException("Attendu: Expression Trouvé: (" + token.kind + ")" + lexerPos());
 		}
 	}
-	
+
 	public ArrayList<Expr> parseSuiteArgument() throws IOException {
 		if(check(TokenKind.RPAR)) {
 			return new ArrayList<Expr>();
@@ -300,7 +301,7 @@ public class SmartParser implements Parser {
 			throw new IOException("Attendu: , ou ) Trouvé: (" + token.kind + ")" + lexerPos());
 		}
 	}
-	
+
 	public ArrayList<String> parseAttributs() throws IOException {
 		if(check(TokenKind.RPAR)) {
 			//fonction sans arguments
@@ -321,14 +322,14 @@ public class SmartParser implements Parser {
 			eat(TokenKind.VAR);
 			ArrayList<String> names=parseSuiteAttribut();
 			names.add(0,name);
-			
+
 			return names;
 		}
 		else {
 			throw new IOException("Attendu: Variable Trouvé: (" + token.kind + ")" + lexerPos());
 		}
 	}
-	
+
 	public ArrayList<String> parseSuiteAttribut() throws IOException {
 		if(check(TokenKind.RPAR)) {
 			return new ArrayList<String>();
@@ -341,7 +342,7 @@ public class SmartParser implements Parser {
 			throw new IOException("Attendu: , ou ) Trouvé: (" + token.kind + ")" + lexerPos());
 		}
 	}
-	
+
 	public ArrayList<Expr> parseVarBis() throws IOException {
 		if(check(TokenKind.EQ)) {
 			eat(TokenKind.EQ);

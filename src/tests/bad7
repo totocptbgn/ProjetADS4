@@ -1,5 +1,3 @@
-i=3;
-	i=False;
-	Si (i>2) { //interdit
-		i=True;
-	}
+Try {
+Avancer (5);
+}

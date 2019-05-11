@@ -7,9 +7,8 @@
 Le sujet est présent [ici](sujet.pdf).
 Par [Thomas Copt-Bignon](https://github.com/totocptbgn) et [Dao Thauvin](https://github.com/daothauvin).
 
-## Grammaire :
+## Grammaire
 > Grammaire utilisée pour le Parser.
-> Remarque: OPEN et CLOSE représentent les indentations descendantes et ascendantes et EOF : End Of File.
 
 ```
 
@@ -68,8 +67,14 @@ var           → [a-zA-Z]+
 
 else          → Sinon Alors InProgramme | ε
 ```
+### Détails
 
-## Forme Bachus-Naur étendue :
+- **OPEN** et **CLOSE** représentent les indentations descendantes et ascendantes.
+- **EOF** = *End Of File* (caractère de fin de fichier).
+- Le programme peut aussi être écrit en anglais. *Par exemple :* `TantQue` *peut être écrit* `While`*, etc...*
+- On peut remplacer `Alors` et `Fin` par respectivement `{` et `}` et `Et` et `Ou` par `&&` et `||`.
+
+## Forme Bachus-Naur étendue
 > Autre notation pour la grammaire.
 
 ```
@@ -78,7 +83,6 @@ else          → Sinon Alors InProgramme | ε
 <InProgramme>  ::= <Instr>  <InProgramme> | "Fin"
 
 <Block>	       ::= <Instr>  <Block> | CLOSE
-
 
 <Instr>        ::= "Avancer(" <Expr> ");" |
                    "Tourner(" <Expr> ");" |
@@ -134,18 +138,75 @@ else          → Sinon Alors InProgramme | ε
 <else>         ::= "Sinon" "Alors" <InProgramme> | ε
 ```
 
-## Fonctionnalités ajoutées pour la Partie 3 :
+## Fonctionnalités ajoutées pour la Partie 3
 
 - les commentaires (`//` et `/* */`),
+```java
+// Simple commentaire
+/*
+Commentaires
+multi-lignes
+*/
+```
 - les opérations diviser `/` et multiplier `*`,
+```java
+Avancer((3 * 4));
+Avancer((4 / 2));
+```
 - l'opération non-égal `!=`
+```java
+If ((3 > 4) != (6 != 4)) {
+   Avancer(5);
+}
+```
 - la négation `!`,
+```java
+If !(3 > 4) {
+   Avancer(5);
+}
+```
 - la possibilité de mettre un `Else` après le `If`,
-- et les variables typées (booleen et entier), `var = Expr`.
+```java
+If (3 > 4) {
+   Avancer(5);
+} Else {
+   Tourner(1);
+   Avancer(5);
+}
+```
+- les variables typées (booleen et entier), `var = Expr`,
+```java
+b = (3 < 4);
+n = 5;
+If b {
+   Avancer(n);
+}
+```
+- les blocs (avec indentation),
+```java
+// À FAIRE
+```
+- des obstacles et des "blocs de glace" (`#` et `*`dans la grille),
+```
+ 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 # 0 0 * 0 0
+ 0 2 0 0 0 4 0 0 0 0
+ 0 0 0 * * * # 0 # 0
+ 5 4 0 # 0 5 0 0 0 0
+```
+- et le try / catch (et les `ExecutionException`).
+```java
+Try {
+   Avancer(5);
+} Catch {
+   Tourner(1);
+   Avancer(1);
+   Tourner(3);
+   Avancer(5);
+}
+Ecrire(7);
+```
 
+## Idées à ajouter
 
-## Idées à ajouter :
-
-- le try catch et les blocs,
-- les procedures,
-- et une interface graphique.
+- les fonctions !

@@ -88,7 +88,17 @@ public class Grid {
             String[][] grid = new String[sizeX][sizeY];
             for (int j = sizeY - 1; j >= 0; j --) {
                 for (int i = 0; i < sizeX; i ++) {
-                    grid[i][j] = scanner.next();
+                    String s = scanner.next();
+                    try {
+                        Integer.valueOf(s);
+                    } catch (NumberFormatException e){
+                        if (!s.equals("#") && !s.equals("*")) {
+                            String message = "Symbole non autorisé dans la grille \"" + e.getMessage().charAt(19) + "\", coordonées : [x:" + j + ",y:" + i + "].";
+                            System.err.println(message);
+                            System.exit(1);
+                        }
+                    }
+                    grid[i][j] = s;
                 }
             }
             return create(grid, posX, posY, dir);

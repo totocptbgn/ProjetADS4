@@ -145,7 +145,6 @@ class New extends Assign {
 	public void setType(ValueEnvironnement hm) throws IOException, ExecutionException {
 		value.setType(hm);
 		Type type = value.getType();
-		// System.out.println(name+" de type "+type);
 		if (hm.defined(name) == null) {
 			if (type == Type.BOOL) {
 				hm.newBoolean(name, false);
@@ -156,7 +155,7 @@ class New extends Assign {
 			throw new ExecutionException("La variable " + name + " existe déjà dans le bloc.");
 		}
 	}
-	
+
 	public String toString () {
 		return "New " + name + "=" + value;
 	}
@@ -175,7 +174,6 @@ class Assign implements Instr {
 	public void setType(ValueEnvironnement hm) throws IOException, ExecutionException {
 		value.setType(hm);
 		Type type = value.getType();
-		// System.out.println(name+" de type "+type);
 		if (hm.defined(name) == null || type == hm.defined(name)) {
 			if (type == Type.BOOL) {
 				hm.addBoolean(name, false);
@@ -206,22 +204,19 @@ class Assign implements Instr {
 		}
 		System.out.print(name + "=");
 		value.debug(hm);
-		if (value.getType() == Type.BOOL) {
+		if (type == Type.BOOL) {
 			hm.addBoolean(name, value.evalBool(hm));
 			System.out.println("[" + value.evalBool(hm) + "]");
-		} else if (value.getType() == Type.INT) {
+		}
+		else if (type == Type.INT) {
 			hm.addInteger(name, value.evalInt(hm));
 			System.out.println("[" + value.evalInt(hm) + "]");
-		} else {
-			System.out.println("[None]");
 		}
-
 	}
 
 	public String toString() {
 		return name + "=" + value;
 	}
-
 }
 
 class While implements Instr {
@@ -266,7 +261,7 @@ class Block implements Instr {
 	public Block() {
 		this.list = new ArrayList<>();
 	}
-	
+
 	void remove() {
 		this.list.remove(0);
 	}
@@ -353,7 +348,7 @@ class Fonction implements Instr {
 		for (int i = 0; i < array.size(); i++) {
 			body.add(new New(this.arguments.get(i), array.get(i)));
 		}
-		
+
 		try {
 			body.eval(hm);
 		} catch (ReturnException re) {
@@ -373,12 +368,12 @@ class Fonction implements Instr {
 			throw new ExecutionException("La fonction " + nom + " ne renvoie pas un booleen");
 		for (int i = 0; i < array.size(); i++) {
 			body.add(new New(this.arguments.get(i), array.get(i)));
-			
+
 		}
 		try {
-			
+
 			body.eval(hm);
-			
+
 		} catch (ReturnException re) {
 			return re.getBoolRes();
 		}
@@ -390,7 +385,7 @@ class Fonction implements Instr {
 		return false;
 
 	}
-	
+
 	public void eval(ValueEnvironnement hm, ArrayList<Expr> array) throws IOException, ExecutionException {
 		for (int i = 0; i < array.size(); i++) {
 			body.add(new New(this.arguments.get(i), array.get(i)));
@@ -398,7 +393,7 @@ class Fonction implements Instr {
 		}
 		//System.out.println(body);
 		try {
-			body.eval(hm);	
+			body.eval(hm);
 		} catch (ReturnException re) {
 		}
 		finally {
@@ -470,7 +465,7 @@ class Fonction implements Instr {
 			throw new IOException("Plusieurs types de retour pour " + nom);
 		}
 		t = type;
-		
+
 	}
 
 	public Type getType() {
@@ -505,7 +500,6 @@ class Return implements Instr {
 		else {
 			throw new ReturnException(expression.evalBool(hm));
 		}
-
 	}
 
 	@Override
@@ -557,8 +551,6 @@ class Call implements Instr {
 
 	}
 
-
-	@Override
 	public void debug(ValueEnvironnement hm) throws IOException, ExecutionException {
 		Fonction f = hm.searchFonction(nom, arguments.size());
 		if (f == null)
@@ -592,5 +584,48 @@ class Call implements Instr {
 			}
 		}
 		return s + ");";
+	}
+}
+
+class TryCatch implements Instr {
+
+	private Program bodyTry;
+	private Program bodyCatch;
+
+
+	public void setType(ValueEnvironnement hm) throws IOException, ExecutionException {
+		bodyTry.setType(hm);
+		bodyCatch.setType(hm);
+	}
+
+	public TryCatch(Program bodyTry, Program bodyCatch) {
+		this.bodyTry = bodyTry;
+		this.bodyCatch = bodyCatch;
+	}
+
+	public void eval(ValueEnvironnement hm) throws IOException, ExecutionException {
+		try {
+			bodyTry.eval(hm);
+		} catch (ExecutionException e){
+			bodyCatch.eval(hm);
+		}
+	}
+
+	public void debug(ValueEnvironnement hm) throws IOException, ExecutionException {
+		System.out.println("Try {");
+		bodyTry.debug(hm);
+		System.out.println("} Catch {");
+		bodyCatch.debug(hm);
+		System.out.println("}");
+	}
+
+	@Override
+	public String toString() {
+		String s = "Try {";
+		s += bodyTry.toString();
+		s += "} Catch {";
+		s += bodyCatch.toString();
+		s += "}";
+		return s;
 	}
 }
