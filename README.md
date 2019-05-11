@@ -24,17 +24,39 @@ instruction   → Avancer( expression ); |
                 Ecrire( expression ); |
                 Si expression Alors InProgramme else |
                 TantQue expression Alors InProgramme |
-                var = expression; |
+                var varbis ; |
                 OPEN Block |
-                new var = expression; |
-                Try Alors InProgramme Catch InProgramme
+                new var = expression ; |
+                Try Alors InProgramme Catch InProgramme |
+				def( attributs ): Block |
+				return expression;
+
+varbis        → = expression | ( arguments )
+
+attributs	  → ε | attribut
+
+attribut	  → variable suiteattribut
+
+suiteattribut → , argument |  ε
 
 expression    → Lire |
                 nombre |
                 bool |
-                ( Expr binOp Expr ) |
-                - Expr |
-                ! Expr
+                ( expression binOp expression ) |
+                - expression |
+                ! expression |
+				variable
+				
+variable	  → var isFonction
+
+isFonction     → ( arguments ) | ε
+
+arguments 	→ ε | argument
+
+argument	  → expression suiteargument
+
+suiteargument → "," argument |  ε
+
 
 binOp         → + | - | * | / | Et | Ou | < | > | = | !=
 
@@ -63,16 +85,37 @@ else          → Sinon Alors InProgramme | ε
                    "Ecrire(" <Expr> ");" |
                    "Si" <Expr> "Alors" <InProgramme> <else> |
                    "TantQue" <Expr> "Alors" <InProgramme> |
-                   <var> "=" <Expr> ";" |
+                   <var> <varbis> ";" |
                    OPEN <Block> |
                    "new" <var> "=" <expression>; |
-                   "Try" "Alors" <InProgramme> "Catch" <InProgramme>
+                   "Try" "Alors" <InProgramme> "Catch" <InProgramme> |
+				   "def(" <attributs> "):" <Block> |
+				   "return" <expression> ";"
+
+<varbis>      ::= "=" <expression> ";" | "(" <arguments> ")"
+
+<attributs>	  ::= ε | <attribut>
+
+<attribut>	  ::= <variable> <suiteattribut>
+
+<suiteattribut> ::= "," <argument> |  ε
 
 <Expr> 	       ::= "Lire" |
                    <nombre> |
                    "(" <Expr> <binOp> <Expr> ")" |
                    "-" <Expr> |
-                   <bool>
+                   <bool> |
+				   <variable>
+				
+<variable>	  ::= <var> <isFonction>
+
+<isFonction>  ::= "( " <arguments> ")" | ε
+
+<arguments>	   ::= ε | <argument>
+
+<argument>	   ::= <expression> <suiteargument>
+
+<suiteargument>::= "," <argument> |  ε
 
 <binOp>        ::= "+" | "-" | "*" | "/" | "Et" | "Ou" | "<" | ">" | "="
 

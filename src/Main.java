@@ -34,6 +34,9 @@ public class Main {
 		System.out.println("--------------------------- Grille d'arrivée ---------------------------\n");
 		grid.print();
 
+		// Affichage normal
+		System.out.println("-------------------------------- Affichage Normal ----------------------------------\n");
+		System.out.println(prog);
 		// Affichage du débug
 		System.out.println("-------------------------------- Débug ----------------------------------\n");
 		try {
@@ -55,6 +58,7 @@ public class Main {
         testFile("good3");
         testFile("good4");
         testFile("good5");
+        testFile("good6");
         testFile("bad0");
         testFile("bad1");
         testFile("bad2");
@@ -62,6 +66,8 @@ public class Main {
         testFile("bad4");
         testFile("bad5");
         testFile("bad6");
+        testFile("bad7");
+        testFile("bad8");
 		System.out.println("---------------------------- Fin des tests. ----------------------------\n");
     }
 

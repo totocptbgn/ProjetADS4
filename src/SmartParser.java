@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.io.Reader;
+import java.util.ArrayList;
 
 public class SmartParser implements Parser {
 
@@ -24,6 +25,7 @@ public class SmartParser implements Parser {
 	}
 
 	public void next() throws IOException {
+		//System.out.println(this.token);
 		this.token = lexer.yylex();
 	}
 
@@ -40,7 +42,7 @@ public class SmartParser implements Parser {
 	public Program parseProgram(String exeName, Reader reader) throws IOException {
 		if (check(TokenKind.EOF)){
 			return new Program();
-		} else if(check(TokenKind.COM) || check(TokenKind.IF) || check(TokenKind.WHILE) || check(TokenKind.VAR) || check(TokenKind.OPEN)) {
+		} else if(check(TokenKind.COM) || check(TokenKind.IF) || check(TokenKind.WHILE) || check(TokenKind.VAR) || check(TokenKind.OPEN) || check(TokenKind.DEF) || check(TokenKind.RETURN) || check(TokenKind.NEW)) {
 			Instr instr = parseInstruction();
 			Program p = parseProgram(exeName, reader);
 			p.add(instr);
@@ -58,7 +60,7 @@ public class SmartParser implements Parser {
 		} else if (check(TokenKind.EOF)) {
 			eat(TokenKind.EOF);
 			return new Block();
-		} else if (check(TokenKind.NEW) || check(TokenKind.COM) || check(TokenKind.IF) || check(TokenKind.WHILE) || check(TokenKind.VAR) || check(TokenKind.OPEN)) {
+		} else if (check(TokenKind.NEW) || check(TokenKind.COM) || check(TokenKind.IF) || check(TokenKind.WHILE) || check(TokenKind.VAR) || check(TokenKind.OPEN) || check(TokenKind.DEF) || check(TokenKind.RETURN)) {
 			Instr instr = parseInstruction();
 			Block b = parseBlock();
 			b.add(instr);
@@ -72,7 +74,7 @@ public class SmartParser implements Parser {
 		if (check(TokenKind.END)){
 			eat(TokenKind.END);
 			return new Program();
-		} else if (check(TokenKind.NEW) || check(TokenKind.COM) || check(TokenKind.IF) || check(TokenKind.WHILE) || check(TokenKind.VAR) || check(TokenKind.OPEN)) {
+		} else if (check(TokenKind.NEW) || check(TokenKind.COM) || check(TokenKind.IF) || check(TokenKind.WHILE) || check(TokenKind.VAR) || check(TokenKind.OPEN) || check(TokenKind.DEF) || check(TokenKind.RETURN)) {
 			Instr instr = parseInstruction();
 			Program p = parseInProgram();
 			p.add(instr);
@@ -110,10 +112,17 @@ public class SmartParser implements Parser {
 		} else if (check(TokenKind.VAR)){
 			String name = token.getStringValue();
 			eat(TokenKind.VAR);
-			eat(TokenKind.EQ);
-			Expr expr = parseExpression();
+			boolean isAssign=false;
+			if(check(TokenKind.EQ))
+				isAssign=true;
+			ArrayList<Expr> expr=parseVarBis();
+			Instr i;
+			if(isAssign)
+				i= new Assign(name, expr.get(0));
+			else
+				i= new Call(name,expr);
 			eat(TokenKind.SEMICOLON);
-			return new Assign(name, expr);
+			return i;
 		} else if (check(TokenKind.NEW)){
 			eat(TokenKind.NEW);
 			String name = token.getStringValue();
@@ -127,6 +136,24 @@ public class SmartParser implements Parser {
 			eat(TokenKind.OPEN);
 			return parseBlock();
 		}
+		else if(check(TokenKind.DEF)) { 
+			eat(TokenKind.DEF);
+			String name = token.getStringValue();
+			eat(TokenKind.VAR);
+			eat(TokenKind.LPAR);
+			ArrayList<String> attributs=parseAttributs();
+			eat(TokenKind.RPAR);
+			eat(TokenKind.DOUBLEPOINT);
+			eat(TokenKind.OPEN);
+			Block b=parseBlock();
+			return new Fonction(name,attributs,b);
+		}
+		else if(check(TokenKind.RETURN)) {
+			eat(TokenKind.RETURN);
+			Return ret= new Return(parseExpression());
+			eat(TokenKind.SEMICOLON);
+			return ret;
+		}
 		else {
 			throw new IOException("Instruction attendue. Trouvé:(" + token.kind + ")" + lexerPos());
 		}
@@ -134,7 +161,7 @@ public class SmartParser implements Parser {
 
 	private Expr parseExpression() throws IOException {
 		Expr expr;
-		if (check(TokenKind.LIRE)){
+		if (check(TokenKind.LIRE)){ 
 			eat(TokenKind.LIRE);
 			expr = new Lire();
 		} else if (check(TokenKind.MINUS)){
@@ -164,7 +191,8 @@ public class SmartParser implements Parser {
 		} else if (check(TokenKind.VAR)){
 			String name = token.getStringValue();
 			eat(TokenKind.VAR);
-			return new Var(name);
+			ArrayList<Expr> exprs=parseIsFonction();
+			return new Var(name,exprs);
 		} else {
 			throw new IOException("Attendu: (Expression) Trouvé: (" + token.kind + ")" + lexerPos());
 		}
@@ -213,9 +241,123 @@ public class SmartParser implements Parser {
 			eat(TokenKind.THEN);
 			return this.parseInProgram();
 		}
-		else if (check(TokenKind.COM) || check(TokenKind.IF) || check(TokenKind.WHILE) || check(TokenKind.VAR) || check(TokenKind.OPEN) || check(TokenKind.CLOSE) || check(TokenKind.EOF) || check(TokenKind.END) || check(TokenKind.NEW))
+		else if (check(TokenKind.COM) || check(TokenKind.IF) || check(TokenKind.WHILE) || check(TokenKind.VAR) || check(TokenKind.OPEN) || check(TokenKind.CLOSE) || check(TokenKind.EOF) || check(TokenKind.END) || check(TokenKind.NEW) || check(TokenKind.DEF) || check(TokenKind.RETURN))
 			return null;
 		else
 			throw new IOException("Attendu: Else ou Instruction Trouvé: (" + token.kind + ")" + lexerPos());
+	}
+	
+	public ArrayList<Expr> parseIsFonction() throws IOException {
+		if(check(TokenKind.LPAR)) {
+			eat(TokenKind.LPAR);
+			ArrayList<Expr> exprs=parseArguments();
+			eat(TokenKind.RPAR);
+			return exprs;
+		}
+		//follow isFonction
+		else if(check(TokenKind.RPAR) || check(TokenKind.SEMICOLON) || check(TokenKind.PLUS) || check(TokenKind.MINUS) || check(TokenKind.AND) ||  check(TokenKind.OR) || check(TokenKind.INF) || check(TokenKind.SUP) || check(TokenKind.EQ) || check(TokenKind.NOTEQ) || check(TokenKind.TIMES) || check(TokenKind.DIVIDE) || check(TokenKind.THEN) || check(TokenKind.VIR)) {
+			return null;
+		}
+		else {
+			throw new IOException("Attendu: Expression ou ; ou Alors Trouvé: (" + token.kind + ")" + lexerPos());
+		}
+	}
+	public ArrayList<Expr> parseArguments() throws IOException {
+		if(check(TokenKind.RPAR)) {
+			//fonction sans arguments
+			return new ArrayList<Expr>();
+		}
+		if(check(TokenKind.LIRE) || check(TokenKind.MINUS) || check(TokenKind.NOT) || check(TokenKind.INT) || check(TokenKind.LPAR) || check(TokenKind.TRUE) || check(TokenKind.FALSE) || check(TokenKind.VAR)) {
+			//fonction avec arguments
+			return parseArgument();
+		}
+		else {
+			throw new IOException("Attendu: Expression ou ) Trouvé: (" + token.kind + ")" + lexerPos());
+		}
+
+	}
+	public ArrayList<Expr> parseArgument() throws IOException {
+		if(check(TokenKind.LIRE) || check(TokenKind.MINUS) || check(TokenKind.NOT) || check(TokenKind.INT) || check(TokenKind.LPAR) || check(TokenKind.TRUE) || check(TokenKind.FALSE) || check(TokenKind.VAR)) {
+			Expr expr=parseExpression();
+			ArrayList<Expr> exprs=parseSuiteArgument();
+			exprs.add(0,expr);
+			return exprs;
+		}
+		else {
+			throw new IOException("Attendu: Expression Trouvé: (" + token.kind + ")" + lexerPos());
+		}
+	}
+	
+	public ArrayList<Expr> parseSuiteArgument() throws IOException {
+		if(check(TokenKind.RPAR)) {
+			return new ArrayList<Expr>();
+		}
+		else if(check(TokenKind.VIR)) {
+			eat(TokenKind.VIR);
+			return parseArgument();
+		}
+		else {
+			throw new IOException("Attendu: , ou ) Trouvé: (" + token.kind + ")" + lexerPos());
+		}
+	}
+	
+	public ArrayList<String> parseAttributs() throws IOException {
+		if(check(TokenKind.RPAR)) {
+			//fonction sans arguments
+			return new ArrayList<String>();
+		}
+		if(check(TokenKind.VAR)) {
+			//fonction avec arguments
+			return parseAttribut();
+		}
+		else {
+			throw new IOException("Attendu: Variable ou ) Trouvé: (" + token.kind + ")" + lexerPos());
+		}
+
+	}
+	public ArrayList<String> parseAttribut() throws IOException {
+		if(check(TokenKind.VAR)) {
+			String name = token.getStringValue();
+			eat(TokenKind.VAR);
+			ArrayList<String> names=parseSuiteAttribut();
+			names.add(0,name);
+			
+			return names;
+		}
+		else {
+			throw new IOException("Attendu: Variable Trouvé: (" + token.kind + ")" + lexerPos());
+		}
+	}
+	
+	public ArrayList<String> parseSuiteAttribut() throws IOException {
+		if(check(TokenKind.RPAR)) {
+			return new ArrayList<String>();
+		}
+		else if(check(TokenKind.VIR)) {
+			eat(TokenKind.VIR);
+			return parseAttribut();
+		}
+		else {
+			throw new IOException("Attendu: , ou ) Trouvé: (" + token.kind + ")" + lexerPos());
+		}
+	}
+	
+	public ArrayList<Expr> parseVarBis() throws IOException {
+		if(check(TokenKind.EQ)) {
+			eat(TokenKind.EQ);
+			Expr ex=parseExpression();
+			ArrayList<Expr> expr=new ArrayList<Expr>();
+			expr.add(ex);
+			return expr;
+		}
+		else if(check(TokenKind.LPAR)) {
+			eat(TokenKind.LPAR);
+			ArrayList<Expr> args = parseArguments();
+			eat(TokenKind.RPAR);
+			return args;
+		}
+		else {
+			throw new IOException("Attendu: = ou ( Trouvé: (" + token.kind + ")" + lexerPos());
+		}
 	}
 }

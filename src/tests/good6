@@ -3,7 +3,6 @@ def test(varA,varB):
 	Ecrire(varB);
 	return varB;
 def a(a,b):
-	Avancer(a);
 	i=3;
 	Si a {
 		Ecrire(b);

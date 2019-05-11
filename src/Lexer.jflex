@@ -56,7 +56,8 @@ string = [a-zA-Z]+
 																	}
 																}
 														  	}
-";"                             						  	{isNewLine = true; return new Token(TokenKind.SEMICOLON);}
+";"                             						  {isNewLine = true; return new Token(TokenKind.SEMICOLON);}
+","                             						  {isNewLine = true; return new Token(TokenKind.VIR);}
 "("                             							{isNewLine = false; return new Token(TokenKind.LPAR);}
 ")"                             							{isNewLine = false; return new Token(TokenKind.RPAR);}
 "-"                             							{isNewLine = false; return new Token(TokenKind.MINUS);}
@@ -72,10 +73,12 @@ string = [a-zA-Z]+
 "!="                            							{isNewLine = false; return new Token(TokenKind.NOTEQ);}
 "True"                          							{isNewLine = false; return new Token(TokenKind.TRUE);}
 "False"                         							{isNewLine = false; return new Token(TokenKind.FALSE);}
-("new"|"New")							  					{isNewLine = false; return new Token(TokenKind.NEW);}
-("Def"|"def")												{isNewLine = false; return new Token(TokenKind.DEF);}
-"Try"														{isNewLine = false; return new Token(TokenKind.DEF);}
-"Catch"														{isNewLine = false; return new Token(TokenKind.CATCH);}
+":"                         									{isNewLine = true; return new Token(TokenKind.DOUBLEPOINT);}
+("new"|"New")							  									{isNewLine = false; return new Token(TokenKind.NEW);}
+("return"|"Return")							  						{isNewLine = false; return new Token(TokenKind.RETURN);}
+("Def"|"def")																	{isNewLine = false; return new Token(TokenKind.DEF);}
+"Try"																					{isNewLine = false; return new Token(TokenKind.DEF);}
+"Catch"																				{isNewLine = false; return new Token(TokenKind.CATCH);}
 ("Si"|"If")                     							{isNewLine = false; return new Token(TokenKind.IF);}
 ("Sinon"|"Else")                							{isNewLine = false; return new Token(TokenKind.ELSE);}
 ("Alors"|"Then"|"{")            							{isNewLine = true; return new Token(TokenKind.THEN);}
