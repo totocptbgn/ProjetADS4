@@ -5,17 +5,17 @@ public abstract class Expr {
 
 	Type type;
 
-	abstract void debug(ValueEnvironnement hm) throws IOException, ExecutionException;
+	abstract void debug(ValueEnvironnement hm) throws ExecutionException;
 
-	public int evalInt(ValueEnvironnement hm) throws ExecutionException, IOException {
-		throw new ExecutionException("Pas un entier");
+	public int evalInt(ValueEnvironnement hm) throws ExecutionException {
+		throw new ExecutionException(this + " Pas un entier");
 	}
 
-	public boolean evalBool(ValueEnvironnement hm) throws ExecutionException, IOException {
-		throw new ExecutionException("Pas un booleen");
+	public boolean evalBool(ValueEnvironnement hm) throws ExecutionException {
+		throw new ExecutionException(this + " Pas un booleen");
 	}
 
-	abstract void setType(ValueEnvironnement hm) throws IOException, ExecutionException;
+	abstract void setType(ValueEnvironnement hm) throws TypeException;
 
 	public Type getType() {
 		return type;
@@ -36,7 +36,7 @@ class True extends Expr {
 	void debug(ValueEnvironnement hm) {
 		System.out.print("True");
 	}
-	
+
 	public String toString() {
 		return "True";
 	}
@@ -96,10 +96,11 @@ class Ope extends Expr {
 	private final BinOp op;
 	private final Expr arg0, arg1;
 
-	public void setType(ValueEnvironnement hm) throws IOException, ExecutionException {
+	public void setType(ValueEnvironnement hm) throws TypeException {
 		type = op.getType();
 		arg0.setType(hm);
 		arg1.setType(hm);
+		op.testType(arg0, arg1);
 	}
 
 	public Ope(BinOp op, Expr arg0, Expr arg1) {
@@ -109,34 +110,19 @@ class Ope extends Expr {
 	}
 
 	@Override
-	public int evalInt(ValueEnvironnement hm) throws ExecutionException, IOException {
-		if (op.getType() == Type.INT) {
-			if (arg0.getType() == Type.INT && arg1.getType() == Type.INT)
-				return op.applyInt(arg0.evalInt(hm), arg1.evalInt(hm));
-			else {
-				throw new ExecutionException("Arguments pas entier");
-			}
-		} else {
-			throw new ExecutionException("Pas un expression entiere");
-		}
+	public int evalInt(ValueEnvironnement hm) throws ExecutionException {
+		return op.applyInt(arg0.evalInt(hm), arg1.evalInt(hm));
 	}
 
-	public boolean evalBool(ValueEnvironnement hm) throws ExecutionException, IOException {
-		if (op.getType() == Type.BOOL) {
-			if (arg0.getType() == Type.BOOL && arg1.getType() == Type.BOOL)
-				return op.applyBool(arg0.evalBool(hm), arg1.evalBool(hm));
-			else if (arg0.getType() == Type.INT && arg1.getType() == Type.INT)
-				return op.applyBool(arg0.evalInt(hm), arg1.evalInt(hm));
-			else {
-				throw new ExecutionException(
-						"Types non supportés: arg0: " + arg0.getType() + " arg1: " + arg1.getType());
-			}
-		} else {
-			throw new ExecutionException("Pas une expression booleen");
-		}
+	public boolean evalBool(ValueEnvironnement hm) throws ExecutionException {
+		if (arg0.getType() == Type.BOOL && arg1.getType() == Type.BOOL)
+			return op.applyBool(arg0.evalBool(hm), arg1.evalBool(hm));
+		else if (arg0.getType() == Type.INT && arg1.getType() == Type.INT)
+			return op.applyBool(arg0.evalInt(hm), arg1.evalInt(hm));
+		else return false;
 	}
 
-	public void debug(ValueEnvironnement hm) throws IOException, ExecutionException {
+	public void debug(ValueEnvironnement hm) throws ExecutionException {
 		System.out.print("(");
 		arg0.debug(hm);
 		op.debug();
@@ -164,19 +150,20 @@ class Minus extends Expr {
 		this.arg0 = arg0;
 	}
 
-	public void setType(ValueEnvironnement hm) throws IOException, ExecutionException {
+	public void setType(ValueEnvironnement hm) throws TypeException {
 		type = Type.INT;
 		arg0.setType(hm);
-		if(arg0.getType()!=Type.INT) throw new ExecutionException("- Attend un entier");
+		if (arg0.getType() != Type.INT)
+			throw new TypeException("- attend un entier : "+arg0+" type "+arg0.getType());
 	}
 
 	@Override
-	public int evalInt(ValueEnvironnement hm) throws IOException, ExecutionException {
+	public int evalInt(ValueEnvironnement hm) throws ExecutionException {
 		return -arg0.evalInt(hm);
 	}
 
 	@Override
-	public void debug(ValueEnvironnement hm) throws IOException, ExecutionException {
+	public void debug(ValueEnvironnement hm) throws ExecutionException {
 		System.out.print("-");
 		arg0.debug(hm);
 	}
@@ -195,19 +182,20 @@ class Not extends Expr {
 		this.arg0 = arg0;
 	}
 
-	public void setType(ValueEnvironnement hm) throws IOException, ExecutionException {
+	public void setType(ValueEnvironnement hm) throws TypeException {
 		type = Type.BOOL;
 		arg0.setType(hm);
-		if(arg0.getType()!=Type.INT) throw new ExecutionException("Not Attend un booleen");
+		if (arg0.getType() != Type.BOOL)
+			throw new TypeException("Not Attend un booleen : "+arg0+" type "+arg0.getType());
 	}
 
 	@Override
-	public boolean evalBool(ValueEnvironnement hm) throws IOException, ExecutionException {
+	public boolean evalBool(ValueEnvironnement hm) throws ExecutionException {
 		return !arg0.evalBool(hm);
 	}
 
 	@Override
-	public void debug(ValueEnvironnement hm) throws IOException, ExecutionException {
+	public void debug(ValueEnvironnement hm) throws ExecutionException {
 		System.out.print("!");
 		arg0.debug(hm);
 	}
@@ -229,56 +217,46 @@ class Var extends Expr {
 	}
 
 	@Override
-	public void setType(ValueEnvironnement hm) throws ExecutionException, IOException {
+	public void setType(ValueEnvironnement hm) throws TypeException {
 		if (arguments == null) {
 			type = hm.exists(nom);
 			if (type == null)
-				throw new ExecutionException("La variable " + nom + " n'existe pas");
+				throw new TypeException("La variable " + nom + " n'existe pas");
 		} else {
 			Fonction f = hm.searchFonction(nom, arguments.size());
 			if (f == null) {
-				throw new ExecutionException("La fonction " + nom + " n'existe pas");
+				throw new TypeException("La fonction " + nom + " avec " + arguments.size() + " argument(s) n'existe pas");
 			}
 			f.setType(hm, arguments);
-			type=f.getType();
-			if(type==null) 
-				throw new ExecutionException("La fonction "+nom+" n'a pas de valeur de retour");
+			type = f.getType();
+			if (type == null)
+				throw new TypeException("La fonction " + nom + " à " + arguments.size() + " argument(s) n'a pas de valeur de retour");
 		}
 	}
 
-	public int evalInt(ValueEnvironnement hm) throws ExecutionException, IOException {
+	public int evalInt(ValueEnvironnement hm) throws ExecutionException {
 		if (arguments == null) {
-			if (hm.exists(nom) != Type.INT)
-				throw new ExecutionException(nom + " pas un Entier (Type:"+hm.exists(nom)+")");
 			return hm.getInteger(nom);
 		} else {
 			Fonction f = hm.searchFonction(nom, arguments.size());
-			if (f == null)
-				throw new ExecutionException("La fonction " + nom + " avec " + arguments.size() + " arguments n'existe pas");
 			return f.evalInt(hm, arguments);
 		}
 
 	}
 
-	public boolean evalBool(ValueEnvironnement hm) throws ExecutionException, IOException {
+	public boolean evalBool(ValueEnvironnement hm) throws ExecutionException {
 
 		if (arguments == null) {
-			if (hm.exists(nom) != Type.BOOL) {
-				throw new ExecutionException(nom + " pas un Booleen (Type:"+hm.exists(nom)+")");
-			}
 			return hm.getBoolean(nom);
 		} else {
 			Fonction f = hm.searchFonction(nom, arguments.size());
-			if (f == null)
-				throw new ExecutionException("La fonction " + nom + "avec " + arguments.size() + " n'existe pas");
-
 			return f.evalBool(hm, arguments);
 		}
 	}
 
 	@Override
-	public void debug(ValueEnvironnement hm) throws ExecutionException, IOException {
-		if(arguments==null) {
+	public void debug(ValueEnvironnement hm) throws ExecutionException {
+		if (arguments == null) {
 			System.out.print("Var " + nom + "[Value:");
 			if (hm.exists(nom) == Type.BOOL)
 				System.out.print(this.evalBool(hm));
@@ -287,10 +265,8 @@ class Var extends Expr {
 			else
 				System.out.print("None");
 			System.out.print("]");
-		}
-		else {
-			Fonction f=hm.searchFonction(nom,arguments.size());
-			if(f==null) throw new ExecutionException("La fonction " + nom + "avec "+ arguments.size()+" n'existe pas");
+		} else {
+			Fonction f = hm.searchFonction(nom, arguments.size());
 			System.out.print("Fonction " + nom + "[Value:");
 			if (hm.searchFonction(nom, arguments.size()).getType() == Type.BOOL)
 				System.out.print(this.evalBool(hm));
@@ -299,16 +275,16 @@ class Var extends Expr {
 			else
 				System.out.print("None");
 			System.out.print("]");
-		
+
 			System.out.print("{");
-			for(int i=0;i<arguments.size();i++) {
+			for (int i = 0; i < arguments.size(); i++) {
 				arguments.get(i).debug(hm);
-				if(i!=arguments.size()-1)
+				if (i != arguments.size() - 1)
 					System.out.print(",");
 			}
 			System.out.print("}");
 		}
-		
+
 	}
 
 	@Override

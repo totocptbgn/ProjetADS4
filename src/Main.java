@@ -38,6 +38,7 @@ public class Main {
         // Intrepetation et execution du programme sur la grille
         Interpreter interp = new SmartInterpreter();
         interp.run(prog, grid);
+        	
 		System.out.println("-------------------------------- Console -------------------------------\n");
 		System.out.print(((SmartInterpreter) interp).getConsole());
 
@@ -53,7 +54,12 @@ public class Main {
 		System.out.println("-------------------------------- Débug ----------------------------------\n");
 		try {
 			prog.debug();
-		} catch (ExecutionException e){
+		}
+		catch (TypeException e){
+			System.out.print("Exception in thread, TypeException: ");
+			System.out.println(e.getLocalizedMessage());
+		}
+		catch (ExecutionException e){
 			System.out.print("Exception in thread, ExecutionException: ");
 			System.out.println(e.getLocalizedMessage());
 		}

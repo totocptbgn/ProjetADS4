@@ -2,11 +2,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public interface Instr {
-	void eval(ValueEnvironnement hm) throws IOException, ExecutionException;
+	void eval(ValueEnvironnement hm) throws ExecutionException;
 
-	void debug(ValueEnvironnement hm) throws IOException, ExecutionException;
+	void debug(ValueEnvironnement hm) throws ExecutionException;
 
-	void setType(ValueEnvironnement hm) throws IOException, ExecutionException;
+	void setType(ValueEnvironnement hm) throws TypeException;
 }
 
 class Commande implements Instr {
@@ -19,13 +19,13 @@ class Commande implements Instr {
 		this.commande = commande;
 	}
 
-	public void setType(ValueEnvironnement hm) throws IOException, ExecutionException {
+	public void setType(ValueEnvironnement hm) throws TypeException {
 		expression.setType(hm);
 		if (expression.getType() != Type.INT)
-			throw new ExecutionException("Une commande attent un entier");
+			throw new TypeException("La commande "+this+" attent un entier, "+expression+" est de type "+expression.getType());
 	}
 
-	public void eval(ValueEnvironnement hm) throws IOException, ExecutionException {
+	public void eval(ValueEnvironnement hm) throws ExecutionException {
 		switch (commande) {
 		case "Avancer":
 			SmartInterpreter.avancer(expression.evalInt(hm));
@@ -41,7 +41,7 @@ class Commande implements Instr {
 		}
 	}
 
-	public void debug(ValueEnvironnement hm) throws IOException, ExecutionException {
+	public void debug(ValueEnvironnement hm) throws ExecutionException {
 		System.out.print(commande + "(");
 		expression.debug(hm);
 		System.out.print(")[" + expression.evalInt(hm) + "]\n");
@@ -61,10 +61,10 @@ class If implements Instr {
 	private boolean hasElse = false;
 	private Program elseBody;
 
-	public void setType(ValueEnvironnement hm) throws IOException, ExecutionException {
+	public void setType(ValueEnvironnement hm) throws TypeException {
 		condition.setType(hm);
 		if (condition.getType() != Type.BOOL)
-			throw new ExecutionException("Condition doit être un booleen");
+			throw new TypeException("La condition "+condition+" n'est pas un booleen (type:"+condition.getType()+")");
 		body.setType(hm);
 		if (hasElse) {
 			elseBody.setType(hm);
@@ -80,7 +80,7 @@ class If implements Instr {
 		}
 	}
 
-	public void eval(ValueEnvironnement hm) throws IOException, ExecutionException {
+	public void eval(ValueEnvironnement hm) throws ExecutionException {
 		if (condition.evalBool(hm)) {
 			body.eval(hm);
 		} else {
@@ -90,7 +90,7 @@ class If implements Instr {
 		}
 	}
 
-	public void debug(ValueEnvironnement hm) throws IOException, ExecutionException {
+	public void debug(ValueEnvironnement hm) throws ExecutionException {
 		System.out.print("If (");
 		condition.debug(hm);
 		System.out.println(")[");
@@ -120,9 +120,8 @@ class New extends Assign {
 	}
 
 	@Override
-	public void eval(ValueEnvironnement hm) throws IOException, ExecutionException {
+	public void eval(ValueEnvironnement hm) throws ExecutionException {
 		Type type = value.getType();
-		// System.out.println(name+" de type "+type);
 		if (type == Type.BOOL) {
 			hm.newBoolean(name, value.evalBool(hm));
 		} else if (type == Type.INT) {
@@ -131,7 +130,7 @@ class New extends Assign {
 	}
 
 	@Override
-	public void debug(ValueEnvironnement hm) throws IOException, ExecutionException {
+	public void debug(ValueEnvironnement hm) throws ExecutionException {
 		System.out.print("New ");
 		System.out.print(name + "=");
 		value.debug(hm);
@@ -144,7 +143,7 @@ class New extends Assign {
 		}
 	}
 
-	public void setType(ValueEnvironnement hm) throws IOException, ExecutionException {
+	public void setType(ValueEnvironnement hm) throws TypeException {
 		value.setType(hm);
 		Type type = value.getType();
 		if (hm.defined(name) == null) {
@@ -154,7 +153,7 @@ class New extends Assign {
 				hm.newInteger(name, 0);
 			}
 		} else {
-			throw new ExecutionException("La variable " + name + " existe déjà dans le bloc.");
+			throw new TypeException("La variable " + name + " existe déjà dans le bloc.");
 		}
 	}
 
@@ -173,7 +172,7 @@ class Assign implements Instr {
 		this.value = val;
 	}
 
-	public void setType(ValueEnvironnement hm) throws IOException, ExecutionException {
+	public void setType(ValueEnvironnement hm) throws TypeException {
 		value.setType(hm);
 		Type type = value.getType();
 		if (hm.defined(name) == null || type == hm.defined(name)) {
@@ -183,13 +182,13 @@ class Assign implements Instr {
 				hm.addInteger(name, 0);
 			}
 		} else {
-			throw new ExecutionException(
+			throw new TypeException(
 					"Type non compatible " + name + " de type " + hm.exists(name) + " n'est pas de type " + type);
 		}
 	}
 
 	@Override
-	public void eval(ValueEnvironnement hm) throws IOException, ExecutionException {
+	public void eval(ValueEnvironnement hm) throws ExecutionException {
 		Type type = value.getType();
 		if (type == Type.BOOL) {
 			hm.addBoolean(name, value.evalBool(hm));
@@ -199,7 +198,7 @@ class Assign implements Instr {
 	}
 
 	@Override
-	public void debug(ValueEnvironnement hm) throws IOException, ExecutionException {
+	public void debug(ValueEnvironnement hm) throws ExecutionException {
 		Type type = value.getType();
 		if (hm.exists(name) == null) {
 			System.out.print("Assign ");
@@ -229,20 +228,20 @@ class While implements Instr {
 		this.body = body;
 	}
 
-	public void setType(ValueEnvironnement hm) throws IOException, ExecutionException {
+	public void setType(ValueEnvironnement hm) throws TypeException {
 		condition.setType(hm);
 		if (condition.getType() != Type.BOOL)
-			throw new ExecutionException("Condition doit être un booleen");
+			throw new TypeException("La condition "+condition+" n'est pas un booleen (type:"+condition.getType()+")");
 		body.setType(hm);
 	}
 
-	public void eval(ValueEnvironnement hm) throws IOException, ExecutionException {
+	public void eval(ValueEnvironnement hm) throws ExecutionException {
 		while (condition.evalBool(hm)) {
 			body.eval(hm);
 		}
 	}
 
-	public void debug(ValueEnvironnement hm) throws IOException, ExecutionException {
+	public void debug(ValueEnvironnement hm) throws ExecutionException {
 		System.out.print("While(");
 		condition.debug(hm);
 		System.out.println(")[");
@@ -268,7 +267,7 @@ class Block implements Instr {
 		this.list.remove(0);
 	}
 
-	public void eval(ValueEnvironnement hm) throws IOException, ExecutionException {
+	public void eval(ValueEnvironnement hm) throws ExecutionException {
 		hm.open();
 		for (Instr instr : list) {
 			try {
@@ -281,12 +280,12 @@ class Block implements Instr {
 		hm.close();
 	}
 
-	public void setType(ValueEnvironnement hm) throws IOException, ExecutionException {
+	public void setType(ValueEnvironnement hm) throws TypeException {
 		hm.open();
 		for (Instr instr : list) {
 			try {
 				instr.setType(hm);
-			} catch (ReturnException re) {
+			} catch (ReturnExceptionType re) {
 				hm.close();
 				throw re;
 			}
@@ -302,7 +301,7 @@ class Block implements Instr {
 		return ens;
 	}
 
-	public void debug(ValueEnvironnement hm) throws IOException, ExecutionException {
+	public void debug(ValueEnvironnement hm) throws ExecutionException {
 		indent = indent + 1;
 		hm.open();
 		for (Instr instr : list) {
@@ -355,13 +354,10 @@ class Fonction implements Instr {
 		hm.newFonction(this);
 	}
 
-	public int evalInt(ValueEnvironnement hm, ArrayList<Expr> array) throws IOException, ExecutionException {
-		if (t != Type.INT)
-			throw new ExecutionException("La fonction " + nom + " ne renvoie pas un entier");
+	public int evalInt(ValueEnvironnement hm, ArrayList<Expr> array) throws ExecutionException {
 		for (int i = 0; i < array.size(); i++) {
 			body.add(new New(this.arguments.get(i), array.get(i)));
 		}
-
 		try {
 			body.eval(hm);
 		} catch (ReturnException re) {
@@ -375,9 +371,7 @@ class Fonction implements Instr {
 
 	}
 
-	public boolean evalBool(ValueEnvironnement hm, ArrayList<Expr> array) throws IOException, ExecutionException {
-		if (t != Type.BOOL)
-			throw new ExecutionException("La fonction " + nom + " ne renvoie pas un booleen");
+	public boolean evalBool(ValueEnvironnement hm, ArrayList<Expr> array) throws ExecutionException {
 		for (int i = 0; i < array.size(); i++) {
 			body.add(new New(this.arguments.get(i), array.get(i)));
 
@@ -394,7 +388,7 @@ class Fonction implements Instr {
 		return false;
 	}
 
-	public void eval(ValueEnvironnement hm, ArrayList<Expr> array) throws IOException, ExecutionException {
+	public void eval(ValueEnvironnement hm, ArrayList<Expr> array) throws ExecutionException {
 		for (int i = 0; i < array.size(); i++) {
 			body.add(new New(this.arguments.get(i), array.get(i)));
 		}
@@ -415,7 +409,7 @@ class Fonction implements Instr {
 
 	}
 
-	public void debug(ValueEnvironnement hm, ArrayList<Expr> arguments) throws IOException, ExecutionException {
+	public void debug(ValueEnvironnement hm, ArrayList<Expr> arguments) throws ExecutionException {
 		String s = "def " + nom + " (";
 		for (int i = 0; i < arguments.size(); i++) {
 			s = s + arguments;
@@ -442,11 +436,11 @@ class Fonction implements Instr {
 		hm.newFonction(this);
 	}
 
-	public void setType(ValueEnvironnement hm, ArrayList<Expr> arguments) throws IOException, ExecutionException {
+	public void setType(ValueEnvironnement hm, ArrayList<Expr> arguments) throws TypeException {
 		for (int i = 0; i < arguments.size(); i++) {
 			for (int j = i + 1; j < arguments.size(); j++) {
 				if (arguments.get(i).equals(arguments.get(j)))
-					throw new IOException("Argument en double dans la fonction " + nom);
+					throw new TypeException("Argument "+arguments.get(i)+" en double dans la declaration de la fonction " + nom+ " à "+arguments.size()+" argument(s)");
 			}
 		}
 		for (int i = 0; i < arguments.size(); i++) {
@@ -455,7 +449,7 @@ class Fonction implements Instr {
 		Type type = null;
 		try {
 			body.setType(hm);
-		} catch (ReturnException re) {
+		} catch (ReturnExceptionType re) {
 			type = re.getType();
 		} finally {
 			for (int i = 0; i < arguments.size(); i++) {
@@ -465,7 +459,7 @@ class Fonction implements Instr {
 		if (!typeDefine) {
 			typeDefine = true;
 		} else if (type != t) {
-			throw new IOException("Plusieurs types de retour pour " + nom);
+			throw new TypeException("Plusieurs types de retour ("+type+" et "+t+") pour " + nom + " à "+arguments.size()+" argument(s)");
 		}
 		t = type;
 
@@ -496,7 +490,7 @@ class Return implements Instr {
 	}
 
 	@Override
-	public void eval(ValueEnvironnement hm) throws IOException, ExecutionException {
+	public void eval(ValueEnvironnement hm) throws ExecutionException {
 		Type t = expression.getType();
 		if (t == Type.INT)
 			throw new ReturnException(expression.evalInt(hm));
@@ -506,7 +500,7 @@ class Return implements Instr {
 	}
 
 	@Override
-	public void debug(ValueEnvironnement hm) throws IOException, ExecutionException {
+	public void debug(ValueEnvironnement hm) throws ExecutionException {
 		System.out.print("return ");
 		expression.debug(hm);
 		System.out.println(";");
@@ -519,12 +513,12 @@ class Return implements Instr {
 	}
 
 	@Override
-	public void setType(ValueEnvironnement hm) throws IOException, ExecutionException {
+	public void setType(ValueEnvironnement hm) throws TypeException {
 		expression.setType(hm);
 		if (expression.getType() == Type.INT)
-			throw new ReturnException(0);
+			throw new ReturnExceptionType(0);
 		else {
-			throw new ReturnException(false);
+			throw new ReturnExceptionType(false);
 		}
 
 	}
@@ -544,18 +538,15 @@ class Call implements Instr {
 	}
 
 	@Override
-	public void eval(ValueEnvironnement hm) throws IOException, ExecutionException {
+	public void eval(ValueEnvironnement hm) throws ExecutionException {
 		Fonction f = hm.searchFonction(nom, arguments.size());
-		if (f == null)
-			throw new ExecutionException("La fonction " + nom + "avec " + arguments.size() + " arguments n'existe pas");
 		f.eval(hm, arguments);
 
 	}
 
-	public void debug(ValueEnvironnement hm) throws IOException, ExecutionException {
+	public void debug(ValueEnvironnement hm) throws ExecutionException {
 		Fonction f = hm.searchFonction(nom, arguments.size());
-		if (f == null)
-			throw new ExecutionException("La fonction " + nom + "avec " + arguments.size() + " n'existe pas");
+		
 		System.out.print("Fonction " + nom);
 		System.out.print("{");
 		for (int i = 0; i < arguments.size(); i++) {
@@ -567,10 +558,10 @@ class Call implements Instr {
 	}
 
 	@Override
-	public void setType(ValueEnvironnement hm) throws IOException, ExecutionException {
+	public void setType(ValueEnvironnement hm) throws TypeException {
 		Fonction f = hm.searchFonction(nom, arguments.size());
-		if (f == null) {
-			throw new ExecutionException("La fonction " + nom + " n'existe pas");
+		if(f==null) {
+			throw new TypeException("La fonction "+nom+" à "+arguments.size()+" argument(s) n'existe pas");
 		}
 		f.setType(hm, arguments);
 	}
@@ -592,7 +583,7 @@ class TryCatch implements Instr {
 	private Program bodyTry;
 	private Program bodyCatch;
 
-	public void setType(ValueEnvironnement hm) throws IOException, ExecutionException {
+	public void setType(ValueEnvironnement hm) throws TypeException {
 		bodyTry.setType(hm);
 		bodyCatch.setType(hm);
 	}
@@ -602,7 +593,7 @@ class TryCatch implements Instr {
 		this.bodyCatch = bodyCatch;
 	}
 
-	public void eval(ValueEnvironnement hm) throws IOException, ExecutionException {
+	public void eval(ValueEnvironnement hm) throws ExecutionException {
 		try {
 			bodyTry.eval(hm);
 		} catch (ExecutionException e) {
@@ -610,7 +601,7 @@ class TryCatch implements Instr {
 		}
 	}
 
-	public void debug(ValueEnvironnement hm) throws IOException, ExecutionException {
+	public void debug(ValueEnvironnement hm) throws ExecutionException {
 		System.out.println("Try {");
 		bodyTry.debug(hm);
 		System.out.print(Block.getIndent());

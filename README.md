@@ -175,7 +175,7 @@ else          → Sinon Alors InProgramme | ε
 	   Avancer(5);
 	}
 	```
-- les variables typées statiquements (booleen et entier), `var = Expr`,
+- les variables typées statiquements (booleen et entier), `var = Expr`, le `TypeException` (Exception pour typage),
 	```java
 	b = (3 < 4);
 	n = 5;

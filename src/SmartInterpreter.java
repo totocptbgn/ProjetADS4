@@ -66,8 +66,11 @@ public class SmartInterpreter implements Interpreter {
 		grid = initGrid;
 		try {
 			prog.eval();
-		} catch (Exception e){
+		} catch (ExecutionException e){
 			writeConsole("> Exception in thread, ExecutionException: " + e.getMessage());
+		}
+		catch (TypeException e){
+			writeConsole("> Exception in thread, TypeException: " + e.getMessage());
 		}
 		writeConsole("> Fin de l'execution.");
 	}
