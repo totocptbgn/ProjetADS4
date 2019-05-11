@@ -1,9 +1,9 @@
 import java.io.*;
+import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws Exception {
-        runMain(args);
-        runTests();
+    public static void main(String[] args) throws IOException {
+        choixUtilisateur(args);
     }
 
     private static void runMain(String[] args) throws IOException {
@@ -17,7 +17,7 @@ public class Main {
         // Construction du Program en lisant le ficher grâce au Parser
 		Program prog;
 		try {
-			System.out.println("======================= Parsing de programme.txt =======================\n");
+			System.out.println("\n======================= Parsing de programme.txt =======================\n");
 			prog = parser.parseProgram(exeName, ioEnv.inProgram);
 			System.out.println("===> Correct !");
 			System.out.println();
@@ -45,9 +45,10 @@ public class Main {
 		System.out.println("--------------------------- Grille d'arrivée ---------------------------\n");
 		grid.print();
 
-		// Affichage normal
-		System.out.println("-------------------------------- Affichage Normal ----------------------------------\n");
+		// Affichage du programme
+		System.out.println("------------------------ Affichage du programme ------------------------\n");
 		System.out.println(prog);
+
 		// Affichage du débug
 		System.out.println("-------------------------------- Débug ----------------------------------\n");
 		try {
@@ -61,8 +62,7 @@ public class Main {
     }
 
     private static void runTests() {
-        System.out.println("------------- Test des fichiers dans le répertoire tests : -------------\n");
-        testFile("nofile");
+        System.out.println("\n------------- Test des fichiers dans le répertoire tests : -------------\n");
         testFile("good0");
         testFile("good1");
         testFile("good2");
@@ -81,7 +81,7 @@ public class Main {
         testFile("bad7");
         testFile("bad8");
         testFile("bad9");
-        
+		testFile("nofile");
 		System.out.println("---------------------------- Fin des tests. ----------------------------\n");
     }
 
@@ -144,4 +144,94 @@ public class Main {
 		}
 		System.out.println();
     }
+
+    private static void choixUtilisateur(String [] args) throws IOException {
+		Scanner sc = new Scanner(System.in);
+
+		System.out.println("Interpréteur pour Mini-Robot !\n");
+		System.out.println("[Ajouter des explications et des trucs stylés]\n");
+
+		System.out.println(" [0]	Lancer le programme.");
+		System.out.println(" [1]	Lancer un programme personalisé.");
+		System.out.println(" [2]	Lancer la batterie de test.\n");
+
+		boolean b = true;
+		while (b){
+			System.out.print("Veuillez séléctionnez votre choix : ");
+			String c =  sc.nextLine();
+
+			switch (c) {
+				case "0":
+					runMain(args);
+					return;
+				case "1":
+					b = false;
+					break;
+				case "2":
+					runTests();
+					return;
+				default:
+					System.out.println("Choix incorrect.");
+					break;
+			}
+		}
+
+		System.out.println("\n [0]	Lancer 'programme.txt'.");
+		System.out.println(" [1]	Lancer un programme personalisé.\n");
+
+		String filename = "";
+		b = true;
+		while (b){
+			System.out.print("Veuillez séléctionnez votre choix : ");
+			String c =  sc.nextLine();
+
+			if (c.equals("0")){
+				filename = "src/programme.txt";
+				b = false;
+			} else if (c.equals("1")){
+				System.out.print("Veuillez rentrer le nom du fichier (situé dans le répertoire progPerso/) : ");
+				filename = "src/progPerso/" + sc.nextLine();
+				System.out.println();
+				File f = new File(filename);
+				if (!f.exists()){
+					System.out.println("Fichier introuvable.");
+				} else {
+					b = false;
+				}
+			} else {
+				System.out.println("Choix incorrect.");
+			}
+		}
+		args[0] = filename;
+
+		System.out.println("\n [0]	Utiliser 'grille.txt'.");
+		System.out.println(" [1]	Utiliser une grille personalisée.\n");
+
+		filename = "";
+		b = true;
+		while (b){
+			System.out.print("Veuillez séléctionnez votre choix : ");
+			String c =  sc.nextLine();
+
+			if (c.equals("0")){
+				filename = "src/grille.txt";
+				b = false;
+			} else if (c.equals("1")){
+				System.out.print("Veuillez rentrer le nom du fichier (situé dans le répertoire gridPerso/) : ");
+				filename = "src/gridPerso/" + sc.nextLine();
+				System.out.println();
+				File f = new File(filename);
+				if (!f.exists()){
+					System.out.println("Fichier introuvable.");
+				} else {
+					b = false;
+				}
+			} else {
+				System.out.println("Choix incorrect.");
+			}
+		}
+		args[1] = filename;
+		runMain(args);
+	}
+
 }

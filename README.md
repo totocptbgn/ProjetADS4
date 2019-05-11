@@ -27,14 +27,14 @@ instruction   → Avancer( expression ); |
                 OPEN Block |
                 new var = expression ; |
                 Try Alors InProgramme Catch InProgramme |
-				def( attributs ): Block |
-				return expression;
+                def( attributs ): Block |
+                return expression;
 
 varbis        → = expression | ( arguments )
 
-attributs	  → ε | attribut
+attributs     → ε | attribut
 
-attribut	  → variable suiteattribut
+attribut      → variable suiteattribut
 
 suiteattribut → , argument |  ε
 
@@ -44,18 +44,17 @@ expression    → Lire |
                 ( expression binOp expression ) |
                 - expression |
                 ! expression |
-				variable
+                variable
 				
-variable	  → var isFonction
+variable      → var isFonction
 
-isFonction     → ( arguments ) | ε
+isFonction    → ( arguments ) | ε
 
-arguments 	→ ε | argument
+arguments     → ε | argument
 
-argument	  → expression suiteargument
+argument      → expression suiteargument
 
 suiteargument → "," argument |  ε
-
 
 binOp         → + | - | * | / | Et | Ou | < | > | = | !=
 
@@ -67,6 +66,7 @@ var           → [a-zA-Z]+
 
 else          → Sinon Alors InProgramme | ε
 ```
+
 ### Détails
 
 - **OPEN** et **CLOSE** représentent les indentations descendantes et ascendantes.
@@ -98,9 +98,9 @@ else          → Sinon Alors InProgramme | ε
 
 <varbis>      ::= "=" <expression> ";" | "(" <arguments> ")"
 
-<attributs>	  ::= ε | <attribut>
+<attributs>   ::= ε | <attribut>
 
-<attribut>	  ::= <variable> <suiteattribut>
+<attribut>    ::= <variable> <suiteattribut>
 
 <suiteattribut> ::= "," <argument> |  ε
 
@@ -111,11 +111,11 @@ else          → Sinon Alors InProgramme | ε
                    <bool> |
 				   <variable>
 				
-<variable>	  ::= <var> <isFonction>
+<variable>	   ::= <var> <isFonction>
 
-<isFonction>  ::= "( " <arguments> ")" | ε
+<isFonction>   ::= "( " <arguments> ")" | ε
 
-<arguments>	   ::= ε | <argument>
+<arguments>    ::= ε | <argument>
 
 <argument>	   ::= <expression> <suiteargument>
 
