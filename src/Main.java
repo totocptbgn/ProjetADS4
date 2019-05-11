@@ -71,6 +71,7 @@ public class Main {
         testFile("good5");
         testFile("good6");
         testFile("good7");
+        testFile("good8");
         testFile("bad0");
         testFile("bad1");
         testFile("bad2");

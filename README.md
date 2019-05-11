@@ -174,7 +174,7 @@ If (3 > 4) {
    Avancer(5);
 }
 ```
-- les variables typées (booleen et entier), `var = Expr`,
+- les variables typées statiquements (booleen et entier), `var = Expr`,
 ```java
 b = (3 < 4);
 n = 5;
@@ -182,9 +182,10 @@ If b {
    Avancer(n);
 }
 ```
-- les blocs (avec indentation),
+Les variables d'environnements :
 ```java
-// À FAIRE
+Ecrire(Width);
+Ecrire(Height);
 ```
 - des obstacles et des "blocs de glace" (`#` et `*`dans la grille),
 ```
@@ -194,7 +195,7 @@ If b {
  0 0 0 * * * # 0 # 0
  5 4 0 # 0 5 0 0 0 0
 ```
-- et le try / catch (et les `ExecutionException`).
+- le try / catch (et les `ExecutionException`),
 ```java
 Try {
    Avancer(5);
@@ -206,7 +207,40 @@ Try {
 }
 Ecrire(7);
 ```
-
-## Idées à ajouter
-
-- les fonctions !
+- les blocs (avec indentation).
+```java
+i=3;
+	i=False;
+i=(i+1);
+```
+Remarques :
+1. Si le type est le même que la variable en dehors du bloc alors c'est cette variable qui est modifié
+2. Les variables exterieurs qui ont été redéclarer ne sont plus du tout accessibles
+3. Il est possible de ne pas faire d'indentation dans les instructions if, while, try pour ne pas créer de bloc
+- l'assignement avec new (necessaire pour redéclaration de même type dans bloc)
+```java
+i=3;
+	new i=(i+1); //i=4
+i=(i+1); //i=4
+```
+- les fonctions :
+```java
+def i(a,b):
+	i=3;
+	if a {
+		c=3;
+	}
+c=2;
+i=2;
+i(True,1);
+Ecrire(c);
+Tourner(i);
+```
+Remarques :
+1. définition de fonctions dans bloc possible (comme variable plus accessible à l'extérieur du bloc)
+2. Les noms des fonctions ne doivent pas être unique, si la signature deux fonctions sont les même alors on rédefinie la première (ou la cache si redéfinie dans un bloc)
+3. L'indentation est oblifatoire pour les corps des fonctions
+4. Les variables en dehors de la fonction prisent en compte sont les variables lors de l'execution, c'est à dire lors de l'appel de la fonction (fonctions dynamiques)
+5. `return` permet à une fonction de renvoyer une valeur, qui pourra alors être utilisée dans une expression
+6. Un seul type de retour par fonction est accépté ( on ne prend pas en compte les returns non utilisées à l'execution), sauf si la fonction est redéfinie
+7. Les appels recursif ne sont pas possible
