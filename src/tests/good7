@@ -2,8 +2,10 @@ def test(varA,varB):
 	Avancer(varA);
 	Ecrire(varB);
 	return varB;
+
+
 def a(a,b):
-	i=3;
+	i = 3;
 	Si a {
 		Ecrire(b);
 	}
@@ -11,9 +13,9 @@ def a(a,b):
 def a(a):
 	Ecrire(a);
 
-a=test(1,2);
-i=a;
+a = test(1,2);
+i = a;
 test(1,2);
-a(True,(i+1));
-a(False,(i+2));
+a(True, (i + 1));
+a(False, (i + 2));
 a(a);

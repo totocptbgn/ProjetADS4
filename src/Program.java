@@ -51,7 +51,7 @@ public class Program {
 	
 	public void debug(ValueEnvironnement hm) throws IOException, ExecutionException {
 		for (Instr instr : list) {
-			if(!(instr instanceof Block))
+			if (!(instr instanceof Block))
 				System.out.print(Block.getIndent());
 			instr.debug(hm);
 		}
@@ -62,13 +62,13 @@ public class Program {
 	}
 
 	public String toString() {
-		String ens = "";
+		StringBuilder ens = new StringBuilder();
 		for (Instr instr : list) {
-			if(instr instanceof Block)
-				ens = ens + instr.toString() + "\n";
+			if (instr instanceof Block)
+				ens.append(instr.toString());
 			else
-				ens = ens + Block.getIndent() + instr.toString() + "\n";
+				ens.append(Block.getIndent()).append(instr.toString());
 		}
-		return ens;
+		return ens.toString();
 	}
 }

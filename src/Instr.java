@@ -329,6 +329,7 @@ class Block implements Instr {
 }
 
 class Fonction implements Instr {
+
 	private String nom;
 	private ArrayList<String> arguments;
 	private Block body;
@@ -350,7 +351,7 @@ class Fonction implements Instr {
 	}
 
 	@Override
-	public void eval(ValueEnvironnement hm) throws IOException, ExecutionException {
+	public void eval(ValueEnvironnement hm) {
 		hm.newFonction(this);
 	}
 
@@ -382,9 +383,7 @@ class Fonction implements Instr {
 
 		}
 		try {
-
 			body.eval(hm);
-
 		} catch (ReturnException re) {
 			return re.getBoolRes();
 		} finally {
@@ -393,19 +392,16 @@ class Fonction implements Instr {
 			}
 		}
 		return false;
-
 	}
 
 	public void eval(ValueEnvironnement hm, ArrayList<Expr> array) throws IOException, ExecutionException {
 		for (int i = 0; i < array.size(); i++) {
 			body.add(new New(this.arguments.get(i), array.get(i)));
-			// System.out.println(this.arguments.get(i)+" "+array.get(i));
 		}
-		// System.out.println(body);
 		try {
 			body.eval(hm);
-		} catch (ReturnException re) {
-		} finally {
+		} catch (ReturnException re) {}
+		finally {
 			for (int i = 0; i < array.size(); i++) {
 				body.remove();
 			}
@@ -413,7 +409,7 @@ class Fonction implements Instr {
 	}
 
 	@Override
-	public void debug(ValueEnvironnement hm) throws IOException, ExecutionException {
+	public void debug(ValueEnvironnement hm) {
 		hm.newFonction(this);
 		System.out.print(this);
 
@@ -442,7 +438,7 @@ class Fonction implements Instr {
 	}
 
 	@Override
-	public void setType(ValueEnvironnement hm) throws IOException, ExecutionException {
+	public void setType(ValueEnvironnement hm) {
 		hm.newFonction(this);
 	}
 
@@ -520,7 +516,6 @@ class Return implements Instr {
 		else {
 			throw new ReturnException(expression.evalBool(hm));
 		}
-
 	}
 
 	@Override
@@ -537,7 +532,6 @@ class Return implements Instr {
 	public String toString() {
 		return "return " + expression + ";";
 	}
-
 }
 
 class Call implements Instr {
@@ -570,7 +564,6 @@ class Call implements Instr {
 				System.out.print(",");
 		}
 		System.out.println("}");
-
 	}
 
 	@Override
@@ -583,11 +576,11 @@ class Call implements Instr {
 	}
 
 	public String toString() {
-		String s = "Fonction " + nom + "(";
+		StringBuilder s = new StringBuilder("Fonction " + nom + "(");
 		for (int i = 0; i < arguments.size(); i++) {
-			s = s + arguments.get(i);
+			s.append(arguments.get(i));
 			if (i != arguments.size() - 1) {
-				s = s + ",";
+				s.append(",");
 			}
 		}
 		return s + ");";
