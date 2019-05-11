@@ -1,5 +1,6 @@
 
 
+
 # Projet d'ADS4
 
 > Projet d'analyse des données structurées pour le semestre 4 de la license d'infomatique à Paris Diderot. Le but est de créer un analyseur lexical et un interpreteur pour executer du code permettant de donner des instructions à un robot sur une grille de chiffres.
@@ -93,31 +94,31 @@ else          → Sinon Alors InProgramme | ε
                    OPEN <Block> |
                    "new" <var> "=" <expression>; |
                    "Try" "Alors" <InProgramme> "Catch" <InProgramme> |
-				   "def(" <attributs> "):" <Block> |
-				   "return" <expression> ";"
+                   "def(" <attributs> "):" <Block> |
+                   "return" <expression> ";"
 
-<varbis>      ::= "=" <expression> ";" | "(" <arguments> ")"
+<varbis>       ::= "=" <expression> ";" | "(" <arguments> ")"
 
-<attributs>   ::= ε | <attribut>
+<attributs>    ::= ε | <attribut>
 
-<attribut>    ::= <variable> <suiteattribut>
+<attribut>     ::= <variable> <suiteattribut>
 
-<suiteattribut> ::= "," <argument> |  ε
+<suiteattribut>::= "," <argument> |  ε
 
 <Expr> 	       ::= "Lire" |
                    <nombre> |
                    "(" <Expr> <binOp> <Expr> ")" |
                    "-" <Expr> |
                    <bool> |
-				   <variable>
+                   <variable>
 				
-<variable>	   ::= <var> <isFonction>
+<variable>     ::= <var> <isFonction>
 
 <isFonction>   ::= "( " <arguments> ")" | ε
 
 <arguments>    ::= ε | <argument>
 
-<argument>	   ::= <expression> <suiteargument>
+<argument>     ::= <expression> <suiteargument>
 
 <suiteargument>::= "," <argument> |  ε
 
@@ -207,40 +208,47 @@ Try {
 }
 Ecrire(7);
 ```
-- les blocs (avec indentation).
+- les blocs (avec indentation),
 ```java
-i=3;
-	i=False;
-i=(i+1);
+i = 3;
+    i = False;
+    if i {
+        Avancer(4);
+    }
+i = (i+1);
+Avancer(i);
 ```
-Remarques :
-1. Si le type est le même que la variable en dehors du bloc alors c'est cette variable qui est modifié
-2. Les variables exterieurs qui ont été redéclarer ne sont plus du tout accessibles
-3. Il est possible de ne pas faire d'indentation dans les instructions if, while, try pour ne pas créer de bloc
-- l'assignement avec new (necessaire pour redéclaration de même type dans bloc)
+#### Remarques :
+1. Si le type est le même que la variable en dehors du bloc alors c'est cette variable qui est modifié.
+2. Les variables exterieurs qui ont été redéclarer ne sont plus du tout accessibles.
+3. Il est possible de ne pas faire d'indentation dans les instructions if, while, try pour ne pas créer de bloc.
+
+- l'assignement avec `new` (necessaire pour redéclaration de même type dans bloc),
 ```java
-i=3;
-	new i=(i+1); //i=4
-i=(i+1); //i=4
+i = 3;
+    new i = (i+1);
+    Avancer(i); // i = 4
+i = (i + 1);
+Avancer(i); // i = 4
 ```
-- les fonctions :
+- et les fonctions.
 ```java
 def i(a,b):
-	i=3;
-	if a {
-		c=3;
-	}
-c=2;
-i=2;
+    i = 3;
+    if a {
+        c = 3;
+    }
+c = 2;
+i = 2;
 i(True,1);
 Ecrire(c);
 Tourner(i);
 ```
-Remarques :
-1. définition de fonctions dans bloc possible (comme variable plus accessible à l'extérieur du bloc)
-2. Les noms des fonctions ne doivent pas être unique, si la signature deux fonctions sont les même alors on rédefinie la première (ou la cache si redéfinie dans un bloc)
-3. L'indentation est oblifatoire pour les corps des fonctions
-4. Les variables en dehors de la fonction prisent en compte sont les variables lors de l'execution, c'est à dire lors de l'appel de la fonction (fonctions dynamiques)
-5. `return` permet à une fonction de renvoyer une valeur, qui pourra alors être utilisée dans une expression
-6. Un seul type de retour par fonction est accépté ( on ne prend pas en compte les returns non utilisées à l'execution), sauf si la fonction est redéfinie
-7. Les appels recursif ne sont pas possible
+#### Remarques :
+1. La définition de fonctions dans est bloc possible (mais comme les variables, elles ne seront plus accessible à l'extérieur du bloc).
+2. Les noms des fonctions ne doivent pas être uniques, si la signature deux fonctions sont les même alors on rédefinie la première (ou on cache la première si redéfinie dans un bloc).
+3. L'indentation est obligatoire pour les corps des fonctions.
+4. Les variables en dehors de la fonction sont prisent en compte lors de l'execution, c'est à dire lors de l'appel de la fonction (fonctions dynamiques).
+5. `return` permet à une fonction de renvoyer une valeur, qui pourra alors être utilisée dans une expression.
+6. Un seul type de retour par fonction est accépté ( on ne prend pas en compte les returns non utilisées à l'execution), sauf si la fonction est redéfinie.
+7. Les appels recursif ne sont pas possibles.
