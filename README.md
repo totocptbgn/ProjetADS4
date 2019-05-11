@@ -183,7 +183,7 @@ else          → Sinon Alors InProgramme | ε
 	   Avancer(n);
 	}
 	```
-Les variables d'environnements :
+- les variables d'environnements,
 	```java
 	Ecrire(Width);
 	Ecrire(Height);
