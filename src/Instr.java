@@ -21,7 +21,8 @@ class Commande implements Instr {
 
 	public void setType(ValueEnvironnement hm) throws IOException, ExecutionException {
 		expression.setType(hm);
-		if(expression.getType()!=Type.INT) throw new ExecutionException("Une commande attent un entier");
+		if (expression.getType() != Type.INT)
+			throw new ExecutionException("Une commande attent un entier");
 	}
 
 	public void eval(ValueEnvironnement hm) throws IOException, ExecutionException {
@@ -62,7 +63,8 @@ class If implements Instr {
 
 	public void setType(ValueEnvironnement hm) throws IOException, ExecutionException {
 		condition.setType(hm);
-		if(condition.getType()!=Type.BOOL) throw new ExecutionException("Condition doit être un booleen");
+		if (condition.getType() != Type.BOOL)
+			throw new ExecutionException("Condition doit être un booleen");
 		body.setType(hm);
 		if (hasElse) {
 			elseBody.setType(hm);
@@ -156,7 +158,7 @@ class New extends Assign {
 		}
 	}
 
-	public String toString () {
+	public String toString() {
 		return "New " + name + "=" + value;
 	}
 
@@ -207,8 +209,7 @@ class Assign implements Instr {
 		if (type == Type.BOOL) {
 			hm.addBoolean(name, value.evalBool(hm));
 			System.out.println("[" + value.evalBool(hm) + "]");
-		}
-		else if (type == Type.INT) {
+		} else if (type == Type.INT) {
 			hm.addInteger(name, value.evalInt(hm));
 			System.out.println("[" + value.evalInt(hm) + "]");
 		}
@@ -230,7 +231,8 @@ class While implements Instr {
 
 	public void setType(ValueEnvironnement hm) throws IOException, ExecutionException {
 		condition.setType(hm);
-		if(condition.getType()!=Type.BOOL) throw new ExecutionException("Condition doit être un booleen");
+		if (condition.getType() != Type.BOOL)
+			throw new ExecutionException("Condition doit être un booleen");
 		body.setType(hm);
 	}
 
@@ -269,7 +271,12 @@ class Block implements Instr {
 	public void eval(ValueEnvironnement hm) throws IOException, ExecutionException {
 		hm.open();
 		for (Instr instr : list) {
-			instr.eval(hm);
+			try {
+				instr.eval(hm);
+			} catch (ReturnException re) {
+				hm.close();
+				throw re;
+			}
 		}
 		hm.close();
 	}
@@ -277,7 +284,12 @@ class Block implements Instr {
 	public void setType(ValueEnvironnement hm) throws IOException, ExecutionException {
 		hm.open();
 		for (Instr instr : list) {
-			instr.setType(hm);
+			try {
+				instr.setType(hm);
+			} catch (ReturnException re) {
+				hm.close();
+				throw re;
+			}
 		}
 		hm.close();
 	}
@@ -353,8 +365,7 @@ class Fonction implements Instr {
 			body.eval(hm);
 		} catch (ReturnException re) {
 			return re.getIntRes();
-		}
-		finally {
+		} finally {
 			for (int i = 0; i < array.size(); i++) {
 				body.remove();
 			}
@@ -376,8 +387,7 @@ class Fonction implements Instr {
 
 		} catch (ReturnException re) {
 			return re.getBoolRes();
-		}
-		finally {
+		} finally {
 			for (int i = 0; i < array.size(); i++) {
 				body.remove();
 			}
@@ -389,14 +399,13 @@ class Fonction implements Instr {
 	public void eval(ValueEnvironnement hm, ArrayList<Expr> array) throws IOException, ExecutionException {
 		for (int i = 0; i < array.size(); i++) {
 			body.add(new New(this.arguments.get(i), array.get(i)));
-			//System.out.println(this.arguments.get(i)+" "+array.get(i));
+			// System.out.println(this.arguments.get(i)+" "+array.get(i));
 		}
-		//System.out.println(body);
+		// System.out.println(body);
 		try {
 			body.eval(hm);
 		} catch (ReturnException re) {
-		}
-		finally {
+		} finally {
 			for (int i = 0; i < array.size(); i++) {
 				body.remove();
 			}
@@ -425,8 +434,7 @@ class Fonction implements Instr {
 		}
 		try {
 			body.debug(hm);
-		}
-		finally {
+		} finally {
 			for (int i = 0; i < arguments.size(); i++) {
 				body.remove();
 			}
@@ -453,8 +461,7 @@ class Fonction implements Instr {
 			body.setType(hm);
 		} catch (ReturnException re) {
 			type = re.getType();
-		}
-		finally {
+		} finally {
 			for (int i = 0; i < arguments.size(); i++) {
 				body.remove();
 			}
@@ -555,11 +562,11 @@ class Call implements Instr {
 		Fonction f = hm.searchFonction(nom, arguments.size());
 		if (f == null)
 			throw new ExecutionException("La fonction " + nom + "avec " + arguments.size() + " n'existe pas");
-		System.out.print("Fonction " + nom );
+		System.out.print("Fonction " + nom);
 		System.out.print("{");
-		for(int i=0;i<arguments.size();i++) {
+		for (int i = 0; i < arguments.size(); i++) {
 			arguments.get(i).debug(hm);
-			if(i!=arguments.size()-1)
+			if (i != arguments.size() - 1)
 				System.out.print(",");
 		}
 		System.out.println("}");
@@ -592,7 +599,6 @@ class TryCatch implements Instr {
 	private Program bodyTry;
 	private Program bodyCatch;
 
-
 	public void setType(ValueEnvironnement hm) throws IOException, ExecutionException {
 		bodyTry.setType(hm);
 		bodyCatch.setType(hm);
@@ -606,7 +612,7 @@ class TryCatch implements Instr {
 	public void eval(ValueEnvironnement hm) throws IOException, ExecutionException {
 		try {
 			bodyTry.eval(hm);
-		} catch (ExecutionException e){
+		} catch (ExecutionException e) {
 			bodyCatch.eval(hm);
 		}
 	}
@@ -614,17 +620,21 @@ class TryCatch implements Instr {
 	public void debug(ValueEnvironnement hm) throws IOException, ExecutionException {
 		System.out.println("Try {");
 		bodyTry.debug(hm);
+		System.out.print(Block.getIndent());
 		System.out.println("} Catch {");
 		bodyCatch.debug(hm);
+		System.out.print(Block.getIndent());
 		System.out.println("}");
 	}
 
 	@Override
 	public String toString() {
-		String s = "Try {";
+		String s = "Try {\n";
 		s += bodyTry.toString();
-		s += "} Catch {";
+		s += Block.getIndent();
+		s += "} Catch {\n";
 		s += bodyCatch.toString();
+		s += Block.getIndent();
 		s += "}";
 		return s;
 	}
