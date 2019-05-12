@@ -208,8 +208,8 @@ else          → Sinon Alors InProgramme | ε
    ```java  
    i = 3;  
        i = False;  
-       if i {  
-      Avancer(4);  
+       If i {  
+         Avancer(4);  
        }  
    i = (i+1);  
    Avancer(i);  
@@ -231,8 +231,8 @@ else          → Sinon Alors InProgramme | ε
    ```java  
    def i(a,b):  
        i = 3;  
-       if a {  
-      c = 3;  
+       If a {  
+         c = 3;  
        }  
    c = 2;  
    i = 2;  
