@@ -209,6 +209,7 @@ class Var extends Expr {
 
 	private String nom;
 	private ArrayList<Expr> arguments;
+	private boolean isUsed=false;
 
 	public Var(String nom, ArrayList<Expr> arguments) {
 		this.nom = nom;
@@ -222,18 +223,22 @@ class Var extends Expr {
 			if (type == null)
 				throw new TypeException("La variable " + nom + " n'existe pas");
 		} else {
-			Fonction f = hm.searchFonction(nom, arguments.size());
-			if (f == null) {
-				throw new TypeException("La fonction " + nom + " avec " + arguments.size() + " argument(s) n'existe pas");
+			if(!isUsed) {
+				isUsed=true;
+				Fonction f = hm.searchFonction(nom, arguments.size());
+				if (f == null) {
+					throw new TypeException("La fonction " + nom + " avec " + arguments.size() + " argument(s) n'existe pas");
+				}
+				f.setType(hm, arguments);
+				type = f.getType();
+				if (type == null)
+					throw new TypeException("La fonction " + nom + " à " + arguments.size() + " argument(s) n'a pas de valeur de retour");
 			}
-			f.setType(hm, arguments);
-			type = f.getType();
-			if (type == null)
-				throw new TypeException("La fonction " + nom + " à " + arguments.size() + " argument(s) n'a pas de valeur de retour");
 		}
 	}
 
 	public int evalInt(ValueEnvironnement hm) throws ExecutionException {
+		isUsed=false;
 		if (arguments == null) {
 			return hm.getInteger(nom);
 		} else {
@@ -244,7 +249,7 @@ class Var extends Expr {
 	}
 
 	public boolean evalBool(ValueEnvironnement hm) throws ExecutionException {
-
+		isUsed=false;
 		if (arguments == null) {
 			return hm.getBoolean(nom);
 		} else {
@@ -255,6 +260,7 @@ class Var extends Expr {
 
 	@Override
 	public void debug(ValueEnvironnement hm) throws ExecutionException {
+		isUsed=false;
 		if (arguments == null) {
 			System.out.print("Var " + nom + "[Value:");
 			if (hm.exists(nom) == Type.BOOL)
