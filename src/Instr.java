@@ -284,7 +284,6 @@ class Block implements Instr {
 		hm.open();
 		ReturnException er=null;
 		for (int i=0;i<list.size();i++) {
-			System.out.println(list.get(i));
 			list.get(i).eval(hm);
 		}
 		hm.close();

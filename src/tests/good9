@@ -3,7 +3,7 @@ def a(i):
 		Avancer(1); //Avance de 1 5x
 		a((i-1));
 		Avancer(2); //Avance de 2 5x
-		return 0;
+		return i;
 	}
 	return i;
 
