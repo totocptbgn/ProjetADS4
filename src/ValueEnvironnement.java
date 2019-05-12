@@ -2,13 +2,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-
-
 public class ValueEnvironnement {
 
 	private ArrayList<Map<String, Integer>> integers;
 	private ArrayList<Map<String,Boolean>> booleans;
 	private ArrayList<ArrayList<Fonction>> fonctions;
+
 	public ValueEnvironnement () {
 		integers = new ArrayList<>();
 		booleans = new ArrayList<>();

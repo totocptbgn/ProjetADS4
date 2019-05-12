@@ -2,11 +2,11 @@ import java.io.*;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
-        choixUtilisateur(args);
+    public static void main(String[] args)  {
+        choixUtilisateur(args, true);
     }
 
-    private static void runMain(String[] args) throws IOException {
+    private static void runMain(String[] args) {
         // Mise en place du programme
         String exeName = "Main";
         IOEnv ioEnv = IOEnv.parseArgs(exeName, args);
@@ -17,7 +17,7 @@ public class Main {
         // Construction du Program en lisant le ficher grâce au Parser
 		Program prog;
 		try {
-			System.out.println("\n======================= Parsing de programme.txt =======================\n");
+			System.out.println("\n============================================= Parsing de programme.txt =============================================\n");
 			prog = parser.parseProgram(exeName, ioEnv.inProgram);
 			System.out.println("===> Correct !");
 			System.out.println();
@@ -32,26 +32,27 @@ public class Main {
 		Grid grid = Grid.parseGrid(exeName, ioEnv.inGrid);
 
 		// Affichage de la grille d'origine
-		System.out.println("--------------------------- Grille d'origine ---------------------------\n");
+		System.out.println("------------------------------------------------- Grille d'origine --------------------------------------------------\n");
+
 		grid.print();
 
         // Intrepetation et execution du programme sur la grille
         Interpreter interp = new SmartInterpreter();
         interp.run(prog, grid);
         	
-		System.out.println("-------------------------------- Console -------------------------------\n");
+		System.out.println("----------------------------------------------------- Console -------------------------------------------------------\n");
 		System.out.print(((SmartInterpreter) interp).getConsole());
 
 		// Affichage de la grille d'arrivée
-		System.out.println("--------------------------- Grille d'arrivée ---------------------------\n");
+		System.out.println("------------------------------------------------- Grille d'arrivée --------------------------------------------------\n");
 		grid.print();
 
 		// Affichage du programme
-		System.out.println("------------------------ Affichage du programme ------------------------\n");
+		System.out.println("--------------------------------------------- Affichage du programme ------------------------------------------------\n");
 		System.out.println(prog);
 
 		// Affichage du débug
-		System.out.println("-------------------------------- Débug ----------------------------------\n");
+		System.out.println("----------------------------------------------------- Débug ---------------------------------------------------------\n");
 		try {
 			prog.debug();
 		}
@@ -68,7 +69,7 @@ public class Main {
     }
 
     private static void runTests() {
-        System.out.println("\n------------- Test des fichiers dans le répertoire tests : -------------\n");
+        System.out.println("\n---------------------------------- Test des fichiers dans le répertoire tests : ------------------------------------\n");
         testFile("good0");
         testFile("good1");
         testFile("good2");
@@ -88,8 +89,6 @@ public class Main {
         testFile("bad7");
         testFile("bad8");
         testFile("bad9");
-		testFile("nofile");
-		System.out.println("---------------------------- Fin des tests. ----------------------------\n");
     }
 
     private static void testFile(String filename) {
@@ -152,15 +151,42 @@ public class Main {
 		System.out.println();
     }
 
-    private static void choixUtilisateur(String [] args) throws IOException {
+    private static void choixUtilisateur(String [] args, boolean ft) {
 		Scanner sc = new Scanner(System.in);
 
-		System.out.println("Interpréteur pour Mini-Robot !\n");
-		System.out.println("[Ajouter des explications et des trucs stylés]\n");
+		if (ft){
+			System.out.println("+===================================================================================================================+");
+			System.out.println("|                                                                                                                   |");
+			System.out.println("|        8888888          888                                               888                                     |");
+			System.out.println("|          888            888                                               888                                     |");
+			System.out.println("|          888            888                                               888                                     |");
+			System.out.println("|          888   88888b.  888888  .d88b.  888d888 88888b.  888d888  .d88b.  888888  .d88b.  888  888 888d888        |");
+			System.out.println("|          888   888 \"88b 888    d8P  Y8b 888P\"   888 \"88b 888P\"   d8P  Y8b 888    d8P  Y8b 888  888 888P\"          |");
+			System.out.println("|          888   888  888 888    88888888 888     888  888 888     88888888 888    88888888 888  888 888            |");
+			System.out.println("|          888   888  888 Y88b.  Y8b.     888     888 d88P 888     Y8b.     Y88b.  Y8b.     Y88b 888 888            |");
+			System.out.println("|        8888888 888  888  \"Y888  \"Y8888  888     88888P\"  888      \"Y8888   \"Y888  \"Y8888   \"Y88888 888            |");
+			System.out.println("|                                                 888                                                               |");
+			System.out.println("|                                                 888                    POUR MINI-ROBOT.                           |");
+			System.out.println("|                                                 888                    Par Thomas Copt-Bignon & Dao Thauvin.      |");
+			System.out.println("|                                                                                                                   |");
+			System.out.println("|                                                                                                                   |");
+			System.out.println("|        Ce programme vous permet d'exécuter des programmes sur des grilles afin de manipuler un mini-robot         |");
+			System.out.println("|        qui pourra parcourir et écrire sur la grille. De base, vous pouvez lancer le programme écrit dans          |");
+			System.out.println("|        'programme.txt' sur la grille de 'grille.txt'. Mais vous pouvez aussi utiliser les fichiers dans           |");
+			System.out.println("|        les dossiers gridPerso/ et progPerso/. Il est possible de générer des grilles aléatoires en                |");
+			System.out.println("|        informant le nom du fichier généré et la taille de la grille. Enfin, vous pouvez lancer les tests          |");
+			System.out.println("|        des programmes dans le répertoire tests/ sur la grille de base. Amusez-vous bien !                         |");
+			System.out.println("|                                                                                                                   |");
+			System.out.println("+===================================================================================================================+\n");
+		} else {
+			System.out.println("=====================================================================================================================\n");
+		}
 
 		System.out.println(" [0]	Lancer le programme.");
 		System.out.println(" [1]	Lancer un programme personalisé.");
-		System.out.println(" [2]	Lancer la batterie de test.\n");
+		System.out.println(" [2]	Lancer la batterie de test.");
+		System.out.println(" [3]	Générer une grille aléatoire.");
+		System.out.println(" [4]	Quitter.\n");
 
 		boolean b = true;
 		while (b){
@@ -170,12 +196,53 @@ public class Main {
 			switch (c) {
 				case "0":
 					runMain(args);
+					choixUtilisateur(args, false);
 					return;
 				case "1":
 					b = false;
 					break;
 				case "2":
 					runTests();
+					choixUtilisateur(args, false);
+					return;
+				case "3":
+					String genFilename = "";
+					boolean bb = true;
+					while (bb) {
+						System.out.print("Rentrez le nom du fichier généré : ");
+						genFilename = sc.nextLine();
+						if (genFilename.equals("")){
+							System.out.println("\nNom incorrect.");
+						} else {
+							bb = false;
+						}
+					}
+					bb = true;
+					int height = 0;
+					while (bb) {
+						System.out.print("Rentrez la hauteur de la grille : ");
+						height = sc.nextInt();
+						if (height < 3 || height > 100){
+							System.out.println("\nVeuillez rentrer un nombre entre 3 et 100 inclus.");
+						} else {
+							bb = false;
+						}
+					}
+					bb = true;
+					int width = 0;
+					while (bb) {
+						System.out.print("Rentrez la largeur de la grille : ");
+						width = sc.nextInt();
+						if (width < 3 || width > 100){
+							System.out.println("\nVeuillez rentrer un nombre entre 3 et 100 inclus.");
+						} else {
+							bb = false;
+						}
+					}
+					RandomGridGenerator.generateGrid(genFilename,width,height);
+					choixUtilisateur(args, false);
+					return;
+				case "4":
 					return;
 				default:
 					System.out.println("Choix incorrect.");
@@ -240,5 +307,4 @@ public class Main {
 		args[1] = filename;
 		runMain(args);
 	}
-
 }
