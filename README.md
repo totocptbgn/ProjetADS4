@@ -1,3 +1,4 @@
+
 # Projet d'ADS4  
   
 > Projet d’analyse des données structurées pour le semestre 4 de la licence d’informatique à Paris Diderot. Le but est de créer un analyseur lexical et un interpréteur pour exécuter du code permettant de donner des instructions à un robot sur une grille de chiffres. 
@@ -83,64 +84,64 @@ else          → Sinon Alors InProgramme | ε
 > Autre notation pour la grammaire.  
   
 ```  
-<programme>    ::= <Instr>  <programme> | EOF  
+<programme>     ::= <Instr>  <programme> | EOF  
   
-<InProgramme>  ::= <Instr>  <InProgramme> | "Fin"  
+<InProgramme>   ::= <Instr>  <InProgramme> | "Fin"  
   
-<Block>        ::= <Instr>  <Block> | CLOSE  
+<Block>         ::= <Instr>  <Block> | CLOSE  
   
-<Instr>        ::= "Avancer(" <Expr> ");" |  
-                   "Tourner(" <Expr> ");" |  
-                   "Ecrire(" <Expr> ");" |  
-                   "Si" <Expr> "Alors" <InProgramme> <else> |  
-                   "TantQue" <Expr> "Alors" <InProgramme> |  
-                   <var> <varbis> ";" |  
-                   OPEN <Block> |  
-                   "new" <var> "=" <expression>; |  
-                   "Try Alors" <InProgramme> "Catch" <InProgramme> |  
-                   "def(" <attributs> "):" <Block> |  
-                   "return" <expression> ";"  
+<Instr>         ::= "Avancer(" <Expr> ");" |  
+                    "Tourner(" <Expr> ");" |  
+                    "Ecrire(" <Expr> ");" |  
+                    "Si" <Expr> "Alors" <InProgramme> <else> |  
+                    "TantQue" <Expr> "Alors" <InProgramme> |  
+                    <var> <varbis> ";" |  
+                    OPEN <Block> |  
+                    "new" <var> "=" <expression>; |  
+                    "Try Alors" <InProgramme> "Catch" <InProgramme> |  
+                    "def(" <attributs> "):" <Block> |  
+                    "return" <expression> ";"  
   
-<varbis>       ::= "=" <expression> ";" | "(" <arguments> ")"  
+<varbis>        ::= "=" <expression> ";" | "(" <arguments> ")"  
   
-<attributs>    ::= ε | <attribut>  
+<attributs>     ::= ε | <attribut>  
   
-<attribut>     ::= <variable> <suiteattribut>  
+<attribut>      ::= <variable> <suiteattribut>  
   
-<suiteattribut>::= "," <argument> |  ε  
+<suiteattribut> ::= "," <argument> |  ε  
   
-<Expr>            ::= "Lire" |  
-                   <nombre> |  
-                   "(" <Expr> <binOp> <Expr> ")" |  
-                   "-" <Expr> |  
-                   <bool> |  
-                   <variable>  
+<Expr>          ::= "Lire" |  
+	            <nombre> |  
+	            "(" <Expr> <binOp> <Expr> ")" |  
+	            "-" <Expr> |  
+	            <bool> |  
+	            <variable>  
   
-<variable>     ::= <var> <isFonction>  
+<variable>      ::= <var> <isFonction>  
   
-<isFonction>   ::= "( " <arguments> ")" | ε  
+<isFonction>    ::= "( " <arguments> ")" | ε  
   
-<arguments>    ::= ε | <argument>  
+<arguments>     ::= ε | <argument>  
   
-<argument>     ::= <expression> <suiteargument>  
+<argument>      ::= <expression> <suiteargument>  
   
-<suiteargument>::= "," <argument> |  ε  
+<suiteargument> ::= "," <argument> |  ε  
   
-<binOp>        ::= "+" | "-" | "*" | "/" | "Et" | "Ou" | "<" | ">" | "="  
+<binOp>         ::= "+" | "-" | "*" | "/" | "Et" | "Ou" | "<" | ">" | "="  
   
-<nombre>       ::= <chiffrePos> <nombrebis> | <chiffre>  
+<nombre>        ::= <chiffrePos> <nombrebis> | <chiffre>  
   
-<nombrebis>    ::= <chiffre> <nombrebis> | <chiffre>  
+<nombrebis>     ::= <chiffre> <nombrebis> | <chiffre>  
   
-<chiffre>      ::= "0" | <chiffrePos>  
+<chiffre>       ::= "0" | <chiffrePos>  
   
-<chiffrePos>   ::= [1-9]  
+<chiffrePos>    ::= [1-9]  
   
-<bool>         ::= "True" | "False"  
+<bool>          ::= "True" | "False"  
   
-<var>          ::= [a-zA-Z] <var> | ε  
+<var>           ::= [a-zA-Z] <var> | ε  
   
-<else>         ::= "Sinon Alors" <InProgramme> | ε  
+<else>          ::= "Sinon Alors" <InProgramme> | ε  
 ```  
   
 ## Fonctionnalités ajoutées pour la Partie 3  
@@ -187,7 +188,7 @@ else          → Sinon Alors InProgramme | ε
       Avancer(n);  
    }  
    ```  
-- les variables d'environnements,  
+- des variables d'environnements,  
    ```java  
    Ecrire(Width);  
    Ecrire(Height);  
@@ -208,8 +209,8 @@ else          → Sinon Alors InProgramme | ε
    ```java  
    i = 3;  
        i = False;  
-       if i {  
-      Avancer(4);  
+       If i {  
+         Avancer(4);  
        }  
    i = (i+1);  
    Avancer(i);  
@@ -217,12 +218,12 @@ else          → Sinon Alors InProgramme | ε
    #### Remarques :  
   - Si le type est le même que la variable en dehors du bloc alors c'est cette variable qui est modifiée.  
    - Les variables extérieurs qui ont été redéclarer ne sont plus du tout accessibles.  
-   - Il est possible de ne pas faire d'indentation dans les instructions if, while, try pour ne pas créer de bloc.  
+   - Il est possible de ne pas faire d'indentation dans les instructions `If`, `While`, `Try` pour ne pas créer de bloc.  
   
-- l'assignement avec `new` (necessaire pour redéclaration de même type dans bloc),  
+- l'assignement avec `new` (necessaire pour les redéclarations de même type dans bloc),  
    ```java  
    i = 3;  
-       new i = (i+1);  
+       new i = (i + 1);  
        Avancer(i); // i = 4  
    i = (i + 1);  
    Avancer(i); // i = 4  
@@ -231,8 +232,8 @@ else          → Sinon Alors InProgramme | ε
    ```java  
    def i(a,b):  
        i = 3;  
-       if a {  
-      c = 3;  
+       If a {  
+         c = 3;  
        }  
    c = 2;  
    i = 2;  
