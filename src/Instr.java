@@ -282,12 +282,17 @@ class Block implements Instr {
 
 	public void eval(ValueEnvironnement hm) throws ExecutionException {
 		hm.open();
-		ReturnException er=null;
 		for (int i=0;i<list.size();i++) {
-			list.get(i).eval(hm);
+			try {
+				list.get(i).eval(hm);
+			}
+			catch(ReturnException e) {
+				hm.close();
+				throw e;
+			}
 		}
 		hm.close();
-		if(er!=null) throw er;
+
 	}
 
 	public void setType(ValueEnvironnement hm) throws TypeException {
