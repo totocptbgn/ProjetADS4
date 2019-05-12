@@ -1,8 +1,13 @@
+Avancer(2);
+Avancer(Lire);
+
+/*
 def a(a):
 	Try {
 		Avancer(a);
-	} Catch {}
+	} Catch {
 
+	}
 def i(a,b):
 	new i = 3;
 	Si a {
@@ -12,8 +17,10 @@ def i(a,b):
 		Try {
 		Tourner(a);
 		} 
-		Catch {}0
-	def a(b, a):
+		Catch {
+
+		}
+	def a(b,a):
 		a(a);
 		b = (a > 0);
 		Si b {
@@ -24,7 +31,7 @@ def i(a,b):
 	return (a(True,2) + 1);
 c = 2;
 i = 1;
-i(True, 1);  // Tourne de 2
-Ecrire(c);  // 3
-Avancer(i); // 1
-a(2);       // Avance de 2
+i(True,1);  // Tourne de 2
+Ecrire(c);  //3
+Avancer(i); //1
+a(2);       //Avance de 2

@@ -248,7 +248,7 @@ else          → Sinon Alors InProgramme | ε
    - `return` permet à une fonction de renvoyer une valeur, qui pourra alors être utilisée dans une expression.  
    - Un seul type de retour par fonction est accepté (on ne prend pas en compte les `return` non utilisées à l’execution.), sauf si la fonction est redéfinie.  
    - Les appels récursifs ne sont pas possibles.
-- des obstacles et des "blocs de glace" (`#` et `*`dans la grille),  
+- des obstacles `#`, des "blocs de glace" `*` et des "tourniquets" `§`,  
    ```
     0 0 0 0 0 0 0 0 0 0  
     0 0 0 0 # 0 0 * 0 0  
@@ -260,9 +260,11 @@ else          → Sinon Alors InProgramme | ε
    - Si le Robot marche sur un obstacle cela produit une `ExecutionException` et le programme s'arrête.
    - Si le Robot marche sur un bloc de glace, il va "glisser" c'est-à-dire, avancer d'une case dans sa direction.
    - Dans le cas où il y a plusieurs blocs de glace alors il va glisser sur tout les blocs de glace jusqu'à arriver à une case sans bloc et va ensuite continuer son action.
+   - Si le Robot marche sur un tourniquet, alors il va se tourner dans une direction aléatoire et continuer sa course.
+   - Quand le Robot lit sur un tourniquet, il lit alors `0`.
 - et un générateur de grille.
 	#### Remarques :
 	- La taille de la grille est choisie par l'utilisateur (largeur et hauteur entre 3 et 100 inclus).
 	- La grille est crée dans un fichier dont l'utilisateur donne le nom, et qui est stockée dans le répertoire `gridPerso/`.
-	- La position de départ sera toujours (0, 0) et la case ne comporteras jamais d'obstacles.
-	- Les cases sont générés aléatoirement et sont remplis d'un nombre entre -9 et 9 inclus ou alors `#` et `*`.
+	- La position de départ sera toujours (0, 0) et la case ne comportera jamais d'obstacles.
+	- Les cases sont générés aléatoirement et sont remplis d'un nombre entre `-9` et `9` inclus ou alors `#`, `*` et `§`.

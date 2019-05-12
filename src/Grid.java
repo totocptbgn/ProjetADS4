@@ -56,7 +56,13 @@ public class Grid {
     }
 
     public int getValue(int x, int y) {
-        return Integer.valueOf(grid[x][y]);
+        int n;
+        try {
+            n = Integer.valueOf(grid[x][y]);
+        } catch (NumberFormatException e){
+            n = 0;
+        }
+        return n;
     }
 
     public String getCurrentStringValue() {
@@ -92,7 +98,7 @@ public class Grid {
                     try {
                         Integer.valueOf(s);
                     } catch (NumberFormatException e){
-                        if (!s.equals("#") && !s.equals("*")) {
+                        if (!s.equals("#") && !s.equals("*") && !s.equals("§")) {
                             String message = "Symbole non autorisé dans la grille \"" + e.getMessage().charAt(19) + "\", coordonées : [x:" + j + ",y:" + i + "].";
                             System.err.println(message);
                             System.exit(1);

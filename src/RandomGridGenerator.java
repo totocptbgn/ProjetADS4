@@ -9,7 +9,7 @@ public class RandomGridGenerator {
 		StringBuilder s = new StringBuilder();
 		Random rand = new Random();
 		String [] cases = {"-9", "-8", "-7", "-6", "-5", "-4", "-3", "-2", "-1", "0",
-				           "1", "2", "3", "4", "5", "6", "7", "8", "9", "*", "#"};
+				           "1", "2", "3", "4", "5", "6", "7", "8", "9", "*", "#", "§"};
 
 		s.append(" ").append(heigth).append(" ").append(width).append(" 0 0 0\n");
 		for (int i = 0; i < heigth; i++) {
@@ -18,7 +18,7 @@ public class RandomGridGenerator {
 				if (j == 0 && i == heigth - 1){
 					r = cases[rand.nextInt(19)];
 				} else {
-					r = cases[rand.nextInt(21)];
+					r = cases[rand.nextInt(22)];
 				}
 				if (r.length() == 2){
 					s.append(r).append(" ");

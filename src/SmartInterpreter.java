@@ -1,3 +1,5 @@
+import java.util.Random;
+
 public class SmartInterpreter implements Interpreter {
 
 	private static Grid grid;
@@ -15,25 +17,36 @@ public class SmartInterpreter implements Interpreter {
 		int savePosY = grid.getPosY();
 		for (int i = 0; i < dist; i++) {
 			grid.avancer(1);
-			if (grid.getCurrentStringValue().equals("#")){
-				int posX = grid.getPosX();
-				int posY = grid.getPosY();
-				grid.setPosX(savePosX);
-				grid.setPosY(savePosY);
-				throw new ExecutionException("Vous ne pouvez pas aller dans un obstacle. Obstacle = [x:" + posX + ", y:" + posY + "].");
-			} else if (grid.getCurrentStringValue().equals("*")){
-				slip = true;
-				while (grid.getCurrentStringValue().equals("*")){
-					grid.avancer(1);
-					distFinal++;
-				}
-				if (grid.getCurrentStringValue().equals("#")) {
+			switch (grid.getCurrentStringValue()) {
+				case "#":
 					int posX = grid.getPosX();
 					int posY = grid.getPosY();
 					grid.setPosX(savePosX);
 					grid.setPosY(savePosY);
-					throw new ExecutionException("Vous avez glissé dans un obstacle. Obstacle = [x:" + posX + ", y:" + posY + "].");
-				}
+					throw new ExecutionException("Vous ne pouvez pas aller dans un obstacle. Obstacle = [x:" + posX + ", y:" + posY + "].");
+				case "*":
+					slip = true;
+					while (grid.getCurrentStringValue().equals("*")) {
+						grid.avancer(1);
+						distFinal++;
+					}
+					if (grid.getCurrentStringValue().equals("#")) {
+						int posiX = grid.getPosX();
+						int posiY = grid.getPosY();
+						grid.setPosX(savePosX);
+						grid.setPosY(savePosY);
+						throw new ExecutionException("Vous avez glissé dans un obstacle. Obstacle = [x:" + posiX + ", y:" + posiY + "].");
+					}
+					break;
+				case "§":
+					i++;
+					writeConsole("> Le Robot avance de " + i + " case(s) " + getDirectionMessage(grid.getDir()) + ".");
+					Random rand = new Random();
+					int r = rand.nextInt(4);
+					grid.tourner(r);
+					writeConsole("> Le Robot marche sur un tourniquet et se tourne " + getDirectionMessage(grid.getDir()) + ".");
+					if (dist - i > 0) avancer(dist - i);
+					return;
 			}
 		}
 		if (!slip) writeConsole("> Le Robot avance de " + dist + " case(s) " + getDirectionMessage(grid.getDir()) + ".");
