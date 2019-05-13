@@ -1,4 +1,3 @@
-
 public class ReturnExceptionType extends TypeException {
 	private Type type;
 

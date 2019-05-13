@@ -1,7 +1,3 @@
-Avancer(2);
-Avancer(Lire);
-
-/*
 def a(a):
 	Try {
 		Avancer(a);

@@ -1,4 +1,3 @@
-
 public class ReturnException extends ExecutionException {
 
 	private Type type;
