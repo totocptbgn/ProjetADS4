@@ -317,7 +317,7 @@ public class SmartParser implements Parser {
 			// fonction avec arguments
 			return parseAttribut();
 		} else {
-			throw new IOException("Attendu: Variable ou ) Trouvé: (" + token.kind + ")" + lexerPos());
+			throw new IOException("Attendu: Variable ou ) pour Fonction Trouvé: (" + token.kind + ")" + lexerPos());
 		}
 
 	}
@@ -331,7 +331,7 @@ public class SmartParser implements Parser {
 
 			return names;
 		} else {
-			throw new IOException("Attendu: Variable Trouvé: (" + token.kind + ")" + lexerPos());
+			throw new IOException("Attendu: Variable pour Argument Fonction Trouvé: (" + token.kind + ")" + lexerPos());
 		}
 	}
 
@@ -342,7 +342,7 @@ public class SmartParser implements Parser {
 			eat(TokenKind.VIR);
 			return parseAttribut();
 		} else {
-			throw new IOException("Attendu: , ou ) Trouvé: (" + token.kind + ")" + lexerPos());
+			throw new IOException("Attendu: , ou ) pour Arguments Fonction Trouvé: (" + token.kind + ")" + lexerPos());
 		}
 	}
 
@@ -359,7 +359,7 @@ public class SmartParser implements Parser {
 			eat(TokenKind.RPAR);
 			return args;
 		} else {
-			throw new IOException("Attendu: = ou ( Trouvé: (" + token.kind + ")" + lexerPos());
+			throw new IOException("Attendu: = ou ( pour Arguments Fonction ou Assign Trouvé: (" + token.kind + ")" + lexerPos());
 		}
 	}
 }

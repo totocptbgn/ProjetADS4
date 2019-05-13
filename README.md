@@ -247,9 +247,10 @@ else          → Sinon Alors InProgramme | ε
    - L'indentation est obligatoire pour les corps des fonctions.  
    - Les variables en dehors de la fonction sont prises en compte lors de l’exécution, c’est-à-dire lors de l’appel de la fonction (fonctions dynamiques). 
    - `return` permet à une fonction de renvoyer une valeur, qui pourra alors être utilisée dans une expression.  
-   - Un seul type de retour par fonction est accepté (on ne prend pas en compte les `return` non accessible.), sauf si la fonction est redéfinie.  
+   - Un seul type de retour par fonction est accepté, sauf si la fonction est redéfinie (ou non appelé).  
    - Les appels récursifs sont possibles, si des variables sont créées sans le new, elle sera accessible lors de l'appel récurisif (et garde sa valeur lors du dernier appel).
-   - Si la fonction est censé renvoyer un booleen ou un entier mais ne rencontre pas de return lors de l'execution les valeurs False ou -1 est renvoyée par défaut
+   - Si la fonction est censé renvoyer un booleen ou un entier mais ne rencontre pas de return lors de l'execution alors renvoie une erreur
+   - Lors de l'execution une fonction dois être définie avant son appel (c'est à-dire le def avant l'appel dans le code si l'appel n'est pas dans une fonction et sinon avant l'appel de la fonction ou se trouve l'appel conserné)
 - des obstacles `#`, des "blocs de glace" `*` et des "tourniquets" `§`,  
    ```
     0 0 0 0 0 0 0 0 0 0  

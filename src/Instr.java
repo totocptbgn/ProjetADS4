@@ -76,7 +76,7 @@ class If implements Instr {
 				elseBody.setType(hm);
 			}
 			catch(ReturnExceptionType er) {
-				if(e!=null && e.getType()!=er.getType()) throw new TypeException("2 returns de type different (types:"+e.getType()+" et "+er.getType()+") dans \n"+this);
+				if(e!=null && e.getType()!=er.getType()) throw new TypeException("2 returns de type different dans un if (types:"+e.getType()+" et "+er.getType()+") dans \n"+this);
 				e=er;
 			}
 		}
@@ -301,7 +301,7 @@ class Block implements Instr {
 			try {
 				list.get(i).setType(hm);
 			} catch (ReturnExceptionType re) {
-				if(er!=null && re.getType()!=er.getType()) throw new TypeException("2 returns de type different (types:"+re.getType()+" et "+er.getType()+") dans \n"+this);
+				if(er!=null && re.getType()!=er.getType()) throw new TypeException("2 returns de type different dans un block (types:"+re.getType()+" et "+er.getType()+") dans \n"+this);
 				er=re;
 			}
 		}
@@ -394,7 +394,7 @@ class Fonction implements Instr {
 				}
 			}
 		}
-		return -1;
+		throw new ExecutionException("La fonction "+nom+" avec "+arguments.size()+" argument(s) n'a pas de return de type INT");
 
 	}
 
@@ -422,7 +422,8 @@ class Fonction implements Instr {
 				}
 			}
 		}
-		return false;
+		throw new ExecutionException("La fonction "+nom+" avec "+arguments.size()+" argument(s) n'a pas de return de type INT");
+
 	}
 
 	public void eval(ValueEnvironnement hm, ArrayList<Expr> array) throws ExecutionException {
@@ -506,7 +507,6 @@ class Fonction implements Instr {
 		for (int i = 0; i < arguments.size(); i++) {
 			body.add(new New(this.arguments.get(i), arguments.get(i)));
 		}
-		//System.out.println(this);
 		inUse+=1;
 		Type type = null;
 		try {
@@ -666,7 +666,7 @@ class TryCatch implements Instr {
 			bodyCatch.setType(hm);
 		}
 		catch(ReturnExceptionType er) {
-			if(e!=null && e.getType()!=er.getType()) throw new TypeException("2 returns de type different dans "+this+" (types:"+e.getType()+" et "+er.getType()+")");
+			if(e!=null && e.getType()!=er.getType()) throw new TypeException("2 returns de type different dans un try/catch "+this+" (types:"+e.getType()+" et "+er.getType()+")");
 			e=er;
 		}
 		if(e!=null) throw e;
