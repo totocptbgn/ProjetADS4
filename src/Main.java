@@ -90,6 +90,7 @@ public class Main {
         testFile("bad7");
         testFile("bad8");
         testFile("bad9");
+        testFile("bad10");
     }
 
     private static void testFile(String filename) {
@@ -127,7 +128,7 @@ public class Main {
         // Exécution
         if (prog != null) {
         	System.out.println("  - Execution :\n");
-        	//try {
+        	try {
         		System.out.println("Grille avant éxécution :");
         		grid.print();
         		interp.run(prog, grid);
@@ -135,10 +136,10 @@ public class Main {
 				System.out.print(interp.getConsole());
         		System.out.println("Grille après execution :");
         		grid.print();
-        	//}
-        	//catch (Exception e) {
-        	//	System.out.println(" ==> Fichier incorrect. Cause: [" + e.getMessage() + "]");
-        	//}
+        	}
+        	catch (Exception e) {
+        		System.out.println(" ==> Fichier incorrect. Cause: [" + e.getMessage() + "]");
+        	}
 		}
 
 		System.out.print("Débug: ");

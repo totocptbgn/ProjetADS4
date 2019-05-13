@@ -32,9 +32,17 @@ public class Program {
 	}
 
 	public void setType(ValueEnvironnement hm) throws TypeException {
+		ReturnExceptionType er=null;
 		for (Instr instr : list) {
-			instr.setType(hm);
+			try {
+				instr.setType(hm);
+			}
+			catch (ReturnExceptionType re) {
+				if(er!=null && re.getType()!=er.getType()) throw new TypeException("2 returns de type different dans un sous programme (types:"+re.getType()+" et "+er.getType()+") dans \n"+this);
+				er=re;
+			}
 		}
+		if(er!=null) throw er;
 	}
 
 	public void debug() throws TypeException,ExecutionException {
