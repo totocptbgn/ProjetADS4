@@ -12,7 +12,7 @@ Par [Thomas Copt-Bignon](https://github.com/totocptbgn) et [Dao Thauvin](https:/
   ```bash
   $ java Main src/programme.txt src/grille.txt
   ```
-  Un menu explicatif s'affichera alors et vous pourrez faire l'action de votre choix. Vous pouvez aussi écrire des programme et des grilles puis les utilisés en les placant dans les répertoires respectifs `progPerso/` et `gridPerso/`.
+  Un menu explicatif s'affichera alors et vous pourrez faire l'action de votre choix. Vous pouvez aussi écrire des programme et des grilles puis les utiliser en les placant dans les répertoires respectifs `progPerso/` et `gridPerso/`.
   
 ## Grammaire  
 > Grammaire utilisée pour le Parser.  

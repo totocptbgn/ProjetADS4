@@ -45,7 +45,10 @@ public class SmartInterpreter implements Interpreter {
 					int r = rand.nextInt(4);
 					grid.tourner(r);
 					writeConsole("> Le Robot marche sur un tourniquet et se tourne " + getDirectionMessage(grid.getDir()) + ".");
-					if (dist - i > 0) avancer(dist - i);
+					if (dist - i > 0) {
+						writeConsole("> Le Robot continue son action.");
+						avancer(dist - i);
+					}
 					return;
 			}
 		}
