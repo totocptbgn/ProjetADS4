@@ -12,7 +12,7 @@ Par [Thomas Copt-Bignon](https://github.com/totocptbgn) et [Dao Thauvin](https:/
   ```bash
   $ java Main src/programme.txt src/grille.txt
   ```
-  Un menu explicatif s'affichera alors et vous pourrez faire l'action de votre choix. Vous pouvez aussi écrire des programme et des grilles puis les utilisés en les placant dans les répertoires respectifs `progPerso/` et `gridPerso/`.
+  Un menu explicatif s'affichera alors et vous pourrez faire l'action de votre choix. Vous pouvez aussi écrire des programme et des grilles puis les utiliser en les placant dans les répertoires respectifs `progPerso/` et `gridPerso/`.
   
 ## Grammaire  
 > Grammaire utilisée pour le Parser.  
@@ -243,12 +243,13 @@ else          → Sinon Alors InProgramme | ε
    ```  
    #### Remarques :  
   - La définition de fonctions dans les blocs est possible (mais comme les variables, elles ne seront plus accessibles à l’extérieur du bloc).  
-   - Les noms des fonctions ne doivent pas être uniques, si la signature deux fonctions sont les mêmes alors on redéfinie la première (ou on cache la première si redéfinie dans un bloc). 
+   - Les noms des fonctions ne doivent pas être uniques, si la signature de deux fonctions sont les mêmes alors on redéfinie la première (ou on cache la première si redéfinie dans un bloc). 
    - L'indentation est obligatoire pour les corps des fonctions.  
    - Les variables en dehors de la fonction sont prises en compte lors de l’exécution, c’est-à-dire lors de l’appel de la fonction (fonctions dynamiques). 
    - `return` permet à une fonction de renvoyer une valeur, qui pourra alors être utilisée dans une expression.  
-   - Un seul type de retour par fonction est accepté (on ne prend pas en compte les `return` non utilisées à l’execution.), sauf si la fonction est redéfinie.  
-   - Les appels récursifs ne sont pas possibles.
+   - Un seul type de retour par fonction est accepté (on ne prend pas en compte les `return` non accessible.), sauf si la fonction est redéfinie.  
+   - Les appels récursifs sont possibles, si des variables sont créées sans le new, elle sera accessible lors de l'appel récurisif (et garde sa valeur lors du dernier appel).
+   - Si la fonction est censé renvoyer un booleen ou un entier mais ne rencontre pas de return lors de l'execution les valeurs False ou -1 est renvoyée par défaut
 - des obstacles `#`, des "blocs de glace" `*` et des "tourniquets" `§`,  
    ```
     0 0 0 0 0 0 0 0 0 0  

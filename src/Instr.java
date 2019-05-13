@@ -62,13 +62,26 @@ class If implements Instr {
 	private Program elseBody;
 
 	public void setType(ValueEnvironnement hm) throws TypeException {
+		ReturnExceptionType e=null;
 		condition.setType(hm);
 		if (condition.getType() != Type.BOOL)
 			throw new TypeException("La condition "+condition+" n'est pas un booleen (type:"+condition.getType()+")");
-		body.setType(hm);
-		if (hasElse) {
-			elseBody.setType(hm);
+		try {
+			body.setType(hm);
 		}
+		catch(ReturnExceptionType er) {
+			e=er;
+		}
+		if (hasElse) {
+			try {
+				elseBody.setType(hm);
+			}
+			catch(ReturnExceptionType er) {
+				if(e!=null && e.getType()!=er.getType()) throw new TypeException("2 returns de type different (types:"+e.getType()+" et "+er.getType()+") dans \n"+this);
+				e=er;
+			}
+		}
+		if(e!=null) throw e;
 	}
 
 	public If(Expr ie, Program body, Program elseBody) {
@@ -269,28 +282,33 @@ class Block implements Instr {
 
 	public void eval(ValueEnvironnement hm) throws ExecutionException {
 		hm.open();
-		for (Instr instr : list) {
+		for (int i=0;i<list.size();i++) {
 			try {
-				instr.eval(hm);
-			} catch (ReturnException re) {
+				list.get(i).eval(hm);
+			}
+			catch(ReturnException e) {
 				hm.close();
-				throw re;
+				throw e;
 			}
 		}
 		hm.close();
+
 	}
 
 	public void setType(ValueEnvironnement hm) throws TypeException {
 		hm.open();
-		for (Instr instr : list) {
+		ReturnExceptionType er=null;
+		for (int i=0;i<list.size();i++) {
 			try {
-				instr.setType(hm);
+				list.get(i).setType(hm);
 			} catch (ReturnExceptionType re) {
-				hm.close();
-				throw re;
+				if(er!=null && re.getType()!=er.getType()) throw new TypeException("2 returns de type different (types:"+re.getType()+" et "+er.getType()+") dans \n"+this);
+				er=re;
 			}
 		}
 		hm.close();
+		if(er!=null)
+			throw er;
 	}
 
 	public static String getIndent() {
@@ -304,9 +322,9 @@ class Block implements Instr {
 	public void debug(ValueEnvironnement hm) throws ExecutionException {
 		indent = indent + 1;
 		hm.open();
-		for (Instr instr : list) {
+		for (int i=0;i<list.size();i++) {
 			System.out.print(getIndent());
-			instr.debug(hm);
+			list.get(i).debug(hm);
 		}
 		hm.close();
 		indent = indent - 1;
@@ -334,7 +352,8 @@ class Fonction implements Instr {
 	private Block body;
 	private Type t;
 	private boolean typeDefine = false;
-
+	private int inUse = 0;
+	
 	public String getNom() {
 		return nom;
 	}
@@ -355,16 +374,25 @@ class Fonction implements Instr {
 	}
 
 	public int evalInt(ValueEnvironnement hm, ArrayList<Expr> array) throws ExecutionException {
+		if(inUse!=0) {
+			for (int i = 0; i < array.size(); i++) {
+				body.remove();
+			}
+		}
 		for (int i = 0; i < array.size(); i++) {
 			body.add(new New(this.arguments.get(i), array.get(i)));
 		}
+		inUse+=1;
 		try {
 			body.eval(hm);
 		} catch (ReturnException re) {
 			return re.getIntRes();
 		} finally {
-			for (int i = 0; i < array.size(); i++) {
-				body.remove();
+			inUse-=1;
+			if(inUse==0) {
+				for (int i = 0; i < array.size(); i++) {
+					body.remove();
+				}
 			}
 		}
 		return -1;
@@ -372,32 +400,51 @@ class Fonction implements Instr {
 	}
 
 	public boolean evalBool(ValueEnvironnement hm, ArrayList<Expr> array) throws ExecutionException {
+		
+		if(inUse!=0) {
+			for (int i = 0; i < array.size(); i++) {
+				body.remove();
+			}
+		}
 		for (int i = 0; i < array.size(); i++) {
 			body.add(new New(this.arguments.get(i), array.get(i)));
 
 		}
+		inUse+=1;
 		try {
 			body.eval(hm);
 		} catch (ReturnException re) {
 			return re.getBoolRes();
 		} finally {
-			for (int i = 0; i < array.size(); i++) {
-				body.remove();
+			inUse-=1;
+			if(inUse==0) {
+				for (int i = 0; i < array.size(); i++) {
+					body.remove();
+				}
 			}
 		}
 		return false;
 	}
 
 	public void eval(ValueEnvironnement hm, ArrayList<Expr> array) throws ExecutionException {
+		if(inUse!=0) {
+			for (int i = 0; i < array.size(); i++) {
+				body.remove();
+			}
+		}
 		for (int i = 0; i < array.size(); i++) {
 			body.add(new New(this.arguments.get(i), array.get(i)));
 		}
+		inUse+=1;
 		try {
 			body.eval(hm);
 		} catch (ReturnException re) {}
 		finally {
-			for (int i = 0; i < array.size(); i++) {
-				body.remove();
+			inUse-=1;
+			if(inUse==0) {
+				for (int i = 0; i < array.size(); i++) {
+					body.remove();
+				}
 			}
 		}
 	}
@@ -419,14 +466,23 @@ class Fonction implements Instr {
 		}
 		s = s + "):\n";
 		System.out.print(s);
+		if(inUse!=0) {
+			for (int i = 0; i < arguments.size(); i++) {
+				body.remove();
+			}
+		}
 		for (int i = 0; i < arguments.size(); i++) {
 			body.add(new New(this.arguments.get(i), arguments.get(i)));
 		}
+		inUse+=1;
 		try {
 			body.debug(hm);
 		} finally {
-			for (int i = 0; i < arguments.size(); i++) {
-				body.remove();
+			inUse-=1;
+			if(inUse==0) {
+				for (int i = 0; i < arguments.size(); i++) {
+					body.remove();
+				}
 			}
 		}
 	}
@@ -443,17 +499,31 @@ class Fonction implements Instr {
 					throw new TypeException("Argument "+arguments.get(i)+" en double dans la declaration de la fonction " + nom+ " à "+arguments.size()+" argument(s)");
 			}
 		}
+		if(inUse!=0) {
+			for (int i = 0; i < arguments.size(); i++) {
+				body.remove();
+			}
+		}
 		for (int i = 0; i < arguments.size(); i++) {
 			body.add(new New(this.arguments.get(i), arguments.get(i)));
 		}
+		//System.out.println(this);
+		inUse+=1;
 		Type type = null;
 		try {
 			body.setType(hm);
 		} catch (ReturnExceptionType re) {
 			type = re.getType();
+			
+			if(re.getType()!=type)
+				throw new TypeException("Plusieurs types de retour ("+type+" et "+t+") pour " + nom + " à "+arguments.size()+" argument(s)");
+
 		} finally {
-			for (int i = 0; i < arguments.size(); i++) {
-				body.remove();
+			inUse-=1;
+			if(inUse==0) {
+				for (int i = 0; i < arguments.size(); i++) {
+					body.remove();
+				}
 			}
 		}
 		if (!typeDefine) {
@@ -515,12 +585,7 @@ class Return implements Instr {
 	@Override
 	public void setType(ValueEnvironnement hm) throws TypeException {
 		expression.setType(hm);
-		if (expression.getType() == Type.INT)
-			throw new ReturnExceptionType(0);
-		else {
-			throw new ReturnExceptionType(false);
-		}
-
+		throw new ReturnExceptionType(expression.getType());
 	}
 
 	public String toString() {
@@ -531,6 +596,7 @@ class Return implements Instr {
 class Call implements Instr {
 	private ArrayList<Expr> arguments;
 	private String nom;
+	private boolean isUsed=false;
 
 	public Call(String nom, ArrayList<Expr> arguments) {
 		this.nom = nom;
@@ -539,12 +605,14 @@ class Call implements Instr {
 
 	@Override
 	public void eval(ValueEnvironnement hm) throws ExecutionException {
+		isUsed=false;
 		Fonction f = hm.searchFonction(nom, arguments.size());
 		f.eval(hm, arguments);
 
 	}
 
 	public void debug(ValueEnvironnement hm) throws ExecutionException {
+		isUsed=false;
 		Fonction f = hm.searchFonction(nom, arguments.size());
 		
 		System.out.print("Fonction " + nom);
@@ -559,11 +627,15 @@ class Call implements Instr {
 
 	@Override
 	public void setType(ValueEnvironnement hm) throws TypeException {
-		Fonction f = hm.searchFonction(nom, arguments.size());
-		if(f==null) {
-			throw new TypeException("La fonction "+nom+" à "+arguments.size()+" argument(s) n'existe pas");
+		
+		if(!isUsed) {
+			isUsed=true;
+			Fonction f = hm.searchFonction(nom, arguments.size());
+			if(f==null) {
+				throw new TypeException("La fonction "+nom+" à "+arguments.size()+" argument(s) n'existe pas");
+			}
+			f.setType(hm, arguments);
 		}
-		f.setType(hm, arguments);
 	}
 
 	public String toString() {
@@ -584,8 +656,23 @@ class TryCatch implements Instr {
 	private Program bodyCatch;
 
 	public void setType(ValueEnvironnement hm) throws TypeException {
-		bodyTry.setType(hm);
-		bodyCatch.setType(hm);
+		ReturnExceptionType e=null;
+		try {
+			bodyTry.setType(hm);
+		}
+		catch(ReturnExceptionType er) {
+			e=er;
+		}
+		try {
+			bodyCatch.setType(hm);
+		}
+		catch(ReturnExceptionType er) {
+			if(e!=null && e.getType()!=er.getType()) throw new TypeException("2 returns de type different dans "+this+" (types:"+e.getType()+" et "+er.getType()+")");
+			e=er;
+		}
+		if(e!=null) throw e;
+			
+		
 	}
 
 	public TryCatch(Program bodyTry, Program bodyCatch) {

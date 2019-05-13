@@ -1,0 +1,10 @@
+def a(i):
+	if(i!=0) {
+		Avancer(1); //Avance de 1 5x
+		a((i-1));
+		Avancer(2); //Avance de 2 5x
+		return i;
+	}
+	return i;
+
+Avancer(a(5)); //avance de 5
