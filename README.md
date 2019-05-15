@@ -33,14 +33,14 @@ instruction   → Avancer( expression ); |
                 OPEN Block |  
                 new var = expression ; |  
                 Try Alors InProgramme Catch InProgramme |  
-                def( attributs ): Block |  
+                def var ( attributs ): Block |  
                 return expression;  
   
 varbis        → = expression | ( arguments )  
   
 attributs     → ε | attribut  
   
-attribut      → variable suiteattribut  
+attribut      → var suiteattribut  
   
 suiteattribut → , argument |  ε  
   
@@ -97,16 +97,16 @@ else          → Sinon Alors InProgramme | ε
                     "TantQue" <Expr> "Alors" <InProgramme> |  
                     <var> <varbis> ";" |  
                     OPEN <Block> |  
-                    "new" <var> "=" <expression>; |  
+                    "new" <var> "=" <expression> ";" |  
                     "Try Alors" <InProgramme> "Catch" <InProgramme> |  
-                    "def(" <attributs> "):" <Block> |  
+                    "def" <var> "(" <attributs> "):" <Block> |  
                     "return" <expression> ";"  
   
 <varbis>        ::= "=" <expression> ";" | "(" <arguments> ")"  
   
 <attributs>     ::= ε | <attribut>  
   
-<attribut>      ::= <variable> <suiteattribut>  
+<attribut>      ::= <var> <suiteattribut>  
   
 <suiteattribut> ::= "," <argument> |  ε  
   

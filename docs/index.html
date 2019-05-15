@@ -193,13 +193,13 @@
    </head>
    <body>
       
-      <p style="font-size: 14px; font-weight:bold"><a name="programme" shape="rect">programme:</a></p><img border="0" src="diagram/programme.png" height="71" width="215" usemap="#programme.map"><map name="programme.map"><area shape="rect" coords="49,1,99,33" href="#Instr" title="Instr"></map><p>
+      <p style="font-size: 14px; font-weight:bold"><a name="programme" shape="rect">programme:</a></p><img border="0" src="diagram/programme.png" height="71" width="213" usemap="#programme.map"><map name="programme.map"><area shape="rect" coords="49,1,99,33" href="#Instr" title="Instr"><area shape="rect" coords="139,35,183,67" href="#EOF" title="EOF"></map><p>
          
          <div class="ebnf"><code>
                
                <div><a href="#programme" title="programme" shape="rect">programme</a></div>
                
-               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;::= <a href="#Instr" title="Instr" shape="rect">Instr</a>* 'EOF'</div></code></div>
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;::= <a href="#Instr" title="Instr" shape="rect">Instr</a>* <a href="#EOF" title="EOF" shape="rect">EOF</a></div></code></div>
          </p>
       
       <p>no references</p><br clear="none"><p style="font-size: 14px; font-weight:bold"><a name="InProgramme" shape="rect">InProgramme:</a></p><img border="0" src="diagram/InProgramme.png" height="71" width="209" usemap="#InProgramme.map"><map name="InProgramme.map"><area shape="rect" coords="49,1,99,33" href="#Instr" title="Instr"></map><p>
@@ -217,7 +217,7 @@
             <li><a href="#Instr" title="Instr" shape="rect">Instr</a></li>
             <li><a href="#else" title="else" shape="rect">else</a></li>
          </ul>
-         </p><br clear="none"><p style="font-size: 14px; font-weight:bold"><a name="Instr" shape="rect">Instr:</a></p><img border="0" src="diagram/Instr.png" height="511" width="549" usemap="#Instr.map"><map name="Instr.map"><area shape="rect" coords="137,79,211,111" href="#attributs" title="attributs"><area shape="rect" coords="323,1,373,33" href="#Instr" title="Instr"><area shape="rect" coords="191,123,239,155" href="#Expr" title="Expr"><area shape="rect" coords="101,255,149,287" href="#Expr" title="Expr"><area shape="rect" coords="243,255,349,287" href="#InProgramme" title="InProgramme"><area shape="rect" coords="369,255,415,287" href="#else" title="else"><area shape="rect" coords="167,299,215,331" href="#Expr" title="Expr"><area shape="rect" coords="169,343,275,375" href="#InProgramme" title="InProgramme"><area shape="rect" coords="393,299,499,331" href="#InProgramme" title="InProgramme"><area shape="rect" coords="69,387,109,419" href="#var" title="var"><area shape="rect" coords="129,387,187,419" href="#varbis" title="varbis"><area shape="rect" coords="157,431,197,463" href="#var" title="var"><area shape="rect" coords="287,431,377,463" href="#expression" title="expression"></map><p>
+         </p><br clear="none"><p style="font-size: 14px; font-weight:bold"><a name="Instr" shape="rect">Instr:</a></p><img border="0" src="diagram/Instr.png" height="511" width="625" usemap="#Instr.map"><map name="Instr.map"><area shape="rect" coords="69,35,123,67" href="#OPEN" title="OPEN"><area shape="rect" coords="131,79,171,111" href="#var" title="var"><area shape="rect" coords="237,79,311,111" href="#attributs" title="attributs"><area shape="rect" coords="423,1,473,33" href="#Instr" title="Instr"><area shape="rect" coords="513,35,575,67" href="#CLOSE" title="CLOSE"><area shape="rect" coords="191,123,239,155" href="#Expr" title="Expr"><area shape="rect" coords="101,255,149,287" href="#Expr" title="Expr"><area shape="rect" coords="243,255,349,287" href="#InProgramme" title="InProgramme"><area shape="rect" coords="369,255,415,287" href="#else" title="else"><area shape="rect" coords="167,299,215,331" href="#Expr" title="Expr"><area shape="rect" coords="169,343,275,375" href="#InProgramme" title="InProgramme"><area shape="rect" coords="393,299,499,331" href="#InProgramme" title="InProgramme"><area shape="rect" coords="69,387,109,419" href="#var" title="var"><area shape="rect" coords="129,387,187,419" href="#varbis" title="varbis"><area shape="rect" coords="157,431,197,463" href="#var" title="var"><area shape="rect" coords="287,431,377,463" href="#expression" title="expression"></map><p>
          
          <div class="ebnf"><code>
                
@@ -229,7 +229,7 @@
                
                <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| ( <a href="#var" title="var" shape="rect">var</a> <a href="#varbis" title="varbis" shape="rect">varbis</a> | ( 'new' <a href="#var" title="var" shape="rect">var</a> '=' | 'return' ) <a href="#expression" title="expression" shape="rect">expression</a> ) ';'</div>
                
-               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| ( 'OPEN' | 'def(' <a href="#attributs" title="attributs" shape="rect">attributs</a> '):' ) <a href="#Instr" title="Instr" shape="rect">Instr</a>* 'CLOSE'</div></code></div>
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| ( <a href="#OPEN" title="OPEN" shape="rect">OPEN</a> | 'def' <a href="#var" title="var" shape="rect">var</a> '(' <a href="#attributs" title="attributs" shape="rect">attributs</a> '):' ) <a href="#Instr" title="Instr" shape="rect">Instr</a>* <a href="#CLOSE" title="CLOSE" shape="rect">CLOSE</a></div></code></div>
          </p>
       
       <p>referenced by:
@@ -269,11 +269,11 @@
          <ul>
             <li><a href="#Instr" title="Instr" shape="rect">Instr</a></li>
          </ul>
-         </p><br clear="none"><p style="font-size: 14px; font-weight:bold"><a name="attribut" shape="rect">attribut:</a></p><img border="0" src="diagram/attribut.png" height="37" width="247" usemap="#attribut.map"><map name="attribut.map"><area shape="rect" coords="29,1,99,33" href="#variable" title="variable"><area shape="rect" coords="119,1,217,33" href="#suiteattribut" title="suiteattribut"></map><p>
+         </p><br clear="none"><p style="font-size: 14px; font-weight:bold"><a name="attribut" shape="rect">attribut:</a></p><img border="0" src="diagram/attribut.png" height="37" width="217" usemap="#attribut.map"><map name="attribut.map"><area shape="rect" coords="29,1,69,33" href="#var" title="var"><area shape="rect" coords="89,1,187,33" href="#suiteattribut" title="suiteattribut"></map><p>
          
          <div class="ebnf"><code>
                
-               <div><a href="#attribut" title="attribut" shape="rect">attribut</a>&nbsp;::= <a href="#variable" title="variable" shape="rect">variable</a> <a href="#suiteattribut" title="suiteattribut" shape="rect">suiteattribut</a></div></code></div>
+               <div><a href="#attribut" title="attribut" shape="rect">attribut</a>&nbsp;::= <a href="#var" title="var" shape="rect">var</a> <a href="#suiteattribut" title="suiteattribut" shape="rect">suiteattribut</a></div></code></div>
          </p>
       
       <p>referenced by:
@@ -331,7 +331,6 @@
          
          <ul>
             <li><a href="#Expr" title="Expr" shape="rect">Expr</a></li>
-            <li><a href="#attribut" title="attribut" shape="rect">attribut</a></li>
          </ul>
          </p><br clear="none"><p style="font-size: 14px; font-weight:bold"><a name="isFonction" shape="rect">isFonction:</a></p><img border="0" src="diagram/isFonction.png" height="81" width="283" usemap="#isFonction.map"><map name="isFonction.map"><area shape="rect" coords="99,1,187,33" href="#arguments" title="arguments"><area shape="rect" coords="49,45,75,77" href="#%CE%B5" title="ε"></map><p>
          
@@ -490,6 +489,7 @@
          
          <ul>
             <li><a href="#Instr" title="Instr" shape="rect">Instr</a></li>
+            <li><a href="#attribut" title="attribut" shape="rect">attribut</a></li>
             <li><a href="#variable" title="variable" shape="rect">variable</a></li>
          </ul>
          </p><br clear="none"><p style="font-size: 14px; font-weight:bold"><a name="else" shape="rect">else:</a></p><img border="0" src="diagram/else.png" height="81" width="321" usemap="#else.map"><map name="else.map"><area shape="rect" coords="165,1,271,33" href="#InProgramme" title="InProgramme"><area shape="rect" coords="49,45,75,77" href="#%CE%B5" title="ε"></map><p>
