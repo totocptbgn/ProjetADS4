@@ -78,7 +78,8 @@ else          → Sinon Alors InProgramme | ε
 - **OPEN** et **CLOSE** représentent les indentations descendantes et ascendantes.  
 - **EOF** = *End Of File* (caractère de fin de fichier).  
 - Le programme peut aussi être écrit en anglais. *Par exemple :* `TantQue` *peut être écrit* `While`*, etc...*  
-- On peut remplacer `Alors` et `Fin` par respectivement `{` et `}` et `Et` et `Ou` par `&&` et `||`.  
+- On peut remplacer `Alors` et `Fin` par respectivement `{` et `}` et `Et` et `Ou` par `&&` et `||`.
+- Un diagramme de la syntaxe est disponible [ici](https://totocptbgn.github.io/ProjetADS4/).
   
 ## Forme Bachus-Naur étendue  
 > Autre notation pour la grammaire.  
